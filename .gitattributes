@@ -1,0 +1,21 @@
+# Normalize EOL for all files that Git considers text files.
+* text=auto eol=lf
+
+# Explicitly declare text files to be normalized and diffed properly
+*.gd text
+*.tscn text
+*.tres text
+*.gdshader text
+*.cfg text
+*.godot text
+*.md text
+
+# Binary asset types
+*.png binary
+*.jpg binary
+*.wav binary
+*.ogg binary
+*.ttf binary
+*.otf binary
+*.woff2 binary
+

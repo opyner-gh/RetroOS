@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3w8v1k5p7y2m"]
+
+[ext_resource type="Script" path="res://scenes/desktop/components/retro_window.gd" id="1_win"]
+
+[node name="RetroWindow" type="PanelContainer"]
+offset_right = 480.0
+offset_bottom = 320.0
+script = ExtResource("1_win")
+
+[node name="OuterVBox" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="TitleBar" type="PanelContainer" parent="OuterVBox"]
+custom_minimum_size = Vector2(0, 26)
+layout_mode = 2
+mouse_default_cursor_shape = 6
+
+[node name="TitleHBox" type="HBoxContainer" parent="OuterVBox/TitleBar"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LeftMenuButton" type="Button" parent="OuterVBox/TitleBar/TitleHBox"]
+custom_minimum_size = Vector2(22, 20)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "■"
+
+[node name="TitleLabel" type="Label" parent="OuterVBox/TitleBar/TitleHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 13
+text = "Retro Window"
+clip_text = true
+
+[node name="MinimizeButton" type="Button" parent="OuterVBox/TitleBar/TitleHBox"]
+custom_minimum_size = Vector2(24, 20)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "_"
+
+[node name="MaximizeButton" type="Button" parent="OuterVBox/TitleBar/TitleHBox"]
+custom_minimum_size = Vector2(24, 20)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "□"
+
+[node name="CloseButton" type="Button" parent="OuterVBox/TitleBar/TitleHBox"]
+custom_minimum_size = Vector2(24, 20)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "X"
+
+[node name="BodyPanel" type="PanelContainer" parent="OuterVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ContentMargin" type="MarginContainer" parent="OuterVBox/BodyPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="ContentHolder" type="Control" parent="OuterVBox/BodyPanel/ContentMargin"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+

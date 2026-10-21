@@ -1,0 +1,1262 @@
+class_name RetroOSRegistry
+extends RefCounted
+## Central registry for all available Operating System profiles in RetroOS.
+## Provides the 17 built-in historical operating systems and automatically discovers
+## any additional `.tres` OSProfile resources placed in `res://data/profiles/`.
+
+const OSProfile = preload("res://data/os_profile.gd")
+const CatalogUnixBeos = preload("res://data/catalog_unix_beos.gd")
+const CatalogMacRetro = preload("res://data/catalog_mac_retro.gd")
+const CUSTOM_PROFILES_DIR := "res://data/profiles"
+
+static func get_all_profiles() -> Array[OSProfile]:
+	var profiles: Array[OSProfile] = [
+		_build_ubuntu_704(),
+		_build_hpux_cde(),
+		_build_plan9(),
+		_build_win98_se(),
+		_build_os2_warp(),
+		_build_winxp_alienware(),
+		_build_sgi_irix(),
+	]
+	profiles.append_array(CatalogUnixBeos.get_profiles())
+	profiles.append_array(CatalogMacRetro.get_profiles())
+
+	# Discover any drop-in OSProfile .tres resources for easy future expansion
+	if DirAccess.dir_exists_absolute(CUSTOM_PROFILES_DIR):
+		var dir := DirAccess.open(CUSTOM_PROFILES_DIR)
+		if dir:
+			dir.list_dir_begin()
+			var file_name := dir.get_next()
+			while file_name != "":
+				if not dir.current_is_dir() and file_name.ends_with(".tres"):
+					var full_path := CUSTOM_PROFILES_DIR.path_join(file_name)
+					var res := ResourceLoader.load(full_path)
+					if res is OSProfile:
+						profiles.append(res)
+				file_name = dir.get_next()
+			dir.list_dir_end()
+
+	# Sort chronological: newest at top (descending), oldest at bottom
+	profiles.sort_custom(func(a: OSProfile, b: OSProfile) -> bool:
+		var year_a := a.release_year.to_int()
+		var year_b := b.release_year.to_int()
+		if year_a != year_b:
+			return year_a > year_b
+		return a.display_name < b.display_name
+	)
+
+	return profiles
+
+
+static func get_profile_by_id(os_id: String) -> OSProfile:
+	for profile in get_all_profiles():
+		if profile.id == os_id:
+			return profile
+	return _build_ubuntu_704()
+
+
+# ==============================================================================
+# 1. UBUNTU 7.04 (FEISTY FAWN) - APRIL 2007
+# ==============================================================================
+static func _build_ubuntu_704() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "ubuntu_704"
+	p.category = "UNIX & Alt-OS"
+	p.display_name = "Ubuntu 7.04 (Feisty Fawn)"
+	p.short_name = "Ubuntu 7.04"
+	p.release_year = "2007"
+	p.vendor = "Canonical Ltd."
+	p.architecture_summary = "i686 • Linux 2.6.20-15-generic • GNOME 2.18.1 (Human Theme)"
+	p.hardware_profile = "Dell OptiPlex GX620 • Intel Core 2 Duo E6400 @ 2.13GHz • 1024MB DDR2"
+	p.description = (
+		"The golden era of warm brown desktop Linux. Features GNOME 2.18 with the signature "
+		+ "'Human' clearlooks-glossy theme, Compiz desktop effects readiness, HAL/udev hardware "
+		+ "discovery, and African percussion login acoustics."
+	)
+
+	p.bios_header = (
+		"PhoenixBIOS 4.0 Release 6.0                     Copyright 1985-2006 Phoenix Technologies Ltd.\n"
+		+ "Dell System OptiPlex GX620 Series               BIOS version A11 (11/30/2006)"
+	)
+	p.boot_bg_color = Color("060504")
+	p.boot_text_color = Color("d8d4cc")
+	p.boot_logs = [
+		{"text": "CPU = Intel(R) Core(TM)2 CPU 6400 @ 2.13GHz", "delay": 0.95, "sfx": "fan_spinup", "color": "#e0e0e0"},
+		{"text": "1024M System RAM Passed  (DDR2-667 Dual Channel Interleaved)", "delay": 1.35, "sfx": "beep", "color": "#e0e0e0"},
+		{"text": "Primary SATA 0: WDC WD1600JS-75NCB3 160.0GB Ultra DMA Mode 5", "delay": 1.10, "sfx": "hdd_click", "color": "#b8b8b8"},
+		{"text": "Floppy Disk Controller: TEAC FD-235HF 1.44MB 3.5\"", "delay": 1.55, "sfx": "floppy", "color": "#b8b8b8"},
+		{"text": "", "delay": 0.45, "sfx": "", "color": ""},
+		{"text": "GRUB Loading stage1.5.", "delay": 1.15, "sfx": "hdd_click", "color": "#ffffff"},
+		{"text": "GRUB loading, please wait...", "delay": 1.30, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "Booting 'Ubuntu, kernel 2.6.20-15-generic'", "delay": 0.90, "sfx": "", "color": "#f59e42"},
+		{"text": "root (hd0,0)  Filesystem type is ext2fs, partition type 0x83", "delay": 0.65, "sfx": "hdd_click", "color": "#c8c8c8"},
+		{"text": "kernel /boot/vmlinuz-2.6.20-15-generic root=UUID=4a8b-991c ro quiet splash", "delay": 0.75, "sfx": "", "color": "#c8c8c8"},
+		{"text": "initrd /boot/initrd.img-2.6.20-15-generic", "delay": 1.40, "sfx": "hdd_burst", "color": "#c8c8c8"},
+		{"text": "Uncompressing Linux... Ok, booting the kernel.", "delay": 1.65, "sfx": "", "color": "#ffffff"},
+		{"text": "[    0.000000] Linux version 2.6.20-15-generic (root@palmer) (gcc version 4.1.2 (Ubuntu 4.1.2-0ubuntu4))", "delay": 0.55, "sfx": "", "color": "#9ec49e"},
+		{"text": "[    0.148912] ACPI: Core revision 20060707", "delay": 0.45, "sfx": "", "color": "#a8a8a8"},
+		{"text": "[    0.891204] ata_piix 0000:00:1f.2: MAP [ P0 P2 IDE IDE ]", "delay": 0.85, "sfx": "hdd_click", "color": "#a8a8a8"},
+		{"text": "[    1.421008] kjournald starting.  Commit interval 5 seconds", "delay": 1.15, "sfx": "hdd_burst", "color": "#a8a8a8"},
+		{"text": "[    1.429410] EXT3-fs: mounted filesystem with ordered data mode.", "delay": 0.80, "sfx": "", "color": "#a8a8a8"},
+		{"text": " * Loading hardware drivers (udev)...                                   [ OK ]", "delay": 1.25, "sfx": "hdd_click", "color": "#e8b878"},
+		{"text": " * Mounting local filesystems...                                        [ OK ]", "delay": 1.10, "sfx": "hdd_burst", "color": "#e8b878"},
+		{"text": " * Configuring network interfaces (eth0: e1000 1000Mbps Full-Duplex)... [ OK ]", "delay": 1.20, "sfx": "", "color": "#e8b878"},
+		{"text": " * Starting Hardware Abstraction Layer (hald)...                        [ OK ]", "delay": 1.05, "sfx": "hdd_click", "color": "#e8b878"},
+		{"text": " * Starting GNOME Display Manager (gdm)...                              [ OK ]", "delay": 1.60, "sfx": "hdd_burst", "color": "#ff9933"}
+	]
+
+	p.chrome_style = "gnome_human"
+	p.desktop_bg_color = Color("6b4226")
+	p.desktop_secondary_color = Color("9c5930")
+	p.panel_bg_color = Color("ede9e3")
+	p.panel_text_color = Color("2b241e")
+	p.window_bg_color = Color("f2efeb")
+	p.window_text_color = Color("221e1a")
+	p.window_border_color = Color("5c3d28")
+	p.titlebar_active_color = Color("d97a36")
+	p.titlebar_active_gradient_end = Color("a8531b")
+	p.titlebar_inactive_color = Color("b8afa6")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("e6782b")
+
+	p.terminal_title = "user@feisty-desktop: ~"
+	p.terminal_bg_color = Color("ffffff")
+	p.terminal_fg_color = Color("1f1916")
+	p.terminal_prompt = "user@feisty-desktop:~$ "
+	p.terminal_welcome_banner = (
+		"Linux feisty-desktop 2.6.20-15-generic #2 SMP Sun Apr 15 07:36:31 UTC 2007 i686\n"
+		+ "To run a command as administrator (user \"root\"), use \"sudo <command>\".\n"
+		+ "See \"man sudo_root\" for details. Type 'help' for simulator commands."
+	)
+	p.terminal_commands = {
+		"uname -a": "Linux feisty-desktop 2.6.20-15-generic #2 SMP Sun Apr 15 07:36:31 UTC 2007 i686 GNU/Linux",
+		"lsb_release -a": "No LSB modules are available.\nDistributor ID: Ubuntu\nDescription:    Ubuntu 7.04\nRelease:        7.04\nCodename:       feisty",
+		"cat /etc/issue": "Ubuntu 7.04 \\n \\l",
+		"ls": "Desktop  Documents  Examples  Music  Pictures  ubuntu-feisty-tour.ogg  xorg.conf.bak",
+		"ls -la": (
+			"total 36\n"
+			+ "drwxr-xr-x 14 user user 4096 2007-04-19 09:12 .\n"
+			+ "drwxr-xr-x  3 root root 4096 2007-04-19 08:40 ..\n"
+			+ "-rw-r--r--  1 user user 2227 2007-04-19 08:40 .bashrc\n"
+			+ "drwxr-xr-x  2 user user 4096 2007-04-19 09:00 Desktop\n"
+			+ "lrwxrwxrwx  1 user user   26 2007-04-19 08:40 Examples -> /usr/share/example-content"
+		),
+		"free -m": (
+			"             total       used       free     shared    buffers     cached\n"
+			+ "Mem:          1011        284        727          0         38        142\n"
+			+ "-/+ buffers/cache:        104        907\n"
+			+ "Swap:         2047          0       2047"
+		),
+		"df -h": (
+			"Filesystem            Size  Used Avail Use% Mounted on\n"
+			+ "/dev/sda1             145G  3.2G  135G   3% /\n"
+			+ "varrun                506M  112K  506M   1% /var/run\n"
+			+ "udev                  506M   24K  506M   1% /dev"
+		),
+		"apt-get moo": (
+			"         (__)\n"
+			+ "         (oo)\n"
+			+ "   /------\\/\n"
+			+ "  / |    ||\n"
+			+ " *  /\\---/\\\n"
+			+ "    ~~   ~~\n"
+			+ "....\"Have you mooed today?\"..."
+		),
+		"ps aux": (
+			"USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND\n"
+			+ "root         1  0.0  0.1   2948  1852 ?        Ss   01:18   0:01 /sbin/init\n"
+			+ "root      4120  0.8  2.4  32840 24912 tty7     Ss+  01:19   0:03 /usr/bin/X :0 -br\n"
+			+ "user      4388  0.2  1.5  44120 15400 ?        Ss   01:19   0:00 gnome-session\n"
+			+ "user      4432  0.1  1.8  58204 18920 ?        S    01:19   0:01 gnome-panel\n"
+			+ "user      4436  0.1  1.6  61200 16400 ?        S    01:19   0:00 nautilus --no-default-window\n"
+			+ "user      4510  0.3  2.1  48912 21400 ?        Sl   01:19   0:01 gnome-terminal"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "user@feisty-desktop: ~",
+			"type": "terminal",
+			"pos": Vector2(120, 74),
+			"size": Vector2(560, 360),
+			"content": ""
+		},
+		{
+			"id": "sysmon",
+			"title": "System Monitor (gnome-system-monitor)",
+			"type": "monitor",
+			"pos": Vector2(510, 400),
+			"size": Vector2(460, 270),
+			"content": (
+				"feisty-desktop (Ubuntu 7.04)\n"
+				+ "GNOME 2.18.1 • Kernel 2.6.20-15-generic\n\n"
+				+ "CPU0 (Core 2 Duo E6400): [||||................]  18%\n"
+				+ "CPU1 (Core 2 Duo E6400): [||..................]  11%\n"
+				+ "User Memory:             [|||||...............] 284 MB / 1011 MB\n"
+				+ "Used Swap:               [....................]   0 MB / 2047 MB\n"
+				+ "Network (eth0 e1000):    Rx: 1.4 KiB/s   Tx: 0.3 KiB/s"
+			)
+		},
+		{
+			"id": "about",
+			"title": "Examples - Nautilus File Browser",
+			"type": "files",
+			"pos": Vector2(58, 430),
+			"size": Vector2(420, 240),
+			"content": (
+				"Location: /home/user/Examples\n"
+				+ "----------------------------------------------------\n"
+				+ "[Audio]  Experience ubuntu.ogg  (Nelson Mandela clip)\n"
+				+ "[Doc]    oo-welcome.odt         (OpenOffice.org 2.2)\n"
+				+ "[Doc]    ubuntu-book.pdf        (Official Ubuntu Book)\n"
+				+ "[Image]  ubuntu-logo.svg        (Circle of Friends)\n"
+				+ "----------------------------------------------------\n"
+				+ "4 items, Free space: 135.2 GB (ext3)"
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_term", "label": "Terminal", "glyph": "[>_]", "target_window_id": "terminal"},
+		{"id": "icon_examples", "label": "Examples", "glyph": "[DIR]", "target_window_id": "about"},
+		{"id": "icon_sysmon", "label": "System\nMonitor", "glyph": "[CPU]", "target_window_id": "sysmon"}
+	]
+
+	p.fan_base_freq = 105.0
+	p.fan_noise_level = 0.20
+	p.hdd_seek_interval_range = Vector2(3.5, 8.0)
+	return p
+
+
+# ==============================================================================
+# 2. HP-UX 11i (CDE - COMMON DESKTOP ENVIRONMENT) - c. 2000
+# ==============================================================================
+static func _build_hpux_cde() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "hpux_cde"
+	p.category = "UNIX & Alt-OS"
+	p.display_name = "HP-UX 11i (CDE Workstation)"
+	p.short_name = "HP-UX (CDE)"
+	p.release_year = "2000"
+	p.vendor = "Hewlett-Packard Company"
+	p.architecture_summary = "PA-RISC 2.0 (PA-8600) • HP-UX B.11.11 • Common Desktop Environment 2.1"
+	p.hardware_profile = "HP 9000 Visualize C3600 • PA-8600 @ 552MHz • 1024MB ECC • Ultra2 SCSI"
+	p.description = (
+		"Heavy-iron UNIX engineering workstation running Hewlett-Packard's HP-UX 11i and "
+		+ "the Motif-based Common Desktop Environment (CDE). Chiseled 3D bevels, docked "
+		+ "Front Panel workspace switcher, and high-RPM Ultra2 SCSI disk acoustics."
+	)
+
+	p.bios_header = (
+		"Hewlett-Packard Company               HP VISUALIZE C3600 Workstation\n"
+		+ "Processor Dependent Code (PDC)        Firmware Revision 41.29"
+	)
+	p.boot_bg_color = Color("040a10")
+	p.boot_text_color = Color("d0e4f0")
+	p.boot_logs = [
+		{"text": "Duplex Console IO Dependent Code (IODC) revision 1", "delay": 1.05, "sfx": "fan_spinup", "color": "#d0e4f0"},
+		{"text": "Memory Test/Initialization Completed: 1024 MB ECC RAM OK", "delay": 1.50, "sfx": "beep", "color": "#88d8b0"},
+		{"text": "Searching for potential boot devices (Fast-Wide Ultra2 LVD SCSI)...", "delay": 1.65, "sfx": "hdd_burst", "color": "#d0e4f0"},
+		{"text": "   P0  scsi.6.0   SEAGATE ST318404LW (18.2 GB 10,000 RPM)", "delay": 1.10, "sfx": "hdd_click", "color": "#ffffff"},
+		{"text": "Booting from: scsi.6.0 (10/0/15/1.6.0)", "delay": 1.00, "sfx": "hdd_click", "color": "#d0e4f0"},
+		{"text": "ISL Revision A.00.43  Oct 12, 1999", "delay": 0.90, "sfx": "", "color": "#ffd080"},
+		{"text": "ISL> hpux /stand/vmunix", "delay": 1.45, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "Boot: disc0(10/0/15/1.6.0.0.0.0.0;0)/stand/vmunix", "delay": 1.15, "sfx": "hdd_click", "color": "#b8d0e0"},
+		{"text": "7946240 + 1835008 + 1142768 start 0x196528", "delay": 1.40, "sfx": "hdd_burst", "color": "#b8d0e0"},
+		{"text": "NOTICE:escsi: Adapter at 10/0/15/1 initialized (Symbios 53C896)", "delay": 0.75, "sfx": "", "color": "#98b8c8"},
+		{"text": "Logical Volume Manager: vg00 activated (8 logical volumes).", "delay": 1.15, "sfx": "hdd_click", "color": "#98b8c8"},
+		{"text": "Checking VxFS filesystems (/dev/vg00/lvol3 : clean)...", "delay": 1.25, "sfx": "hdd_burst", "color": "#98b8c8"},
+		{"text": "System Console is on the Built-In FXeVisualize PCI Graphics", "delay": 0.85, "sfx": "", "color": "#d0e4f0"},
+		{"text": "Starting HP-UX System V Run-Level 3 Services...", "delay": 1.10, "sfx": "hdd_click", "color": "#ffd080"},
+		{"text": "   Initialize Software Distributor Agent (swagentd) ............. [  OK  ]", "delay": 0.95, "sfx": "hdd_click", "color": "#88d8b0"},
+		{"text": "   Start RPC portmapper & NFS client subsystem .................. [  OK  ]", "delay": 0.90, "sfx": "", "color": "#88d8b0"},
+		{"text": "   Start X11 Font Server (xfs) & Print Spooler .................. [  OK  ]", "delay": 0.95, "sfx": "hdd_click", "color": "#88d8b0"},
+		{"text": "   Starting CDE Login Server (/usr/dt/bin/dtlogin) .............. [  OK  ]", "delay": 1.65, "sfx": "hdd_burst", "color": "#88d8b0"}
+	]
+
+	p.chrome_style = "motif_cde"
+	p.desktop_bg_color = Color("3a606e")
+	p.desktop_secondary_color = Color("2c4a56")
+	p.panel_bg_color = Color("9aa2aa")
+	p.panel_text_color = Color("14181c")
+	p.window_bg_color = Color("aeb6be")
+	p.window_text_color = Color("111518")
+	p.window_border_color = Color("e2e8ee")
+	p.titlebar_active_color = Color("b56576")
+	p.titlebar_active_gradient_end = Color("9e5263")
+	p.titlebar_inactive_color = Color("7b858e")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("b56576")
+
+	p.terminal_title = "dtterm - hp9000:/home/root"
+	p.terminal_bg_color = Color("1f262e")
+	p.terminal_fg_color = Color("e6eef5")
+	p.terminal_prompt = "hp9000:/home/root # "
+	p.terminal_welcome_banner = (
+		"(c)Copyright 1983-2000 Hewlett-Packard Co., All Rights Reserved.\n"
+		+ "HP-UX hp9000 B.11.11 U 9000/785 (ta)\n"
+		+ "You have mail in /var/mail/root. Type 'help' for simulator commands."
+	)
+	p.terminal_commands = {
+		"uname -a": "HP-UX hp9000 B.11.11 U 9000/785 2010948215 unlimited-user license",
+		"model": "9000/785/C3600",
+		"bdf": (
+			"Filesystem          kbytes    used   avail %used Mounted on\n"
+			+ "/dev/vg00/lvol3     524288  142816  357624   29% /\n"
+			+ "/dev/vg00/lvol1     196608   41200  135744   23% /stand\n"
+			+ "/dev/vg00/lvol7    4194304 1892104 2158312   47% /usr\n"
+			+ "/dev/vg00/lvol8    8388608 2140112 5857960   27% /home"
+		),
+		"ioscan -fn": (
+			"Class     I  H/W Path       Driver    S/W State   H/W Type     Description\n"
+			+ "==========================================================================\n"
+			+ "processor 0  160            processor CLAIMED     PROCESSOR    PA-8600 CPU\n"
+			+ "memory    0  192            memory    CLAIMED     MEMORY       1024 MB ECC\n"
+			+ "ext_bus   0  10/0/15/1      c720      CLAIMED     INTERFACE    SCSI C896 Ultra2\n"
+			+ "disk      0  10/0/15/1.6.0  sdisk     CLAIMED     DEVICE       SEAGATE ST318404LW\n"
+			+ "lan       0  10/0/12/0      btlan     CLAIMED     INTERFACE    HP PCI 10/100Base-TX\n"
+			+ "graphics  0  10/1/0/0       graph3    CLAIMED     INTERFACE    HP VISUALIZE-FXe"
+		),
+		"swapinfo": (
+			"             Kb      Kb      Kb   PCT  START/      Kb\n"
+			+ "TYPE      AVAIL    USED    FREE  USED   LIMIT RESERVE  PRI  NAME\n"
+			+ "dev     2097152       0 2097152    0%       0       -    1  /dev/vg00/lvol2\n"
+			+ "reserve       -  184320 -184320\n"
+			+ "memory   812400  142100  670300   17%"
+		),
+		"sam": (
+			"HP-UX System Administration Manager (SAM) [Terminal Summary]\n"
+			+ "  -> Accounts for Users and Groups\n"
+			+ "  -> Auditing and Security\n"
+			+ "  -> Disks and File Systems (VxFS / LVM)\n"
+			+ "  -> Kernel Configuration (/stand/system)\n"
+			+ "  -> Peripheral Devices & Printers"
+		),
+		"ls": "Mail  SAM.log  cad_models  core  dtprofile  vmunix.bak"
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "dtterm - hp9000:/home/root",
+			"type": "terminal",
+			"pos": Vector2(85, 52),
+			"size": Vector2(560, 350),
+			"content": ""
+		},
+		{
+			"id": "sam",
+			"title": "System Administration Manager (SAM) - hp9000",
+			"type": "monitor",
+			"pos": Vector2(530, 310),
+			"size": Vector2(440, 300),
+			"content": (
+				"HP 9000 Visualize C3600 Status\n"
+				+ "========================================\n"
+				+ "[ icon ] Accounts for Users and Groups\n"
+				+ "[ icon ] Disks and File Systems (vg00)\n"
+				+ "[ icon ] Kernel Configuration (vmunix)\n"
+				+ "[ icon ] Networking and Communications\n"
+				+ "[ icon ] Performance Monitors (GlancePlus)\n"
+				+ "----------------------------------------\n"
+				+ "PA-8600 @ 552 MHz | Load Avg: 0.08, 0.04, 0.01\n"
+				+ "SCSI Bus 10/0/15/1: SEAGATE 10K RPM Online"
+			)
+		},
+		{
+			"id": "dtpad",
+			"title": "Text Editor (dtpad) - /etc/motd",
+			"type": "text",
+			"pos": Vector2(60, 415),
+			"size": Vector2(430, 210),
+			"content": (
+				"********************************************************\n"
+				+ "*  HP VISUALIZE C3600 ENGINEERING WORKSTATION (HP-UX)  *\n"
+				+ "*  Common Desktop Environment (CDE) 2.1 / Motif 2.1    *\n"
+				+ "********************************************************\n"
+				+ "CAD/CAE NFS mounts active on /net/mentor and /net/catia.\n"
+				+ "Use 'ioscan -fn' or 'bdf' in dtterm to inspect storage."
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_dtterm", "label": "dtterm", "glyph": "[>_]", "target_window_id": "terminal"},
+		{"id": "icon_sam", "label": "SAM Admin", "glyph": "[SAM]", "target_window_id": "sam"},
+		{"id": "icon_dtpad", "label": "dtpad", "glyph": "[TXT]", "target_window_id": "dtpad"}
+	]
+
+	p.fan_base_freq = 148.0
+	p.fan_noise_level = 0.34
+	p.hdd_seek_interval_range = Vector2(2.0, 5.2)
+	return p
+
+
+# ==============================================================================
+# 3. PLAN 9 FROM BELL LABS (4TH EDITION / RIO) - c. 2002
+# ==============================================================================
+static func _build_plan9() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "plan9"
+	p.category = "UNIX & Alt-OS"
+	p.display_name = "Plan 9 from Bell Labs (4th Ed.)"
+	p.short_name = "Plan 9"
+	p.release_year = "2002"
+	p.vendor = "Bell Labs / Lucent Technologies"
+	p.architecture_summary = "386 (9pcf) • 9P2000 Protocol • rio Window System • rc Shell"
+	p.hardware_profile = "Bell Labs 9pc Terminal • Pentium III 733MHz • 256MB RAM • 3Com 3C905C"
+	p.description = (
+		"Everything is a file—including the network, graphics, and window manager. Features "
+		+ "Rob Pike's minimalist 'rio' window environment with pale cream windows, cyan borders, "
+		+ "Tom Duff's 'rc' shell, and live per-process namespace tables."
+	)
+
+	p.bios_header = (
+		"Plan 9 from Bell Labs — 9load bootstrap loader\n"
+		+ "Lucent Technologies / Bell Labs Computing Sciences Research Center"
+	)
+	p.boot_bg_color = Color("0c0e0e")
+	p.boot_text_color = Color("d8e8e4")
+	p.boot_logs = [
+		{"text": "PBS1... Plan 9 from Bell Labs", "delay": 1.10, "sfx": "fan_spinup", "color": "#ffffff"},
+		{"text": "ELCR: 0E00", "delay": 0.90, "sfx": "beep", "color": "#b0c8c4"},
+		{"text": "dev A0 port 1F0 config 045A capabilities 2F00 mwdma 0007 udma 043F", "delay": 1.15, "sfx": "hdd_click", "color": "#b0c8c4"},
+		{"text": "fd0: 3.5\" HD 1.44MB floppy controller initialized", "delay": 1.60, "sfx": "floppy", "color": "#b0c8c4"},
+		{"text": "using sdC0!9fat!plan9.ini", "delay": 1.05, "sfx": "hdd_click", "color": "#88d8d0"},
+		{"text": ".684210+291044+120416=1095670", "delay": 1.50, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "entry: 0x80100020", "delay": 0.70, "sfx": "", "color": "#b0c8c4"},
+		{"text": "Plan 9", "delay": 1.00, "sfx": "", "color": "#55dddd"},
+		{"text": "cpu0: 733MHz GenuineIntel Pentium III (cpuid: AX 0x0686 DX 0x0383FBFF)", "delay": 0.85, "sfx": "", "color": "#d8e8e4"},
+		{"text": "#l0: elnk3: 100Mbps port 0xDC00 irq 11: 00010289a4c1", "delay": 0.80, "sfx": "", "color": "#d8e8e4"},
+		{"text": "256M memory: 104M kernel data, 152M user, 384M swap", "delay": 0.95, "sfx": "hdd_click", "color": "#d8e8e4"},
+		{"text": "root is from (tcp, local)[local!#S/sdC0/fossil]: ", "delay": 1.40, "sfx": "hdd_click", "color": "#ffffaa"},
+		{"text": "user[glenda]: glenda", "delay": 1.15, "sfx": "", "color": "#ffffaa"},
+		{"text": "fossil(#S/sdC0/fossil)...version...time...", "delay": 1.55, "sfx": "hdd_burst", "color": "#88d8d0"},
+		{"text": "init: starting /bin/rc", "delay": 1.05, "sfx": "hdd_click", "color": "#ffffff"},
+		{"text": "rio -i riostart", "delay": 1.40, "sfx": "hdd_burst", "color": "#55dddd"}
+	]
+
+	p.chrome_style = "plan9_rio"
+	p.desktop_bg_color = Color("777777")
+	p.desktop_secondary_color = Color("666666")
+	p.panel_bg_color = Color("e8f4f4")
+	p.panel_text_color = Color("000000")
+	p.window_bg_color = Color("ffffea")
+	p.window_text_color = Color("000000")
+	p.window_border_color = Color("55aaaa")
+	p.titlebar_active_color = Color("55aaaa")
+	p.titlebar_active_gradient_end = Color("55aaaa")
+	p.titlebar_inactive_color = Color("9eeeee")
+	p.titlebar_text_color = Color("002b2b")
+	p.accent_color = Color("448888")
+
+	p.terminal_title = "rc (rio /dev/cons)"
+	p.terminal_bg_color = Color("ffffea")
+	p.terminal_fg_color = Color("111111")
+	p.terminal_prompt = "term% "
+	p.terminal_welcome_banner = (
+		"Plan 9 from Bell Labs (Fourth Edition)\n"
+		+ "cpu0: 733MHz GenuineIntel Pentium III | fs: #S/sdC0/fossil\n"
+		+ "Right-click anywhere on the grey desktop for the rio window menu.\n"
+		+ "Type 'lc', 'cat /dev/drivers', 'fortune', or 'help'."
+	)
+	p.terminal_commands = {
+		"lc": "bin/      lib/      profile   readme.9  src/      tmp/",
+		"cat /dev/osversion": "2000",
+		"cat /dev/sysname": "alef",
+		"cat /dev/user": "glenda",
+		"cat /dev/drivers": (
+			"#c cons\n"
+			+ "#e env\n"
+			+ "#i draw\n"
+			+ "#l ether\n"
+			+ "#m mouse\n"
+			+ "#p proc\n"
+			+ "#s srv\n"
+			+ "#I ip\n"
+			+ "#S sd"
+		),
+		"ps": (
+			"glenda          1    0:00   0:00      128K Pread    init\n"
+			+ "glenda          5    0:00   0:02     1840K Pread    fossil\n"
+			+ "glenda         14    0:01   0:01      912K Pread    rio\n"
+			+ "glenda         16    0:00   0:00      420K Pread    stats\n"
+			+ "glenda         19    0:00   0:00      680K Pread    acme\n"
+			+ "glenda         22    0:00   0:00      340K Pread    rc"
+		),
+		"ns": (
+			"bind /root /\n"
+			+ "mount -a #s/boot /root\n"
+			+ "bind #c /dev\n"
+			+ "bind -a #i /dev\n"
+			+ "bind -a #m /dev\n"
+			+ "mount -b /srv/rio.glenda.14 /dev"
+		),
+		"fortune": "\"UNIX is basically a simple operating system, but you have to be a genius to understand the simplicity.\" — Dennis Ritchie",
+		"glenda": (
+			"   (\\_/)\n"
+			+ "   (o.o)   Glenda, the Plan 9 Bunny\n"
+			+ "   (> <)   http://plan9.bell-labs.com"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "stats",
+			"title": "stats -lmisce",
+			"type": "monitor",
+			"pos": Vector2(28, 28),
+			"size": Vector2(310, 210),
+			"content": (
+				"alef (Plan 9 4e)\n"
+				+ "load    [||..................] 0.12\n"
+				+ "mem     [||||||..............] 42/152M\n"
+				+ "intr    [|||.................] 240/s\n"
+				+ "syscall [||||................] 610/s\n"
+				+ "context [||..................] 180/s\n"
+				+ "ether   [|...................]   4pkt"
+			)
+		},
+		{
+			"id": "acme",
+			"title": "acme - /usr/glenda/readme.9",
+			"type": "text",
+			"pos": Vector2(358, 28),
+			"size": Vector2(610, 220),
+			"content": (
+				"New Cut Paste Snarf Sort Zerox Delcol | Look \n"
+				+ "/usr/glenda/readme.9 Del Snarf Undo | Put \n"
+				+ "------------------------------------------------------------\n"
+				+ "Welcome to Plan 9 from Bell Labs.\n"
+				+ "In Plan 9, every resource—whether local or across the network—\n"
+				+ "is represented as a hierarchical file system speaking 9P2000.\n"
+				+ "Windows in 'rio' have pale yellow-cream backgrounds (#FFFFEA)\n"
+				+ "and 4-pixel cyan borders (#55AAAA)."
+			)
+		},
+		{
+			"id": "terminal",
+			"title": "rc",
+			"type": "terminal",
+			"pos": Vector2(180, 270),
+			"size": Vector2(640, 390),
+			"content": ""
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_rc", "label": "New rc", "glyph": "[rc]", "target_window_id": "terminal"},
+		{"id": "icon_stats", "label": "stats", "glyph": "[||]", "target_window_id": "stats"},
+		{"id": "icon_acme", "label": "acme", "glyph": "[ed]", "target_window_id": "acme"}
+	]
+
+	p.fan_base_freq = 98.0
+	p.fan_noise_level = 0.22
+	p.hdd_seek_interval_range = Vector2(3.0, 6.8)
+	return p
+
+
+# ==============================================================================
+# 4. MICROSOFT WINDOWS 98 SECOND EDITION (4.10.2222 A) - MAY 1999
+# ==============================================================================
+static func _build_win98_se() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "win98_se"
+	p.category = "PC & OS/2"
+	p.display_name = "Windows 98 Second Edition"
+	p.short_name = "Windows 98 SE"
+	p.release_year = "1999"
+	p.vendor = "Microsoft Corporation"
+	p.architecture_summary = "x86 • MS-DOS 7.10 / Win32 VMM 4.10.2222 A • Explorer Shell"
+	p.hardware_profile = "Intel Pentium III 500MHz • 128MB PC100 SDRAM • 3dfx Voodoo3 3000 AGP"
+	p.description = (
+		"Peak late-90s consumer PC nostalgia. Classic #008080 Teal desktop, crisp 3D beveled "
+		+ "#C0C0C0 Win32 controls, navy-to-cerulean gradient titlebars, Sound Blaster Live! "
+		+ "initialization, and Quantum Fireball IDE hard drive chatter."
+	)
+
+	p.bios_header = (
+		"Award Modular BIOS v4.51PG, An Energy Star Ally\n"
+		+ "Copyright (C) 1984-99, Award Software, Inc.   Intel 440BX AGPSet BIOS v1.09"
+	)
+	p.boot_bg_color = Color("000000")
+	p.boot_text_color = Color("c0c0c0")
+	p.boot_logs = [
+		{"text": "Main Processor : Intel Pentium(R) III 500MHz", "delay": 1.00, "sfx": "fan_spinup", "color": "#e0e0e0"},
+		{"text": "Memory Testing : 131072K OK", "delay": 1.55, "sfx": "beep", "color": "#ffffff"},
+		{"text": "Award Plug and Play BIOS Extension v1.0A", "delay": 0.90, "sfx": "", "color": "#c0c0c0"},
+		{"text": "Detecting IDE Primary Master   ... QUANTUM FIREBALL CR8.4A", "delay": 1.35, "sfx": "hdd_click", "color": "#c0c0c0"},
+		{"text": "Detecting IDE Secondary Master ... CREATIVE CD5233E 52X", "delay": 0.95, "sfx": "", "color": "#c0c0c0"},
+		{"text": "Floppy disk(s) seek            ... Drive A: 1.44M, 3.5 in.", "delay": 1.75, "sfx": "floppy", "color": "#c0c0c0"},
+		{"text": "", "delay": 0.50, "sfx": "", "color": ""},
+		{"text": "Starting Windows 98...", "delay": 1.65, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "", "delay": 0.40, "sfx": "", "color": ""},
+		{"text": "Microsoft(R) Windows 98", "delay": 0.70, "sfx": "", "color": "#c0c0c0"},
+		{"text": "   (C)Copyright Microsoft Corp 1981-1999.", "delay": 0.75, "sfx": "", "color": "#c0c0c0"},
+		{"text": "C:\\>SET BLASTER=A220 I5 D1 H5 P330 T6", "delay": 1.05, "sfx": "hdd_click", "color": "#c0c0c0"},
+		{"text": "Creative SB16 Emulation Driver, Version 4.00", "delay": 0.95, "sfx": "", "color": "#a8a8a8"},
+		{"text": "C:\\>LH C:\\WINDOWS\\COMMAND\\MSCDEX.EXE /D:MSCD001", "delay": 1.15, "sfx": "hdd_click", "color": "#c0c0c0"},
+		{"text": "C:\\>C:\\WINDOWS\\WIN.COM", "delay": 1.85, "sfx": "hdd_burst", "color": "#55ffff"}
+	]
+
+	p.chrome_style = "win98_classic"
+	p.desktop_bg_color = Color("008080")
+	p.desktop_secondary_color = Color("006666")
+	p.panel_bg_color = Color("c0c0c0")
+	p.panel_text_color = Color("000000")
+	p.window_bg_color = Color("c0c0c0")
+	p.window_text_color = Color("000000")
+	p.window_border_color = Color("dfdfdf")
+	p.titlebar_active_color = Color("000080")
+	p.titlebar_active_gradient_end = Color("1084d0")
+	p.titlebar_inactive_color = Color("808080")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("000080")
+
+	p.terminal_title = "MS-DOS Prompt"
+	p.terminal_bg_color = Color("000000")
+	p.terminal_fg_color = Color("c0c0c0")
+	p.terminal_prompt = "C:\\WINDOWS>"
+	p.terminal_welcome_banner = (
+		"Microsoft(R) Windows 98\n"
+		+ "   (C)Copyright Microsoft Corp 1981-1999.\n"
+		+ "Type 'help', 'ver', 'dir', 'mem', or 'type autoexec.bat'."
+	)
+	p.terminal_commands = {
+		"ver": "\nWindows 98 [Version 4.10.2222]",
+		"dir": (
+			" Volume in drive C is WIN98_SE\n"
+			+ " Volume Serial Number is 1E4F-09A2\n"
+			+ " Directory of C:\\WINDOWS\n\n"
+			+ ".              <DIR>        05-05-99  10:22p .\n"
+			+ "..             <DIR>        05-05-99  10:22p ..\n"
+			+ "COMMAND  COM        93,890  04-23-99  10:22p COMMAND.COM\n"
+			+ "SYSTEM         <DIR>        05-05-99  10:22p SYSTEM\n"
+			+ "WIN      COM        24,963  04-23-99  10:22p WIN.COM\n"
+			+ "EXPLORER EXE       180,224  04-23-99  10:22p EXPLORER.EXE\n"
+			+ "NOTEPAD  EXE        53,248  04-23-99  10:22p NOTEPAD.EXE\n"
+			+ "        4 file(s)        352,325 bytes\n"
+			+ "        3 dir(s)   6,842.15 MB free"
+		),
+		"mem": (
+			"\nMemory Type        Total       Used       Free\n"
+			+ "----------------  --------   --------   --------\n"
+			+ "Conventional          640K        29K       611K\n"
+			+ "Upper                   0K         0K         0K\n"
+			+ "Reserved              384K       384K         0K\n"
+			+ "Extended (XMS)     65,472K          ?   130,048K\n"
+			+ "----------------  --------   --------   --------\n"
+			+ "Largest executable program size: 611K (625,488 bytes)\n"
+			+ "MS-DOS is resident in the high memory area."
+		),
+		"type autoexec.bat": (
+			"@ECHO OFF\n"
+			+ "SET SOUND=C:\\PROGRA~1\\CREATIVE\\CTSND\n"
+			+ "SET BLASTER=A220 I5 D1 H5 P330 E620 T6\n"
+			+ "SET PATH=C:\\WINDOWS;C:\\WINDOWS\\COMMAND\n"
+			+ "LH C:\\WINDOWS\\COMMAND\\MSCDEX.EXE /D:MSCD001"
+		),
+		"type config.sys": (
+			"DEVICE=C:\\WINDOWS\\HIMEM.SYS\n"
+			+ "DEVICE=C:\\WINDOWS\\EMM386.EXE NOEMS\n"
+			+ "DOS=HIGH,UMB\n"
+			+ "DEVICEHIGH=C:\\CDROM\\OAKCDROM.SYS /D:MSCD001"
+		),
+		"ipconfig": (
+			"Windows 98 IP Configuration\n\n"
+			+ "0 Ethernet adapter :\n"
+			+ "   IP Address. . . . . . . . . : 192.168.1.98\n"
+			+ "   Subnet Mask . . . . . . . . : 255.255.255.0\n"
+			+ "   Default Gateway . . . . . . : 192.168.1.1"
+		),
+		"winver": "Microsoft Windows 98 Second Edition (Build 4.10.2222 A)"
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "MS-DOS Prompt",
+			"type": "terminal",
+			"pos": Vector2(130, 62),
+			"size": Vector2(540, 340),
+			"content": ""
+		},
+		{
+			"id": "sysprop",
+			"title": "System Properties",
+			"type": "monitor",
+			"pos": Vector2(545, 360),
+			"size": Vector2(420, 290),
+			"content": (
+				"[ General | Device Manager | Hardware Profiles | Performance ]\n"
+				+ "------------------------------------------------------------\n"
+				+ "System:\n"
+				+ "   Microsoft Windows 98\n"
+				+ "   Second Edition\n"
+				+ "   4.10.2222 A\n\n"
+				+ "Registered to:\n"
+				+ "   RetroOS Workstation User\n"
+				+ "   29912-OEM-0041922-88412\n\n"
+				+ "Computer:\n"
+				+ "   GenuineIntel\n"
+				+ "   Intel Pentium(R) III processor 500MHz\n"
+				+ "   128.0MB RAM • System Resources: 92% free"
+			)
+		},
+		{
+			"id": "notepad",
+			"title": "README.TXT - Notepad",
+			"type": "text",
+			"pos": Vector2(120, 425),
+			"size": Vector2(400, 220),
+			"content": (
+				"File  Edit  Search  Help\n"
+				+ "----------------------------------------------------\n"
+				+ "Microsoft Windows 98 Second Edition README\n"
+				+ "April 1999\n\n"
+				+ "- 3dfx Voodoo3 Glide 2.60 drivers installed.\n"
+				+ "- DirectX 6.1 and Internet Connection Sharing enabled.\n"
+				+ "- Double-click desktop icons or use the Start bar\n"
+				+ "  to restore closed windows."
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_mycomp", "label": "My Computer", "glyph": "[PC]", "target_window_id": "sysprop"},
+		{"id": "icon_msdos", "label": "MS-DOS\nPrompt", "glyph": "[C:\\]", "target_window_id": "terminal"},
+		{"id": "icon_readme", "label": "README.TXT", "glyph": "[TXT]", "target_window_id": "notepad"}
+	]
+
+	p.fan_base_freq = 122.0
+	p.fan_noise_level = 0.26
+	p.hdd_seek_interval_range = Vector2(2.4, 6.2)
+	return p
+
+
+# ==============================================================================
+# 5. IBM OS/2 WARP 4 (MERLIN / REV 9.023) - SEPTEMBER 1996
+# ==============================================================================
+static func _build_os2_warp() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "os2_warp"
+	p.category = "PC & OS/2"
+	p.display_name = "IBM OS/2 Warp 4 (Merlin)"
+	p.short_name = "OS/2 Warp 4"
+	p.release_year = "1996"
+	p.vendor = "International Business Machines Corp."
+	p.architecture_summary = "x86 32-Bit Protected Mode • Rev 9.023 • Workplace Shell (PMSHELL)"
+	p.hardware_profile = "IBM PC 300PL • Pentium Pro 200MHz • 64MB EDO RAM • HPFS File System"
+	p.description = (
+		"IBM's true preemptive multitasking 32-bit operating system. Features the object-oriented "
+		+ "Workplace Shell (WPS), top-docked Lotus SmartCenter/WarpCenter bar, High Performance File "
+		+ "System (HPFS), and deep purple/indigo Presentation Manager window chrome."
+	)
+
+	p.bios_header = (
+		"IBM SurePath BIOS Version 1.18 (NVKT24AUS)\n"
+		+ "(C) Copyright IBM Corp. 1981-1996. All rights reserved."
+	)
+	p.boot_bg_color = Color("04050c")
+	p.boot_text_color = Color("d0d4e0")
+	p.boot_logs = [
+		{"text": "IBM Personal Computer 300PL — Intel Pentium(R) Pro 200MHz (256KB L2 Cache)", "delay": 1.05, "sfx": "fan_spinup", "color": "#ffffff"},
+		{"text": "065536 KB Base/Extended Memory OK", "delay": 1.45, "sfx": "beep", "color": "#99ccff"},
+		{"text": "Diskette Drive A: 1.44 MB 3.5-inch initialized", "delay": 1.65, "sfx": "floppy", "color": "#c8c8d8"},
+		{"text": "", "delay": 0.45, "sfx": "", "color": ""},
+		{"text": "█▀▀▀█ █▀▀▀  /  ▀▀▀█    OS/2 Warp Version 4", "delay": 0.90, "sfx": "hdd_click", "color": "#55aaff"},
+		{"text": "█   █ ▀▀▀█ /   █▀▀▀    Internal Revision 9.023, 96/09/19", "delay": 0.65, "sfx": "", "color": "#55aaff"},
+		{"text": "▀▀▀▀▀ ▀▀▀▀     ▀▀▀▀    (C) Copyright IBM Corp. 1987, 1996", "delay": 0.85, "sfx": "", "color": "#55aaff"},
+		{"text": "", "delay": 0.45, "sfx": "", "color": ""},
+		{"text": "Loading BASEDEV=IBMKBD.SYS", "delay": 0.80, "sfx": "hdd_click", "color": "#c8c8d8"},
+		{"text": "Loading BASEDEV=IBM1FLPY.ADD", "delay": 1.45, "sfx": "floppy", "color": "#c8c8d8"},
+		{"text": "Loading BASEDEV=IBM1S506.ADD (Bus Master IDE Adapter)", "delay": 1.10, "sfx": "hdd_click", "color": "#c8c8d8"},
+		{"text": "The system is checking the hard disk (Drive C: IFS=HPFS.IFS)...", "delay": 1.65, "sfx": "hdd_burst", "color": "#ffffaa"},
+		{"text": "The type of file system for the disk is HPFS. Volume WARP4_BOOT is clean.", "delay": 1.15, "sfx": "hdd_click", "color": "#88ee99"},
+		{"text": "Loading DEVICE=C:\\OS2\\MDOS\\VEMM.SYS (Virtual DOS Machine MVDM)", "delay": 0.90, "sfx": "", "color": "#c8c8d8"},
+		{"text": "Loading DEVICE=C:\\MMOS2\\SB16D2.SYS (Multimedia Presentation Manager/2)", "delay": 0.95, "sfx": "hdd_click", "color": "#c8c8d8"},
+		{"text": "Starting Workplace Shell (PROTSHELL=C:\\OS2\\PMSHELL.EXE)...", "delay": 1.75, "sfx": "hdd_burst", "color": "#99ccff"}
+	]
+
+	p.chrome_style = "os2_pmshell"
+	p.desktop_bg_color = Color("224b5e")
+	p.desktop_secondary_color = Color("183545")
+	p.panel_bg_color = Color("b8b8c0")
+	p.panel_text_color = Color("111118")
+	p.window_bg_color = Color("cccccc")
+	p.window_text_color = Color("111118")
+	p.window_border_color = Color("e0e0e8")
+	p.titlebar_active_color = Color("3c2878")
+	p.titlebar_active_gradient_end = Color("5a3ea6")
+	p.titlebar_inactive_color = Color("787888")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("3c2878")
+
+	p.terminal_title = "OS/2 Window"
+	p.terminal_bg_color = Color("000000")
+	p.terminal_fg_color = Color("d8d8d8")
+	p.terminal_prompt = "[C:\\]"
+	p.terminal_welcome_banner = (
+		"Operating System/2 Command Interpreter Version 4.00\n"
+		+ "(C) Copyright IBM Corp. 1987, 1996.\n"
+		+ "Type 'help', 'ver', 'dir', 'chkdsk', or 'type config.sys'."
+	)
+	p.terminal_commands = {
+		"ver": "\nThe Operating System/2 Version is 4.00\nRevision 9.023",
+		"dir": (
+			"The volume label in drive C is WARP4_BOOT.\n"
+			+ "The Volume Serial Number is 2A91:440C\n"
+			+ "Directory of C:\\\n\n"
+			+ " 9-19-96   4:00a     <DIR>         0  DESKTOP\n"
+			+ " 9-19-96   4:00a     <DIR>         0  OS2\n"
+			+ " 9-19-96   4:00a     <DIR>         0  MMOS2\n"
+			+ " 9-19-96   4:00a     <DIR>         0  MPTN\n"
+			+ " 9-19-96   4:00a      3,842      124  CONFIG.SYS\n"
+			+ " 9-19-96   4:00a        512        0  STARTUP.CMD\n"
+			+ "       6 file(s)       4,354 bytes used\n"
+			+ "                   1,842,176 K bytes free"
+		),
+		"chkdsk": (
+			"The type of file system for the disk is HPFS.\n"
+			+ "The HPFS file system program has been started.\n"
+			+ "2097152 kilobytes total disk space.\n"
+			+ "  18432 kilobytes are in 412 directories.\n"
+			+ " 236544 kilobytes are in 8,940 user files.\n"
+			+ "1842176 kilobytes are available for use."
+		),
+		"type config.sys": (
+			"IFS=C:\\OS2\\HPFS.IFS /CACHE:2048 /CRECL:4 /AUTOCHECK:C\n"
+			+ "PROTSHELL=C:\\OS2\\PMSHELL.EXE\n"
+			+ "SET USER_INI=C:\\OS2\\OS2.INI\n"
+			+ "SET SYSTEM_INI=C:\\OS2\\OS2SYS.INI\n"
+			+ "SET AUTOSTART=PROGRAMS,TASKLIST,FOLDERS,WARPCENTER\n"
+			+ "THREADS=1024\n"
+			+ "BASEDEV=IBM1S506.ADD"
+		),
+		"pstat": (
+			"Process and Thread Information (Revision 9.023):\n"
+			+ " PID  PPID  SESS  PROC NAME\n"
+			+ "0001  0000   00   SYSINIT\n"
+			+ "0004  0001   01   C:\\OS2\\PMSHELL.EXE (Workplace Shell)\n"
+			+ "0007  0004   01   C:\\OS2\\PMSPOOL.EXE\n"
+			+ "0011  0004   01   C:\\OS2\\APPS\\SCENTER.EXE (WarpCenter)\n"
+			+ "0015  0004   02   C:\\OS2\\CMD.EXE"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "OS/2 Window",
+			"type": "terminal",
+			"pos": Vector2(130, 66),
+			"size": Vector2(540, 340),
+			"content": ""
+		},
+		{
+			"id": "wps_sys",
+			"title": "OS/2 System - Icon View",
+			"type": "files",
+			"pos": Vector2(535, 370),
+			"size": Vector2(430, 260),
+			"content": (
+				"Workplace Shell Object Folder: <WP_OS2SYS>\n"
+				+ "=================================================\n"
+				+ "[Drives]          [System Setup]    [Command Prompts]\n"
+				+ "  Drive A: (FDD)    System Clock      OS/2 Window\n"
+				+ "  Drive C: (HPFS)   Sound Palette     DOS Full Screen\n"
+				+ "  Drive D: (CD)     Win-OS/2 Setup    REXX Try\n"
+				+ "-------------------------------------------------\n"
+				+ "Shredder Ready | SOM/DSOM Workplace Objects Active"
+			)
+		},
+		{
+			"id": "epm",
+			"title": "OS/2 System Editor - C:\\CONFIG.SYS",
+			"type": "text",
+			"pos": Vector2(115, 430),
+			"size": Vector2(395, 220),
+			"content": (
+				"File  Edit  Options  Help\n"
+				+ "-------------------------------------------------\n"
+				+ "IFS=C:\\OS2\\HPFS.IFS /CACHE:2048 /CRECL:4\n"
+				+ "PROTSHELL=C:\\OS2\\PMSHELL.EXE\n"
+				+ "SET RUNWORKPLACE=C:\\OS2\\PMSHELL.EXE\n"
+				+ "SET AUTOSTART=PROGRAMS,TASKLIST,FOLDERS,WARPCENTER\n"
+				+ "BASEDEV=IBM1S506.ADD\n"
+				+ "DEVICE=C:\\OS2\\MDOS\\VSVGA.SYS"
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_os2sys", "label": "OS/2 System", "glyph": "[WPS]", "target_window_id": "wps_sys"},
+		{"id": "icon_cmd", "label": "OS/2 Window", "glyph": "[C:\\]", "target_window_id": "terminal"},
+		{"id": "icon_epm", "label": "CONFIG.SYS", "glyph": "[EPM]", "target_window_id": "epm"}
+	]
+
+	p.fan_base_freq = 128.0
+	p.fan_noise_level = 0.27
+	p.hdd_seek_interval_range = Vector2(2.6, 6.5)
+	return p
+
+
+# ==============================================================================
+# 6. WINDOWS XP PRO SP2 - ALIENWARE AREA-51 "PREDATOR" P4 RIG (c. 2003-2004)
+# ==============================================================================
+static func _build_winxp_alienware() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "winxp_alienware"
+	p.category = "PC & OS/2"
+	p.display_name = "Windows XP Pro SP2 (Alienware Area-51 P4)"
+	p.short_name = "WinXP (Area-51)"
+	p.release_year = "2003"
+	p.vendor = "Microsoft / Alienware Corp. (Miami, FL)"
+	p.architecture_summary = "x86 NT 5.1 (Build 2600.xpsp2) • Luna / AlienGUIse Shell • DirectX 9.0c"
+	p.hardware_profile = "Alienware Area-51 'Predator' Full-Tower • P4 3.2GHz EE • Radeon 9800 XT • 2x WD Raptor 10K RAID-0"
+	p.description = (
+		"Early-2000s flagship enthusiast gaming monolith housed in the sculpted Saucer-Silver/Cyborg-Green "
+		+ "Alienware 'Predator' hydraulic-door full-tower. Powered by an Intel Pentium 4 3.20GHz Extreme Edition "
+		+ "(Hyper-Threading) on an i875P Canterwood board, dual 10,000 RPM WD Raptor SATA RAID-0 drives, "
+		+ "ATI Radeon 9800 XT 256MB AGP 8X, Sound Blaster Audigy 2 ZS, and KoolMaxx high-CFM case blowers."
+	)
+
+	p.bios_header = (
+		"AMIBIOS (C) 2003 American Megatrends, Inc.       Alienware Area-51 Desktop System\n"
+		+ "Intel D875PBZ (i875P Canterwood) BIOS Rev P22    KoolMaxx Thermal Control: ACTIVE"
+	)
+	p.boot_bg_color = Color("030504")
+	p.boot_text_color = Color("d0dcd4")
+	p.boot_logs = [
+		{"text": "CPU : Intel(R) Pentium(R) 4 CPU 3.20GHz Extreme Edition (FSB 800MHz)", "delay": 1.10, "sfx": "fan_spinup", "color": "#ffffff"},
+		{"text": "Hyper-Threading Technology : ENABLED (2 Logical Processors Detected)", "delay": 0.85, "sfx": "", "color": "#66ff88"},
+		{"text": "L2 Cache: 512KB Full-Speed  |  L3 Cache: 2048KB On-Die Integrated", "delay": 0.80, "sfx": "", "color": "#b8d0c0"},
+		{"text": "DDR-400 Dual-Channel Linear Mode Enabled (PAT: Performance Acceleration Tech)", "delay": 0.90, "sfx": "", "color": "#b8d0c0"},
+		{"text": "Checking NVRAM.. 2097152 KB OK (Corsair XMS3200LL TwinX 2-2-2-5)", "delay": 1.55, "sfx": "beep", "color": "#ffffff"},
+		{"text": "Initializing USB Controllers .. Done. (8 USB 2.0 Ports, Alienware Front IO)", "delay": 0.95, "sfx": "", "color": "#c0c8c4"},
+		{"text": "Floppy Disk Drive A: 1.44MB 3.5-inch (TEAC Black Bezel) Seek Check...", "delay": 1.75, "sfx": "floppy", "color": "#c0c8c4"},
+		{"text": "", "delay": 0.45, "sfx": "", "color": ""},
+		{"text": "Promise FastTrak S150 TX2plus RAID BIOS Version 1.00.0.33", "delay": 1.25, "sfx": "hdd_click", "color": "#ffd066"},
+		{"text": "Scanning SATA 150 Channels for Drives...", "delay": 1.50, "sfx": "hdd_burst", "color": "#ffd066"},
+		{"text": "   Ch0: WDC WD740GD-00FLA1 (74.3 GB 10,000 RPM Raptor)", "delay": 0.75, "sfx": "hdd_click", "color": "#e0e8e4"},
+		{"text": "   Ch1: WDC WD740GD-00FLA1 (74.3 GB 10,000 RPM Raptor)", "delay": 0.75, "sfx": "hdd_click", "color": "#e0e8e4"},
+		{"text": "ID   MODE          SIZE     TRACK-MAPPING    STATUS", "delay": 0.45, "sfx": "", "color": "#ffffff"},
+		{"text": "1*   2+0 Stripe    148600M   18094/255/63    Functional [ARRAY_AREA51]", "delay": 1.15, "sfx": "hdd_burst", "color": "#66ff88"},
+		{"text": "", "delay": 0.50, "sfx": "", "color": ""},
+		{"text": "Booting from Promise FastTrak RAID0 Array (NTLDR)...", "delay": 1.45, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "Starting Microsoft Windows XP Professional [Version 5.1.2600 Service Pack 2]", "delay": 1.60, "sfx": "hdd_burst", "color": "#55aaff"},
+		{"text": "   Loading multi(0)disk(0)rdisk(0)partition(1)\\WINDOWS\\System32\\ntoskrnl.exe", "delay": 1.10, "sfx": "hdd_click", "color": "#a8b8c8"},
+		{"text": "   Loading AGP 8X Display Driver: ati2mtag.sys (ATI Radeon 9800 XT 256MB)", "delay": 1.15, "sfx": "hdd_click", "color": "#a8b8c8"},
+		{"text": "   Loading WDM Audio Driver: ctaud2k.sys (Sound Blaster Audigy 2 ZS THX)", "delay": 1.00, "sfx": "hdd_click", "color": "#a8b8c8"},
+		{"text": "   Starting AlienGUIse Theme Service & AlienAdrenaline Profile Manager...", "delay": 1.70, "sfx": "hdd_burst", "color": "#66ff88"}
+	]
+
+	p.chrome_style = "winxp_luna"
+	p.desktop_bg_color = Color("122a44")
+	p.desktop_secondary_color = Color("164a32")
+	p.panel_bg_color = Color("1f52c8")
+	p.panel_text_color = Color("ffffff")
+	p.window_bg_color = Color("ece9d8")
+	p.window_text_color = Color("111111")
+	p.window_border_color = Color("0046d5")
+	p.titlebar_active_color = Color("0054e3")
+	p.titlebar_active_gradient_end = Color("3d95ff")
+	p.titlebar_inactive_color = Color("7a96df")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("3c9e38")
+
+	p.terminal_title = "C:\\WINDOWS\\system32\\cmd.exe"
+	p.terminal_bg_color = Color("050a06")
+	p.terminal_fg_color = Color("44ff66")
+	p.terminal_prompt = "C:\\Documents and Settings\\Area51>"
+	p.terminal_welcome_banner = (
+		"Microsoft Windows XP [Version 5.1.2600]\n"
+		+ "(C) Copyright 1985-2001 Microsoft Corp. // Alienware Area-51 OEM Build\n"
+		+ "Type 'systeminfo', 'dxdiag', 'tasklist', 'dir', 'ipconfig', or 'help'."
+	)
+	p.terminal_commands = {
+		"ver": "\nMicrosoft Windows XP [Version 5.1.2600]",
+		"systeminfo": (
+			"Host Name:                 AREA51-PREDATOR\n"
+			+ "OS Name:                   Microsoft Windows XP Professional\n"
+			+ "OS Version:                5.1.2600 Service Pack 2 Build 2600\n"
+			+ "System Manufacturer:       Alienware Corporation\n"
+			+ "System Model:              Area-51 Predator Full-Tower (i875P)\n"
+			+ "Processor(s):              2 Processor(s) Installed (HT Enabled).\n"
+			+ "                           [01]: x86 Family 15 Model 2 Stepping 5 GenuineIntel ~3200 Mhz\n"
+			+ "                           [02]: x86 Family 15 Model 2 Stepping 5 GenuineIntel ~3200 Mhz\n"
+			+ "Total Physical Memory:     2,047 MB (DDR-400 Dual Channel)"
+		),
+		"dxdiag": (
+			"------------------\n"
+			+ "DirectX Diagnostic Tool (DirectX 9.0c - 4.09.0000.0904)\n"
+			+ "------------------\n"
+			+ "Card name:        ATI RADEON 9800 XT AGP (0x4E4A)\n"
+			+ "Display Memory:   256.0 MB DDR (256-bit Bus, 412MHz Core / 730MHz Mem)\n"
+			+ "Driver Version:   6.14.0010.6476 (Catalyst 4.9)\n"
+			+ "Sound Tab 1:      SB Audigy 2 ZS Audio [DF00] (EAX 4.0 ADVANCED HD: Enabled)"
+		),
+		"tasklist": (
+			"Image Name                   PID Session Name     Mem Usage\n"
+			+ "========================= ====== ================ ============\n"
+			+ "System Idle Process            0 Console                 16 K\n"
+			+ "System                         4 Console                240 K\n"
+			+ "svchost.exe                  948 Console             18,412 K\n"
+			+ "explorer.exe                1420 Console             24,880 K\n"
+			+ "CTHelper.exe                1588 Console              4,920 K\n"
+			+ "atiptaxx.exe                1612 Console              5,410 K\n"
+			+ "AlienGUIse.exe              1704 Console             12,640 K\n"
+			+ "winamp.exe                  1892 Console              9,120 K"
+		),
+		"dir": (
+			" Volume in drive C is AREA51_RAID0\n"
+			+ " Volume Serial Number is 88F1-A409\n"
+			+ " Directory of C:\\Documents and Settings\\Area51\n\n"
+			+ "10/21/2004  01:14 AM    <DIR>          .\n"
+			+ "10/21/2004  01:14 AM    <DIR>          ..\n"
+			+ "10/18/2004  09:42 PM    <DIR>          Desktop\n"
+			+ "10/19/2004  11:15 PM    <DIR>          Doom3_Saves\n"
+			+ "10/20/2004  08:05 PM    <DIR>          Half-Life 2 Preload\n"
+			+ "10/20/2004  11:50 PM            14,820 3DMark03_6842pts.txt\n"
+			+ "10/21/2004  12:30 AM             4,192 AlienOpt_OC_Profile.ini\n"
+			+ "               2 File(s)         19,012 bytes\n"
+			+ "               5 Dir(s)  124,819,402,752 bytes free"
+		),
+		"ipconfig": (
+			"Windows IP Configuration\n\n"
+			+ "Ethernet adapter Intel PRO/1000 CT Network Connection:\n"
+			+ "   Connection-specific DNS Suffix  . : lan.area51\n"
+			+ "   IP Address. . . . . . . . . . . . : 192.168.1.51\n"
+			+ "   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n"
+			+ "   Default Gateway . . . . . . . . . : 192.168.1.1"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "C:\\WINDOWS\\system32\\cmd.exe",
+			"type": "terminal",
+			"pos": Vector2(124, 48),
+			"size": Vector2(565, 345),
+			"content": ""
+		},
+		{
+			"id": "dxdiag",
+			"title": "DirectX Diagnostic Tool (dxdiag.exe)",
+			"type": "monitor",
+			"pos": Vector2(515, 365),
+			"size": Vector2(465, 290),
+			"content": (
+				"[ System | DirectX Files | Display | Sound | Music | Network ]\n"
+				+ "==============================================================\n"
+				+ "Machine Name : AREA51-PREDATOR (Alienware Chieftec Full-Tower)\n"
+				+ "OS           : Windows XP Professional (5.1, Build 2600) SP2\n"
+				+ "Processor    : Intel(R) Pentium(R) 4 3.20GHz EE (2 CPUs, HT)\n"
+				+ "Memory       : 2048MB DDR-400 Dual-Channel (PAT Enabled)\n"
+				+ "DirectX      : DirectX 9.0c (4.09.0000.0904)\n"
+				+ "GPU          : ATI Radeon 9800 XT 256MB AGP 8X (412/730 MHz)\n"
+				+ "RAID Array   : 2x 74GB WD Raptor 10,000 RPM (RAID-0 Stripe)"
+			)
+		},
+		{
+			"id": "alien_bench",
+			"title": "AlienAdrenaline // Predator Thermal & Benchmark Log",
+			"type": "text",
+			"pos": Vector2(115, 412),
+			"size": Vector2(385, 240),
+			"content": (
+				"ALIENWARE AREA-51 'PREDATOR' TELEMETRY\n"
+				+ "----------------------------------------------\n"
+				+ "Case Finish   : Saucer Silver / Cyborg Green\n"
+				+ "KoolMaxx Fans : Front 92mm (2800 RPM) | Rear 2x80mm\n"
+				+ "P4 3.2EE Temp : 41°C Idle / 56°C Load\n"
+				+ "Radeon 9800XT : 52°C OverDrive Active\n"
+				+ "----------------------------------------------\n"
+				+ "3DMark2001 SE : 21,490 Marks\n"
+				+ "3DMark03      :  6,842 Marks\n"
+				+ "DOOM 3 Demo1  :   64.8 FPS (1024x768 High)"
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_mycomp", "label": "Area-51\nSystem", "glyph": "[👽]", "target_window_id": "dxdiag"},
+		{"id": "icon_cmd", "label": "Command\nPrompt", "glyph": "[C:\\]", "target_window_id": "terminal"},
+		{"id": "icon_bench", "label": "Predator\nTelemetry", "glyph": "[3D]", "target_window_id": "alien_bench"}
+	]
+
+	p.fan_base_freq = 136.0
+	p.fan_noise_level = 0.30
+	p.hdd_seek_interval_range = Vector2(1.8, 4.5)
+	return p
+
+
+# ==============================================================================
+# 7. SGI IRIX 6.5.22 - SILICON GRAPHICS OCTANE2 WORKSTATION (c. 2001)
+# ==============================================================================
+static func _build_sgi_irix() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "sgi_irix"
+	p.category = "UNIX & Alt-OS"
+	p.display_name = "SGI IRIX 6.5.22 (Octane2 VPro V12)"
+	p.short_name = "SGI IRIX 6.5"
+	p.release_year = "2001"
+	p.vendor = "Silicon Graphics, Inc. (Mountain View, CA)"
+	p.architecture_summary = "MIPS64 (2x R14000A) • IRIX 6.5.22m • Indigo Magic / 4Dwm Desktop"
+	p.hardware_profile = "SGI Octane2 (IP30) • Dual 600MHz MIPS R14000A • 2GB ECC • VPro V12 Odyssey • 15K SCSI"
+	p.description = (
+		"Silicon Graphics' legendary crossbar-switched visual computing workstation in Compression "
+		+ "Purple skins. Features dual 600MHz 64-bit MIPS R14000A CPUs, VPro V12 Odyssey 48-bit RGBA "
+		+ "hardware texture engine, 15,000 RPM Seagate Cheetah X15 Ultra160 SCSI storage, and the "
+		+ "classic Indigo Magic 4Dwm desktop with the top-left SGI Toolchest."
+	)
+
+	p.bios_header = (
+		"Silicon Graphics Octane2 (IP30) ARCS PROM Monitor — Revision 6.5 (Build Oct 14 2000)\n"
+		+ "(C) Copyright 1996-2001 Silicon Graphics, Inc. All Rights Reserved."
+	)
+	p.boot_bg_color = Color("070914")
+	p.boot_text_color = Color("d8e0f8")
+	p.boot_logs = [
+		{"text": "Running IP30 Power-On Diagnostics...", "delay": 1.15, "sfx": "fan_spinup", "color": "#a8c4ff"},
+		{"text": "HEART ASIC Rev D / XBOW Crossbar Switch Rev 1.3 (1.6 GB/s Link OK)", "delay": 1.05, "sfx": "beep", "color": "#d8e0f8"},
+		{"text": "CPU 0: MIPS R14000A Processor Chip Revision: 2.4 (600 MHz, 8MB L2 Cache) - PASSED", "delay": 0.90, "sfx": "", "color": "#88eeaa"},
+		{"text": "CPU 1: MIPS R14000A Processor Chip Revision: 2.4 (600 MHz, 8MB L2 Cache) - PASSED", "delay": 0.90, "sfx": "", "color": "#88eeaa"},
+		{"text": "Memory Diagnostic: 2048 MB Direct-Attached Crossbar ECC SDRAM — PASSED", "delay": 1.35, "sfx": "", "color": "#ffffff"},
+		{"text": "Probing XIO Slot 1: Odyssey VPro V12 Graphics Subsystem (128MB SDRAM) — ONLINE", "delay": 1.15, "sfx": "", "color": "#ffcc77"},
+		{"text": "Probing Dual-Channel Ultra160 SCSI Controller (qla0 / QLogic ISP12160)...", "delay": 1.55, "sfx": "hdd_burst", "color": "#d8e0f8"},
+		{"text": "   dksc(0,1,0) : SEAGATE ST336752LW (36.7 GB 15,000 RPM Cheetah X15)", "delay": 1.05, "sfx": "hdd_click", "color": "#ffffff"},
+		{"text": "", "delay": 0.45, "sfx": "", "color": ""},
+		{"text": "System Maintenance Menu: Starting Up the System...", "delay": 1.20, "sfx": "hdd_click", "color": "#a8c4ff"},
+		{"text": "Loading xfs(dksc(0,1,0)s0)/unix ...", "delay": 1.60, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "IRIX Release 6.5.22m IP30 (64-bit) #1 SMP Mon Oct 20 14:12:09 PDT 2003", "delay": 1.05, "sfx": "", "color": "#77ddff"},
+		{"text": "Copyright 1987-2003 Silicon Graphics, Inc. All Rights Reserved.", "delay": 0.75, "sfx": "", "color": "#a8b8d8"},
+		{"text": "xfs: Mounting /dev/dsk/dks0d1s0 on / (clean, 64-bit journaled XFS)", "delay": 1.25, "sfx": "hdd_burst", "color": "#c8d8f0"},
+		{"text": "autoconfig: checking hardware inventory against /unix...", "delay": 1.20, "sfx": "hdd_click", "color": "#c8d8f0"},
+		{"text": "Starting Network Daemons: portmap, ypbind, nfsd, automount, mediad.", "delay": 1.05, "sfx": "hdd_click", "color": "#c8d8f0"},
+		{"text": "Starting Xsgi OpenGL X11 Server on Odyssey V12 (1280x1024 @ 75Hz Stereo)...", "delay": 1.35, "sfx": "hdd_click", "color": "#ffcc77"},
+		{"text": "Launching Indigo Magic Desktop (4Dwm, toolchest, fm, gr_osview)...", "delay": 1.65, "sfx": "hdd_burst", "color": "#88eeaa"}
+	]
+
+	p.chrome_style = "sgi_4dwm"
+	p.desktop_bg_color = Color("364268")
+	p.desktop_secondary_color = Color("232c48")
+	p.panel_bg_color = Color("9ca4b8")
+	p.panel_text_color = Color("121520")
+	p.window_bg_color = Color("b4bccf")
+	p.window_text_color = Color("10131c")
+	p.window_border_color = Color("dce2f2")
+	p.titlebar_active_color = Color("465884")
+	p.titlebar_active_gradient_end = Color("6478a8")
+	p.titlebar_inactive_color = Color("767e94")
+	p.titlebar_text_color = Color("fff6d6")
+	p.accent_color = Color("5c3d99")
+
+	p.terminal_title = "winterm - octane2:/usr/people/vfx"
+	p.terminal_bg_color = Color("121624")
+	p.terminal_fg_color = Color("e2e8f8")
+	p.terminal_prompt = "octane2 1% "
+	p.terminal_welcome_banner = (
+		"IRIX64 octane2 6.5 6.5.22m 10070055 IP30\n"
+		+ "Silicon Graphics Octane2 // Dual MIPS R14000A @ 600MHz // VPro V12 Odyssey\n"
+		+ "Type 'hinv', 'uname -Ra', 'gr_osview', 'df -k', 'versions', or 'help'."
+	)
+	p.terminal_commands = {
+		"hinv": (
+			"2 600 MHZ IP30 Processors\n"
+			+ "CPU: MIPS R14000A Processor Chip Revision: 2.4\n"
+			+ "FPU: MIPS R14010 Floating Point Chip Revision: 2.4\n"
+			+ "Main memory size: 2048 Mbytes\n"
+			+ "Secondary unified instruction/data cache size: 8 Mbytes on Processor 0\n"
+			+ "Secondary unified instruction/data cache size: 8 Mbytes on Processor 1\n"
+			+ "Integral SCSI controller 0: Version QL12160 (Ultra160 Wide LVD)\n"
+			+ "  Disk drive: unit 1 on SCSI controller 0 (SEAGATE ST336752LW 15K)\n"
+			+ "Integral Fast Ethernet: ef0, version 1, pci 2\n"
+			+ "Odyssey graphics (VPro V12) installed: 128MB texture memory, 48-bit RGBA\n"
+			+ "RAD Audio Processor: version 2 revision 0"
+		),
+		"uname -ra": "IRIX64 octane2 6.5 6.5.22m 10070055 IP30",
+		"uname -a": "IRIX64 octane2 6.5 10070055 IP30",
+		"df -k": (
+			"Filesystem             Type  kbytes     use     avail  %use Mounted on\n"
+			+ "/dev/root              xfs  35482624  8412960 27069664  24%  /\n"
+			+ "/hw                    hwgfs       0        0        0   0%  /hw\n"
+			+ "renderfarm:/shots      nfs  289401200 194120000 95281200 68%  /hosts/renderfarm"
+		),
+		"versions": (
+			"I = Installed, R = Removed\n\n"
+			+ "   Name                 Date      Description\n"
+			+ "I  eoe                  10/20/03  IRIX Execution Environment 6.5.22m\n"
+			+ "I  ftn77_dev            10/20/03  MIPSpro Fortran 77 Compiler 7.4.1\n"
+			+ "I  c++_dev              10/20/03  MIPSpro C++ Compiler 7.4.1\n"
+			+ "I  opengl_glx           10/20/03  OpenGL 1.2 ARB VPro Odyssey Drivers\n"
+			+ "I  maya_unlimited       10/20/03  Alias|Wavefront Maya 5.0 for IRIX\n"
+			+ "I  prman                10/20/03  Pixar PhotoRealistic RenderMan 11.5"
+		),
+		"gr_osview": (
+			"gr_osview (octane2 IP30):\n"
+			+ "  CPU0 [R14k 600MHz] : usr 14% | sys  4% | intr 1% | idle 81%\n"
+			+ "  CPU1 [R14k 600MHz] : usr  9% | sys  2% | intr 0% | idle 89%\n"
+			+ "  Odyssey V12 DMA    : 184 MB/s Geometry & Texture Fill\n"
+			+ "  Memory (2048 MB)   : Kernel 192M | FsCtl 410M | Free 1446M"
+		),
+		"ls": "Desktop  MayaProjects  RenderMan_RIBs  buttonfly.c  demo_dinosaur.obj  twilight"
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "winterm - octane2:/usr/people/vfx",
+			"type": "terminal",
+			"pos": Vector2(145, 52),
+			"size": Vector2(560, 345),
+			"content": ""
+		},
+		{
+			"id": "grosview",
+			"title": "gr_osview - octane2",
+			"type": "monitor",
+			"pos": Vector2(540, 375),
+			"size": Vector2(445, 275),
+			"content": (
+				"SGI Octane2 (IP30) // Dual MIPS R14000A @ 600MHz\n"
+				+ "====================================================\n"
+				+ "CPU 0 Activity : [||||................]  18% (User/Sys)\n"
+				+ "CPU 1 Activity : [||..................]  11% (User/Sys)\n"
+				+ "VPro V12 GFX   : [|||||...............]  24% (OpenGL FIFO)\n"
+				+ "XBOW Crossbar  : [|||.................] 240 MB/s\n"
+				+ "PhysMem (2GB)  : [||||||..............] 602 MB / 2048 MB\n"
+				+ "Cheetah 15K I/O: /dev/dsk/dks0d1s0 (XFS Clean)"
+			)
+		},
+		{
+			"id": "showcase",
+			"title": "IRIS Showcase / Maya 5.0 Render Queue",
+			"type": "text",
+			"pos": Vector2(135, 420),
+			"size": Vector2(390, 230),
+			"content": (
+				"File  Edit  View  Render  Shader  Help\n"
+				+ "--------------------------------------------------\n"
+				+ "Scene : /usr/people/vfx/MayaProjects/ep2_ship.mb\n"
+				+ "Engine: VPro V12 Hardware 48-Bit RGBA + Z-Buffer\n"
+				+ "Audio : RAD PCI Digital Audio (48kHz 24-bit AES)\n\n"
+				+ "Tip: Run 'hinv' or 'versions' in winterm to inspect\n"
+				+ "the Octane2 hardware inventory and MIPSpro compilers."
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_winterm", "label": "winterm", "glyph": "[>_]", "target_window_id": "terminal"},
+		{"id": "icon_osview", "label": "gr_osview", "glyph": "[SGI]", "target_window_id": "grosview"},
+		{"id": "icon_maya", "label": "Showcase\n3D", "glyph": "[V12]", "target_window_id": "showcase"}
+	]
+
+	p.fan_base_freq = 140.0
+	p.fan_noise_level = 0.32
+	p.hdd_seek_interval_range = Vector2(1.9, 4.8)
+	return p

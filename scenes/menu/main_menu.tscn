@@ -1,0 +1,237 @@
+[gd_scene load_steps=2 format=3 uid="uid://a9m2p6v4w8k3c"]
+
+[ext_resource type="Script" path="res://scenes/menu/main_menu.gd" id="1_menu"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.054902, 0.0705882, 0.0941176, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 46
+
+[node name="MainVBox" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="HeaderPanel" type="PanelContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+
+[node name="HeaderMargin" type="MarginContainer" parent="MarginContainer/MainVBox/HeaderPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="HeaderVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/HeaderPanel/HeaderMargin"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/MainVBox/HeaderPanel/HeaderMargin/HeaderVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.92, 0.65, 1)
+theme_override_font_sizes/font_size = 20
+text = "RETRO_OS // AMBIENT WORKSTATION & OS VIBE SIMULATOR"
+
+[node name="SubtitleLabel" type="Label" parent="MarginContainer/MainVBox/HeaderPanel/HeaderMargin/HeaderVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.76, 0.84, 1)
+theme_override_font_sizes/font_size = 12
+text = "KVM Master Switch v2.4 — Select a historical workstation architecture to initialize BIOS POST & boot sequence"
+
+[node name="ContentHBox" type="HBoxContainer" parent="MarginContainer/MainVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+
+[node name="LeftSelectorPanel" type="PanelContainer" parent="MarginContainer/MainVBox/ContentHBox"]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+
+[node name="SelectorMargin" type="MarginContainer" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="SelectorVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel/SelectorMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SelectorHeader" type="Label" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel/SelectorMargin/SelectorVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.8, 0.45, 1)
+theme_override_font_sizes/font_size = 13
+text = "AVAILABLE WORKSTATION PROFILES"
+
+[node name="SelectorSep" type="HSeparator" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel/SelectorMargin/SelectorVBox"]
+layout_mode = 2
+
+[node name="OSListScroll" type="ScrollContainer" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel/SelectorMargin/SelectorVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="OSListVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/LeftSelectorPanel/SelectorMargin/SelectorVBox/OSListScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="RightPreviewPanel" type="PanelContainer" parent="MarginContainer/MainVBox/ContentHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PreviewMargin" type="MarginContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
+
+[node name="PreviewVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PreviewTitle" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Ubuntu 7.04 (Feisty Fawn)"
+autowrap_mode = 3
+
+[node name="PreviewMeta" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.55, 0.82, 0.96, 1)
+theme_override_font_sizes/font_size = 13
+text = "Canonical Ltd. • Released 2007"
+autowrap_mode = 3
+
+[node name="SpecsPanel" type="PanelContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+layout_mode = 2
+
+[node name="SpecsMargin" type="MarginContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SpecsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="SpecsVBox" type="VBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SpecsPanel/SpecsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="ArchValue" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SpecsPanel/SpecsMargin/SpecsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Architecture : i686"
+autowrap_mode = 3
+
+[node name="HardwareValue" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SpecsPanel/SpecsMargin/SpecsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Hardware     : Dell OptiPlex"
+autowrap_mode = 3
+
+[node name="ShellValue" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SpecsPanel/SpecsMargin/SpecsVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "Terminal     : bash"
+autowrap_mode = 3
+
+[node name="DescriptionLabel" type="RichTextLabel" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/default_color = Color(0.84, 0.87, 0.9, 1)
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+scroll_active = true
+autowrap_mode = 3
+text = "Operating system historical profile description."
+
+[node name="SwatchRow" type="HBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="SwatchLabel" type="Label" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SwatchRow"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.75, 0.8, 1)
+theme_override_font_sizes/font_size = 12
+text = "UI Theme Palette:"
+
+[node name="SwatchDesktop" type="ColorRect" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SwatchRow"]
+custom_minimum_size = Vector2(36, 20)
+layout_mode = 2
+
+[node name="SwatchTitlebar" type="ColorRect" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SwatchRow"]
+custom_minimum_size = Vector2(36, 20)
+layout_mode = 2
+
+[node name="SwatchWindow" type="ColorRect" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SwatchRow"]
+custom_minimum_size = Vector2(36, 20)
+layout_mode = 2
+
+[node name="SwatchTerminal" type="ColorRect" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/SwatchRow"]
+custom_minimum_size = Vector2(36, 20)
+layout_mode = 2
+
+[node name="AudioBenchRow" type="HBoxContainer" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TestChimeBtn" type="Button" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/AudioBenchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text = "🔊 Login Chime"
+clip_text = true
+
+[node name="TestHDDBtn" type="Button" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/AudioBenchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text = "🖴 Test HDD"
+clip_text = true
+
+[node name="TestFloppyBtn" type="Button" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox/AudioBenchRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+theme_override_font_sizes/font_size = 12
+text = "💾 Test Floppy"
+clip_text = true
+
+[node name="BootButton" type="Button" parent="MarginContainer/MainVBox/ContentHBox/RightPreviewPanel/PreviewMargin/PreviewVBox"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 1, 0.65, 1)
+theme_override_font_sizes/font_size = 16
+text = "⚡ POWER ON & BOOT WORKSTATION"
+clip_text = true
+

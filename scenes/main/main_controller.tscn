@@ -1,0 +1,137 @@
+[gd_scene load_steps=4 format=3 uid="uid://e2q7v5n8x1k9d"]
+
+[ext_resource type="Script" path="res://scenes/main/main_controller.gd" id="1_main"]
+[ext_resource type="Shader" path="res://assets/shaders/crt_monitor.gdshader" id="2_crt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
+shader = ExtResource("2_crt")
+shader_parameter/scanline_opacity = 0.13
+shader_parameter/scanline_count = 384.0
+shader_parameter/vignette_intensity = 0.2
+shader_parameter/curvature = 0.012
+
+[node name="MainController" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main")
+
+[node name="StageContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ChassisBezel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -32.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="BezelMargin" type="MarginContainer" parent="ChassisBezel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BezelHBox" type="HBoxContainer" parent="ChassisBezel/BezelMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PwrLedRect" type="ColorRect" parent="ChassisBezel/BezelMargin/BezelHBox"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2, 0.95, 0.35, 1)
+
+[node name="PwrLabel" type="Label" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.78, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "PWR"
+
+[node name="HDDLedRect" type="ColorRect" parent="ChassisBezel/BezelMargin/BezelHBox"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.2, 0.12, 0.06, 1)
+
+[node name="HDDLabel" type="Label" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.78, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "HDD"
+
+[node name="FDDLedRect" type="ColorRect" parent="ChassisBezel/BezelMargin/BezelHBox"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 4
+color = Color(0.08, 0.2, 0.1, 1)
+
+[node name="FDDLabel" type="Label" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.78, 0.8, 1)
+theme_override_font_sizes/font_size = 11
+text = "FDD"
+
+[node name="BezelSep1" type="VSeparator" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+
+[node name="ActiveOSLabel" type="Label" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.55, 0.85, 0.95, 1)
+theme_override_font_sizes/font_size = 12
+text = "KVM: OS SELECTOR"
+
+[node name="FanToggleBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "Fan: ON"
+
+[node name="HDDToggleBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "HDD Chatter: ON"
+
+[node name="FloppySeekBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "Seek A:"
+
+[node name="CRTToggleBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "CRT (F2): ON"
+
+[node name="KVMSwitchBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 11
+text = "KVM / Reboot (F12)"
+
+[node name="CRTLayer" type="CanvasLayer" parent="."]
+layer = 10
+
+[node name="CRTOverlayRect" type="ColorRect" parent="CRTLayer"]
+material = SubResource("ShaderMaterial_crt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
