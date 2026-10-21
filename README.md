@@ -6,6 +6,8 @@
 
 **RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 17 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
 
+![RetroOS Main Menu KVM Switch](screenshot_main_menu.png)
+
 ---
 
 ## ✨ Included Operating Systems & Workstations (Chronological: 2007 → 1985)
