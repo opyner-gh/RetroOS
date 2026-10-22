@@ -4,7 +4,7 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![GDScript 2.0](https://img.shields.io/badge/GDScript-2.0-blue)
 
-**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 19 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
+**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 20 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
 
 ![RetroOS Main Menu KVM Switch](screenshot_main_menu.png)
 
@@ -95,7 +95,7 @@ RetroOS/
 
 ## 🏛️ Wikipedia-Inspired Digital Computing Codex & Exhibit Packages
 
-Each of the 19 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
+Each of the 20 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
 
 1. **Hideable Catalog Sidebar (`[ ☰ Hide Sidebar [Tab] ]`)**:
    - Collapse or expand the left computer selection drawer at any time (via the top-left button or the `Tab` key) to read the Codex in full-width museum view, filter by category, or search across CPUs, vendors, and release years.
@@ -261,4 +261,17 @@ Click inside any terminal window and type commands (`Up` / `Down` arrows navigat
 3. Press **F5** (Run Project).
    - Use **F2** to toggle the CRT scanline shader.
    - Use **F12** to return to the KVM OS Selector at any time.
+
+---
+
+## 🔮 Future Roadmap & Desired Features
+
+The RetroOS technical archive and simulator is continuously evolving. Planned enhancements and future curatorial targets include:
+
+- **Welcome & Introduction Portal**: Opening the application directly to an introductory main page featuring an interactive project overview and curated README guide prior to entering the museum catalog or launching emulators.
+- **Expanded Hardware & OS Coverage**: Curating additional computer systems spanning distinct eras, architectures, and professional use cases (e.g., early business mainframes/minicomputer terminals, portable laptops, scientific workstations, CAD/CAM graphics accelerators, and specialized audio/video production rigs).
+- **Physical Acoustic Sample Library**: Expanding beyond procedural audio synthesis by incorporating high-fidelity sound recordings of real vintage hardware, including authentic IDE, SCSI, and MFM hard drives, 5.25" and 3.5" floppy disk drives, ATAPI/SCSI CD-ROM optical drives, and period-correct axial chassis fan hums.
+- **Archival Photography & In-Situ Visuals**: Archiving photographs of actual historical systems and components, as well as generated images illustrating workstations situated *in situ* within their authentic, period-correct operational use cases.
+- **Original Startup Audio, Splash Screens & Desktop Art**: Sourcing original digital audio files and recordings of historical system boot chimes, implementing graphical OS loading splash screens and login display managers, and bundling authentic copies or faithful renditions of original default desktop backgrounds.
+- **International Typography Support (CJK & Cyrillic)**: Integrating support for CJK (Chinese, Japanese, Korean) and Cyrillic fonts to authentically exhibit historically significant international operating systems, workstations, and personal computers (e.g., NEC PC-9801/PC-8801, Fujitsu FM Towns, Sharp X68000, Soviet DVK / Elektronika BK series, and localized UNIX environments).
 
