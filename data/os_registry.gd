@@ -7,6 +7,7 @@ extends RefCounted
 const OSProfile = preload("res://data/os_profile.gd")
 const CatalogUnixBeos = preload("res://data/catalog_unix_beos.gd")
 const CatalogMacRetro = preload("res://data/catalog_mac_retro.gd")
+const ExhibitCodex = preload("res://data/exhibit_codex.gd")
 const CUSTOM_PROFILES_DIR := "res://data/profiles"
 
 static func get_all_profiles() -> Array[OSProfile]:
@@ -36,6 +37,10 @@ static func get_all_profiles() -> Array[OSProfile]:
 						profiles.append(res)
 				file_name = dir.get_next()
 			dir.list_dir_end()
+
+	# Populate comprehensive Museum Exhibit & Codex Packages for all systems
+	for p in profiles:
+		ExhibitCodex.enrich_profile(p)
 
 	# Sort chronological: newest at top (descending), oldest at bottom
 	profiles.sort_custom(func(a: OSProfile, b: OSProfile) -> bool:

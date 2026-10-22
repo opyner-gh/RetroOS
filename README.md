@@ -52,6 +52,8 @@ RetroOS/
 │   │   ├── ambient/                  # Optional fan_hum.ogg override
 │   │   ├── sfx/                      # Optional hdd_click.ogg, floppy_seek.ogg, post_beep.ogg
 │   │   └── startup/                  # Optional <os_id>.ogg login sound overrides
+│   ├── exhibits/                     # Historical or generated images (<os_id>/system|hardware|software.png)
+│   │   └── README.md
 │   ├── fonts/
 │   └── shaders/
 │       └── crt_monitor.gdshader      # CRT scanline, vignette & barrel curvature shader
@@ -59,16 +61,20 @@ RetroOS/
 │   ├── game_state.gd                 # Global state singleton (GameState)
 │   └── audio_manager.gd              # Procedural 16-bit PCM & sample audio engine (AudioManager)
 ├── data/
-│   ├── os_profile.gd                 # Custom Resource class (OSProfile)
+│   ├── os_profile.gd                 # Custom Resource class (OSProfile + Museum Exhibit fields)
 │   ├── os_registry.gd                # Built-in OS definitions + res://data/profiles/ scanner
+│   ├── exhibit_codex.gd              # Museum Exhibit coordinator & runtime image importer
+│   ├── exhibit_codex_modern.gd       # Archival Exhibit Packages (2000–2007 systems)
+│   ├── exhibit_codex_classic.gd      # Archival Exhibit Packages (1985–1999 systems)
 │   └── profiles/                     # Drop-in directory for future .tres OSProfile resources
 └── scenes/
     ├── main/
     │   ├── main_controller.tscn      # Root scene with Chassis Bezel LEDs & CRT CanvasLayer
     │   └── main_controller.gd
     ├── menu/
-    │   ├── main_menu.tscn            # KVM Workstation Selector & Audio Test Bench
-    │   └── main_menu.gd
+    │   ├── main_menu.tscn            # 1280x720 Wikipedia-style Digital Computing Codex & Hideable Sidebar
+    │   ├── main_menu.gd
+    │   └── exhibit_plate_renderer.gd # Renders custom archival images or procedural blueprint plates
     ├── boot/
     │   ├── boot_sequence.tscn        # BIOS POST & period-correct boot text crawl
     │   └── boot_sequence.gd
@@ -81,6 +87,27 @@ RetroOS/
             ├── retro_terminal.tscn   # Interactive command prompt with command history
             └── retro_terminal.gd
 ```
+
+---
+
+## 🏛️ Wikipedia-Inspired Digital Computing Codex & Exhibit Packages
+
+Each of the 17 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
+
+1. **Hideable Catalog Sidebar (`[ ☰ Hide Sidebar [Tab] ]`)**:
+   - Collapse or expand the left computer selection drawer at any time (via the top-left button or the `Tab` key) to read the Codex in full-width museum view, filter by category, or search across CPUs, vendors, and release years.
+2. **Dual Reading Modes (`[ 📖 Wiki Light Mode / 🌙 Dark Archive Mode ]`)**:
+   - Switch instantly between high-contrast **Dark Archival Mode** and classic **Wikipedia Parchment Light Mode** (`#f8f9fa` / `#ffffff` article sheets with `#eaecf0` rules).
+3. **Encyclopedic Article Column**:
+   - **Lead Summary & Numbered Table of Contents (`Contents`)**
+   - **Section 1 — Historical Context & Origins**: Corporate history, market dynamics, and development milestones.
+   - **Section 2 — Architecture & Engineering Innovations**: Deep-dive into CPU silicon, bus interconnects, graphics pipelines, and kernel/filesystem design.
+   - **Section 3 — Period-Correct Usage Cases & Real-World Deployment**: Three structured case study dossiers per system detailing authentic operator roles, period software stacks, and real-world workflows.
+   - **Section 4 — Cultural Legacy & Archival Significance**
+   - **Section 5 — Curatorial Media & Image Archive**: Three image slots per machine (`system`, `hardware`, `software`) with live file attachment (`[ 📂 Attach Image... ]`) and automatic loading from `res://assets/exhibits/<os_id>/` (falling back to custom procedural vector blueprint plates when no external bitmap is present).
+   - **Section 6 — Emulated Firmware, BIOS POST & Terminal Command Manifest**
+4. **Right-Hand Wikipedia Infobox (`Infobox computing_system`)**:
+   - Features the interactive 3-slot exhibit viewer (`🖥 System`, `🔬 Hardware`, `🪟 Software`), 18-row structured technical specification table, UI theme color swatches, hardware audio test bench, and the **`⚡ POWER ON & BOOT`** button.
 
 ---
 
@@ -106,24 +133,23 @@ MainController (Control) [main_controller.gd]
     └── CRTOverlayRect (ColorRect)            # crt_monitor.gdshader (mouse_filter = IGNORE)
 ```
 
-### 2. Main Menu (`scenes/menu/main_menu.tscn`)
+### 2. Main Menu / Digital Museum Codex (`scenes/menu/main_menu.tscn`)
 ```text
 MainMenu (Control) [main_menu.gd]
 ├── Background (ColorRect)
 └── MarginContainer (MarginContainer)
     └── MainVBox (VBoxContainer)
-        ├── HeaderPanel (PanelContainer)      # KVM Switch Title Banner
+        ├── HeaderPanel (PanelContainer)      # Sidebar Toggle [Tab], Search Bar, Wiki Light/Dark Toggle
         └── ContentHBox (HBoxContainer)
-            ├── LeftSelectorPanel (PanelContainer)
-            │   └── ... -> OSListVBox (VBoxContainer)  # Populated from GameState.available_profiles
-            └── RightPreviewPanel (PanelContainer)
+            ├── LeftSelectorPanel (PanelContainer)     # Hideable Computer Selection Sidebar
+            │   └── ... -> OSListVBox (VBoxContainer)  # Chronological 2007 -> 1985 Catalog
+            └── RightPreviewPanel (PanelContainer)     # Wikipedia-Style Codex Workspace
                 └── ... -> PreviewVBox (VBoxContainer)
-                    ├── PreviewTitle / PreviewMeta (Label)
-                    ├── SpecsPanel (ArchValue, HardwareValue, ShellValue)
-                    ├── DescriptionLabel (RichTextLabel)
-                    ├── SwatchRow (Desktop, Titlebar, Window, Terminal ColorRects)
-                    ├── AudioBenchRow (TestChimeBtn, TestHDDBtn, TestFloppyBtn)
-                    └── BootButton (Button)
+                    ├── ArticleBannerHBox (PreviewTitle, PreviewMeta)
+                    ├── SectionNavHBox (Quick-Jump Section Filter Tabs)
+                    └── CodexScroll -> CodexColumnsHBox (HBoxContainer)
+                        ├── ArticleColumnVBox (DescriptionLabel, TOC, History, Usage Cases, Gallery)
+                        └── InfoboxPanel (ExhibitPlateRenderer, BootButton, AudioBenchRow, 18-Row SpecsTable)
 ```
 
 ### 3. BIOS & Boot Sequence (`scenes/boot/boot_sequence.tscn`)

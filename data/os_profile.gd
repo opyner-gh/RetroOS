@@ -63,3 +63,18 @@ extends Resource
 @export var fan_noise_level: float = 0.25
 @export var hdd_seek_interval_range: Vector2 = Vector2(2.8, 7.5)
 
+@export_group("Museum Exhibit & Codex Package")
+@export var exhibit_subtitle: String = ""
+@export var era_classification: String = ""
+@export_multiline var historical_overview: String = ""
+@export_multiline var historical_context: String = ""
+@export_multiline var engineering_innovations: String = ""
+@export_multiline var cultural_legacy: String = ""
+## Structured key-value pairs for the Wikipedia-style right-hand Infobox.
+@export var technical_specs: Dictionary = {}
+## Array of Dictionaries: { "title": String, "role": String, "software": String, "scenario": String }
+@export var usage_cases: Array[Dictionary] = []
+## Array of Dictionaries: { "slot_id": String, "title": String, "caption": String, "asset_path": String, "plate_type": String }
+@export var exhibit_images: Array[Dictionary] = []
+
+
