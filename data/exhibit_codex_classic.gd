@@ -705,15 +705,15 @@ static func _populate_apple_iie(p: OSProfile) -> void:
 
 
 # ==============================================================================
-# 9. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972) • CHRONOLOGICAL ENTRY #1
+# 9. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972)
 # GENESIS OF THE WORKSTATION & DIRECT ANCESTOR OF INTEL 8008 / X86
 # ==============================================================================
 static func _populate_datapoint_2200(p: OSProfile) -> void:
 	p.exhibit_subtitle = "Genesis of the Personal Workstation & Direct Architectural Ancestor of the Intel 8008 / x86 Architecture"
-	p.era_classification = "Chronological Entry #1 // Pioneering Workstation & Pre-Microprocessor Discrete Computing Era (1970–1973)"
+	p.era_classification = "Pioneering Workstation & Pre-Microprocessor Discrete Computing Era (1970–1973)"
 	p.historical_overview = (
-		"Standing as the chronological first entry in the RetroOS Digital Computing Codex, the Datapoint 2200 marks the historical "
-		+ "genesis of the modern personal workstation. Conceived in 1969–1970 and first delivered in 1971 by Computer Terminal Corporation "
+		"The Datapoint 2200 marks the historical genesis of the modern personal workstation. "
+		+ "Conceived in 1969–1970 and first delivered in 1971 by Computer Terminal Corporation "
 		+ "(CTC) of San Antonio, Texas—founded by Phil Ray and Gus Roche—the Datapoint 2200 was engineered intentionally to occupy the "
 		+ "exact footprint of an IBM Selectric typewriter. Rather than serving as merely an interactive 'glass teletype' terminal, the 2200 "
 		+ "was a self-contained, fully programmable 8-bit general-purpose computer integrating an internal curved 7-inch green CRT display "
@@ -762,7 +762,7 @@ static func _populate_datapoint_2200(p: OSProfile) -> void:
 		+ "system (Datashare) and the first commercial token-passing local area network (ARCNET)."
 	)
 	p.cultural_legacy = (
-		"As Entry #1 in the RetroOS Digital Computing Codex, the Datapoint 2200 represents the dawn of personal workstation computing. "
+		"The Datapoint 2200 represents the dawn of personal workstation computing. "
 		+ "Recognized by technical archivist and computing historian consensus as the architectural parent of the x86 microprocessor family "
 		+ "and the pioneer of distributed business data processing, it proved that computing power belonged on the operator's desk rather "
 		+ "than locked inside a glass mainframe room."

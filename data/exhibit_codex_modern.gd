@@ -795,23 +795,22 @@ static func _populate_solaris_8(p: OSProfile) -> void:
 
 
 # ==============================================================================
-# 10. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010 • FINAL CODEX ENTRY #19
+# 10. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010
 # THE ALEXNET WORKSTATION (2012) & THE PARADIGM SHIFT TO MODERN GPU AI
 # ==============================================================================
 static func _populate_ubuntu_1004(p: OSProfile) -> void:
 	p.exhibit_subtitle = "Canonical's Ambiance Redesign, Impending Move to Unity & The AlexNet AI Hardware Zero-Point (2012)"
-	p.era_classification = "Final Codex Entry #19 // Dawn of the Modern Deep Learning & GPU Compute Age (2010–2012)"
+	p.era_classification = "Dawn of the Modern Deep Learning & GPU Compute Age (2010–2012)"
 	p.historical_overview = (
-		"Standing as the 19th and final entry in the RetroOS Digital Computing Codex, Ubuntu 10.04 LTS ('Lucid Lynx') "
-		+ "marks the historical boundary between vintage, CPU-bound interactive personal computing and the modern era of "
-		+ "massive parallel GPU compute and artificial intelligence. Released on April 29, 2010 by Canonical Ltd., Lucid Lynx "
-		+ "was celebrated as the pinnacle of the classic GNOME 2 desktop, introducing Canonical's dramatic 'Light: Soft Software' "
-		+ "visual redesign with the dark aubergine 'Ambiance' theme and the controversial relocation of window controls to the top-left—a "
-		+ "calculated architectural maneuver preparing the community for the impending arrival of the vertical Unity shell in 10.10 "
-		+ "and 11.04. Two years later, in 2012, this precise low-overhead Linux environment became the unsung software foundation "
-		+ "for the 'AlexNet' workstation assembled by University of Toronto researchers Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, "
-		+ "whose groundbreaking dual-GPU deep convolutional neural network shattered the ImageNet computer vision benchmark and sparked "
-		+ "the global artificial intelligence revolution."
+		"Ubuntu 10.04 LTS ('Lucid Lynx') marks the historical boundary between vintage, CPU-bound interactive personal "
+		+ "computing and the modern era of massive parallel GPU compute and artificial intelligence. Released on April 29, 2010 "
+		+ "by Canonical Ltd., Lucid Lynx was celebrated as the pinnacle of the classic GNOME 2 desktop, introducing Canonical's "
+		+ "dramatic 'Light: Soft Software' visual redesign with the dark aubergine 'Ambiance' theme and the controversial relocation "
+		+ "of window controls to the top-left—a calculated architectural maneuver preparing the community for the impending arrival "
+		+ "of the vertical Unity shell in 10.10 and 11.04. Two years later, in 2012, this precise low-overhead Linux environment became "
+		+ "the unsung software foundation for the 'AlexNet' workstation assembled by University of Toronto researchers Alex Krizhevsky, "
+		+ "Ilya Sutskever, and Geoffrey Hinton, whose groundbreaking dual-GPU deep convolutional neural network shattered the ImageNet "
+		+ "computer vision benchmark and sparked the global artificial intelligence revolution."
 	)
 	p.historical_context = (
 		"The historical significance of Ubuntu 10.04 LTS bridges two pivotal revolutions in computing history:\n\n"
@@ -864,8 +863,8 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		+ "controls, Plymouth kernel boot splash, and the final Long Term Support release of classic GNOME 2."
 	)
 	p.cultural_legacy = (
-		"As the 19th and final entry in the RetroOS Digital Computing Codex, the Ubuntu 10.04 AlexNet workstation stands as the monumental "
-		+ "bridge between the historical computer museum and the modern technological era. In 1972, the Datapoint 2200 proved that computing "
+		"The Ubuntu 10.04 AlexNet workstation stands as the monumental bridge between the historical computer museum "
+		+ "and the modern technological era. In 1972, the Datapoint 2200 proved that computing "
 		+ "power belonged on an individual operator's desk; exactly 40 years later in 2012, this Ubuntu workstation proved that off-the-shelf "
 		+ "consumer graphics hardware and open-source Linux could breathe cognitive life into deep artificial neural networks—igniting "
 		+ "the generative AI, computer vision, and large language model revolution that defines our modern world."

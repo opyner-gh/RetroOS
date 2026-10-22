@@ -1270,7 +1270,7 @@ static func _build_sgi_irix() -> OSProfile:
 
 
 # ==============================================================================
-# 8. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972) • CHRONOLOGICAL ENTRY #1
+# 8. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972)
 # GENESIS OF THE WORKSTATION & DIRECT ANCESTOR OF INTEL 8008 / X86
 # ==============================================================================
 static func _build_datapoint_2200() -> OSProfile:
@@ -1461,7 +1461,7 @@ static func _build_datapoint_2200() -> OSProfile:
 
 
 # ==============================================================================
-# 9. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010 • CHRONOLOGICAL FINAL ENTRY #19
+# 9. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010
 # THE ALEXNET WORKSTATION (2012) & THE PARADIGM SHIFT TO MODERN GPU AI
 # ==============================================================================
 static func _build_ubuntu_1004() -> OSProfile:
@@ -1481,7 +1481,7 @@ static func _build_ubuntu_1004() -> OSProfile:
 		+ "In 2011–2012 at the University of Toronto, researchers Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton "
 		+ "deployed Ubuntu 10.04 to host 'cuda-convnet' across two high-wattage NVIDIA GeForce GTX 580 Fermi GPUs—splitting "
 		+ "the 60-million parameter AlexNet neural network in half and shattering the ImageNet benchmark (15.3% error vs 26.2%), "
-		+ "marking the paradigm shift to modern compute-driven AI as the final entry in the RetroOS Codex."
+		+ "marking the paradigm shift to modern compute-driven AI."
 	)
 
 	p.bios_header = (
@@ -1608,7 +1608,7 @@ static func _build_ubuntu_1004() -> OSProfile:
 		),
 		"info": (
 			"Ubuntu 10.04 LTS 'Lucid Lynx' // AlexNet Workstation (2012)\n"
-			+ "Final Codex Entry #19 • Hardware Zero-Point of Modern Deep Learning\n"
+			+ "Hardware Zero-Point of Modern Deep Learning & GPU Acceleration\n"
 			+ "Intel Core i7-3930K • 2x NVIDIA GeForce GTX 580 3GB • GNOME 2.30 Ambiance"
 		)
 	}

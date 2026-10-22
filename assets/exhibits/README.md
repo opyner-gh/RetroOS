@@ -26,7 +26,7 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 
 | Folder Path | System & Operating System Exhibit |
 | :--- | :--- |
-| `res://assets/exhibits/datapoint_2200/` | **Datapoint DOS 2.1 (Datapoint 2200)** — CTC 8-Bit Discrete TTL Workstation & Diablo 2.5MB Disk (1972) • Chronological Entry #1 |
+| `res://assets/exhibits/datapoint_2200/` | **Datapoint DOS 2.1 (Datapoint 2200)** — CTC 8-Bit Discrete TTL Workstation & Diablo 2.5MB Disk (1972) |
 | `res://assets/exhibits/apple_iie/` | **Apple IIe Enhanced** — Apple //e 65C02 with DuoDisk & Monitor // (1985) |
 | `res://assets/exhibits/amiga_os31/` | **Commodore AmigaOS 3.1** — Commodore Amiga 3000 (1993) |
 | `res://assets/exhibits/mac_sys75/` | **Mac OS System 7.5.3** — Apple Macintosh Quadra 840AV (1995) |
@@ -44,5 +44,5 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 | `res://assets/exhibits/winxp_alienware/` | **Windows XP Pro SP2** — Alienware Area-51 'Predator' P4 Extreme (2003) |
 | `res://assets/exhibits/freebsd_411/` | **FreeBSD 4.11-STABLE** — Supermicro P3TDDE Dual Pentium III (2004) |
 | `res://assets/exhibits/ubuntu_704/` | **Ubuntu 7.04 (Feisty Fawn)** — Dell OptiPlex GX620 (2007) |
-| `res://assets/exhibits/ubuntu_1004/` | **Ubuntu 10.04 LTS (Lucid Lynx)** — AlexNet Dual-GTX 580 AI Workstation (2010/2012) • Final Codex Entry #19 |
+| `res://assets/exhibits/ubuntu_1004/` | **Ubuntu 10.04 LTS (Lucid Lynx)** — AlexNet Dual-GTX 580 AI Workstation (2010/2012) |
 
