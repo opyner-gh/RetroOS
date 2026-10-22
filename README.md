@@ -4,13 +4,13 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![GDScript 2.0](https://img.shields.io/badge/GDScript-2.0-blue)
 
-**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 18 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
+**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 19 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
 
 ![RetroOS Main Menu KVM Switch](screenshot_main_menu.png)
 
 ---
 
-## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2007)
+## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2010)
 
 | OS Profile & Machine | Era | Firmware & Bootloader | Desktop Environment & Chrome | Shell & Prompt |
 | :--- | :---: | :--- | :--- | :--- |
@@ -32,6 +32,7 @@
 | **Windows XP Pro SP2 (Alienware Area-51)** | 2003 | AMIBIOS + Promise FastTrak RAID-0 (`2x WD Raptor 10K`) → `NTLDR` | Alienware *Predator* Full-Tower rig • Luna Blue & Green `start` bar + AlienAdrenaline | `cmd.exe` (`C:\Documents and Settings\Area51>`) |
 | **FreeBSD 4.11-STABLE** | 2004 | Beastie Boot Menu (Dual-Pentium III SMP) → `/boot/kernel` | FreeBSD C-shell / XFree86 4.3 twm | `tcsh` (`daemonic#`) |
 | **Ubuntu 7.04 (Feisty Fawn)** | 2007 | PhoenixBIOS 4.0 → GRUB 0.97 → Linux `2.6.20-15-generic` | GNOME 2.18 *Human* theme (Top & Bottom Panels, amber titlebars) | `bash` (`user@feisty-desktop:~$`) |
+| **Ubuntu 10.04 LTS (AlexNet Workstation)** | 2010 | AMI EFI BIOS (ASUS P9X79 Dual GTX 580) → GRUB 1.98 → Linux `2.6.32-21` (CUDA 4.2) | GNOME 2.30 *Ambiance* aubergine theme (Left-aligned window controls) | `bash` (`alex@alexnet-node0:~$`) |
 
 > **Extensible Architecture:** Adding new operating systems requires either registering a new `OSProfile` entry in `data/os_registry.gd` or dropping a `.tres` `OSProfile` resource file into `res://data/profiles/`. The KVM selector automatically sorts all profiles chronologically (earliest/oldest at the top, newest/latest at the bottom).
 
@@ -93,7 +94,7 @@ RetroOS/
 
 ## 🏛️ Wikipedia-Inspired Digital Computing Codex & Exhibit Packages
 
-Each of the 18 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
+Each of the 19 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
 
 1. **Hideable Catalog Sidebar (`[ ☰ Hide Sidebar [Tab] ]`)**:
    - Collapse or expand the left computer selection drawer at any time (via the top-left button or the `Tab` key) to read the Codex in full-width museum view, filter by category, or search across CPUs, vendors, and release years.

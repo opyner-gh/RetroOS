@@ -11,6 +11,9 @@ static func populate(p: OSProfile) -> bool:
 		"ubuntu_704":
 			_populate_ubuntu_704(p)
 			return true
+		"ubuntu_1004":
+			_populate_ubuntu_1004(p)
+			return true
 		"freebsd_411":
 			_populate_freebsd_411(p)
 			return true
@@ -788,6 +791,133 @@ static func _populate_solaris_8(p: OSProfile) -> void:
 		"Twin UltraSPARC II ceramic modules with 4MB external SRAM caches and the vertical Creator3D 3DRAM UPA card.",
 		"Fig 3. Solaris 8 CDE 1.4 Desktop with Sun Lavender/Teal Palette & OpenBoot Console",
 		"Signature Sun purple/teal CDE workspace, chiseled Front Panel, and dtterm running prtconf and psrinfo."
+	)
+
+
+# ==============================================================================
+# 10. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010 • FINAL CODEX ENTRY #19
+# THE ALEXNET WORKSTATION (2012) & THE PARADIGM SHIFT TO MODERN GPU AI
+# ==============================================================================
+static func _populate_ubuntu_1004(p: OSProfile) -> void:
+	p.exhibit_subtitle = "Canonical's Ambiance Redesign, Impending Move to Unity & The AlexNet AI Hardware Zero-Point (2012)"
+	p.era_classification = "Final Codex Entry #19 // Dawn of the Modern Deep Learning & GPU Compute Age (2010–2012)"
+	p.historical_overview = (
+		"Standing as the 19th and final entry in the RetroOS Digital Computing Codex, Ubuntu 10.04 LTS ('Lucid Lynx') "
+		+ "marks the historical boundary between vintage, CPU-bound interactive personal computing and the modern era of "
+		+ "massive parallel GPU compute and artificial intelligence. Released on April 29, 2010 by Canonical Ltd., Lucid Lynx "
+		+ "was celebrated as the pinnacle of the classic GNOME 2 desktop, introducing Canonical's dramatic 'Light: Soft Software' "
+		+ "visual redesign with the dark aubergine 'Ambiance' theme and the controversial relocation of window controls to the top-left—a "
+		+ "calculated architectural maneuver preparing the community for the impending arrival of the vertical Unity shell in 10.10 "
+		+ "and 11.04. Two years later, in 2012, this precise low-overhead Linux environment became the unsung software foundation "
+		+ "for the 'AlexNet' workstation assembled by University of Toronto researchers Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton, "
+		+ "whose groundbreaking dual-GPU deep convolutional neural network shattered the ImageNet computer vision benchmark and sparked "
+		+ "the global artificial intelligence revolution."
+	)
+	p.historical_context = (
+		"The historical significance of Ubuntu 10.04 LTS bridges two pivotal revolutions in computing history:\n\n"
+		+ "1. THE AMBIANCE REDESIGN & THE IMPENDING MOVE TO UNITY:\n"
+		+ "In early 2010, Canonical founder Mark Shuttleworth unveiled a bold new brand identity for Ubuntu entitled 'Light'. "
+		+ "Departing from the warm brown 'Human' palette that had defined Ubuntu since 4.10, 10.04 introduced 'Ambiance'—a sleek, "
+		+ "dark charcoal-and-aubergine aesthetic accented with vibrant orange. Most controversially, Canonical moved window control buttons "
+		+ "(close, minimize, maximize) from the top-right to the top-left corner. While fiercely debated by longtime UNIX desktop users, "
+		+ "this change was an intentional spatial precursor to Unity—Canonical's bespoke desktop shell designed to maximize vertical screen "
+		+ "real estate on netbooks and widescreen monitors by combining titlebars, global menu bars, and a vertical left-hand launcher dock. "
+		+ "Lucid Lynx would stand as the final Long Term Support release powered by classic GNOME 2.30, remembered fondly as one of the most "
+		+ "polished, rock-solid desktop operating systems ever created.\n\n"
+		+ "2. THE ALEXNET WORKSTATION (2012) — THE HARDWARE ZERO-POINT OF MODERN AI:\n"
+		+ "While modern AI infrastructure depends on hyperscale tensor server farms consuming megawatts of power, the modern deep learning "
+		+ "revolution was born on a single consumer-grade desktop computer running in a University of Toronto laboratory. Assembled by "
+		+ "Alex Krizhevsky, Ilya Sutskever, and pioneer Geoffrey Hinton, this enthusiast PC was engineered to train a deep convolutional "
+		+ "neural network (CNN) for the 2012 ImageNet Large Scale Visual Recognition Challenge (ILSVRC). For decades, artificial neural "
+		+ "networks had been dismissed by the academic establishment as computationally intractable. The U of T team recognized that modern "
+		+ "gaming GPUs, designed for high-throughput floating-point polygon rasterization, could be repurposed as massive parallel matrix engines.\n\n"
+		+ "3. THE LINUX/CUDA SOFTWARE STACK & CUDA-CONVNET:\n"
+		+ "The unsung foundation of this breakthrough was its operating system: Ubuntu 10.04 LTS. In 2011 and 2012, pushing the boundaries "
+		+ "of NVIDIA's CUDA toolkit demanded a frictionless, low-latency, bare-metal environment. Microsoft Windows was fundamentally "
+		+ "unsuited for the granular, custom C++ memory management and low-overhead PCIe peer-to-peer DMA streaming necessary to parallelize "
+		+ "a massive 60-million parameter neural network. Ubuntu provided the lightweight stability and direct kernel memory access that allowed "
+		+ "Alex Krizhevsky to write 'cuda-convnet'—his legendary custom C++/CUDA framework featuring hand-tuned assembly matrix multiplication "
+		+ "kernels. By eliminating operating system background bloat, Ubuntu dedicated virtually 100% of the machine's memory bandwidth and "
+		+ "CPU cycles to feeding the voracious GPU data pipeline.\n\n"
+		+ "4. MODEL PARALLELISM ACROSS DUAL FERMI GPUS & THE PARADIGM SHIFT:\n"
+		+ "Because the 60-million parameter network and its 650,000 neurons could not physically fit into the 3GB GDDR5 VRAM of a single card, "
+		+ "Krizhevsky ingeniously split the architecture across two NVIDIA GeForce GTX 580 GPUs utilizing the 40nm 'Fermi' microarchitecture. "
+		+ "One GPU processed the top half of the network while the second processed the bottom half, with the cards synchronizing activations "
+		+ "only at specific convolutional layers (Conv2, Conv4, Conv5, and FC6). A high-end 6-core Intel Core i7 processor ran on-the-fly data "
+		+ "augmentation—generating random 224x224 crops, horizontal reflections, and PCA color shifts from the 1.2 million ImageNet JPEGs before "
+		+ "streaming them across PCIe 2.0 buses. Running continuously at full 244W TDP per card for five to six days across 90 epochs, the rig "
+		+ "achieved over 2,200 forward passes per second. When the ILSVRC 2012 results were published, AlexNet achieved a top-5 test error rate "
+		+ "of 15.3%—obliterating the second-place traditional computer vision model (26.2%) by an unprecedented 10.9 percentage points. "
+		+ "This single Ubuntu-powered workstation catalyzed the worldwide transition away from manual feature extraction to end-to-end "
+		+ "deep learning, fundamentally launching the modern age of computing."
+	)
+	p.engineering_innovations = (
+		"• Model-Parallel Multi-GPU Deep Learning: First successful multi-GPU parallelization of a deep convolutional neural network, "
+		+ "splitting 60 million parameters and 650,000 neurons across two 3GB NVIDIA GeForce GTX 580 GPUs via PCIe peer-to-peer DMA.\n"
+		+ "• Alex Krizhevsky's 'cuda-convnet': Groundbreaking custom CUDA C++ framework featuring hand-crafted assembly matrix multiplication "
+		+ "and 2D convolution routines running at near-theoretical hardware throughput on NVIDIA Fermi streaming multiprocessors.\n"
+		+ "• Rectified Linear Units (ReLU) & Dropout Regularization: Replaced slow saturating tanh/sigmoid activation functions with non-saturating "
+		+ "f(x) = max(0, x), accelerating gradient descent training speed by 600% while dropout prevented complex co-adaptations.\n"
+		+ "• Real-Time CPU Data Augmentation Pipeline: Offloaded on-the-fly random 224x224 image cropping, horizontal flipping, and PCA color "
+		+ "jittering to the multi-core Intel Core i7 host CPU, preventing GPU starvation across 1,281,167 ImageNet training images.\n"
+		+ "• Ubuntu 10.04 LTS 'Ambiance' & The Path to Unity: Canonical's iconic dark aubergine visual identity, relocated left-side window "
+		+ "controls, Plymouth kernel boot splash, and the final Long Term Support release of classic GNOME 2."
+	)
+	p.cultural_legacy = (
+		"As the 19th and final entry in the RetroOS Digital Computing Codex, the Ubuntu 10.04 AlexNet workstation stands as the monumental "
+		+ "bridge between the historical computer museum and the modern technological era. In 1972, the Datapoint 2200 proved that computing "
+		+ "power belonged on an individual operator's desk; exactly 40 years later in 2012, this Ubuntu workstation proved that off-the-shelf "
+		+ "consumer graphics hardware and open-source Linux could breathe cognitive life into deep artificial neural networks—igniting "
+		+ "the generative AI, computer vision, and large language model revolution that defines our modern world."
+	)
+	p.technical_specs = {
+		"Manufacturer / Vendor": "Canonical Ltd. / Custom University of Toronto AI Build",
+		"Release Date": "April 2010 (Ubuntu 10.04 LTS • AlexNet trained 2011–2012)",
+		"System Model": "AlexNet Deep Learning Workstation (Custom Enthusiast Full-Tower)",
+		"Processor (CPU)": "Intel Core i7-3930K (6 Cores, 12 Threads @ 3.20GHz, 3.80GHz Turbo)",
+		"Clock Rate & Cache": "3.20 GHz Base Clock • 12 MB SmartCache • 32nm Sandy Bridge-E",
+		"Co-Processor / GPUs": "2× NVIDIA GeForce GTX 580 (512 CUDA Cores, 1.54GHz, Fermi GF110)",
+		"System Bus & Chipset": "Intel X79 Express • 40 PCIe 2.0 Lanes • Direct GPU-to-GPU DMA",
+		"Memory (RAM)": "16 GB DDR3-1600 (Quad-Channel Interleaved • 25.6 GB/s Bandwidth)",
+		"Graphics Memory (VRAM)": "6 GB Total GDDR5 (3 GB per GPU • 384-bit Bus • 192.4 GB/s per Card)",
+		"Audio Subsystem": "Realtek ALC898 8-Channel High Definition Audio • Ubuntu Marimba Chime",
+		"Storage & Media": "1 TB Western Digital Caviar Black (7200 RPM SATA 6Gb/s • 27GB ImageNet)",
+		"Operating System": "Ubuntu 10.04.4 LTS ('Lucid Lynx' x86_64, Linux Kernel 2.6.32)",
+		"Kernel & Toolchain": "Linux 2.6.32-21-generic • GCC 4.4.3 • NVIDIA Driver 295.40 • CUDA 4.2",
+		"GUI / Window System": "GNOME 2.30.2 Desktop • Ambiance GTK Theme (Left-Side Window Controls)",
+		"Default Shell": "GNU bash 4.1.5 (`alex@alexnet-node0:~/cuda-convnet$ `)",
+		"Original Build Cost": "Approx. $2,800 USD in 2011–2012 (Consumer Off-the-Shelf Enthusiast Parts)",
+		"Predecessor": "Ubuntu 9.10 ('Karmic Koala') / Traditional CPU Hand-Crafted Vision (SIFT)",
+		"Successor": "Ubuntu 10.10 (Unity Netbook) / Ubuntu 11.04 (Unity Desktop) & Modern AI Clusters"
+	}
+	p.usage_cases = [
+		{
+			"title": "Training the 60-Million Parameter AlexNet CNN on ILSVRC 2012 ImageNet",
+			"role": "Alex Krizhevsky & Ilya Sutskever (University of Toronto Machine Learning Group)",
+			"software": "cuda-convnet (Custom C++/CUDA), NVIDIA CUDA 4.2 Toolkit, Python 2.7, NumPy",
+			"scenario": "Launching 'python convdata.py' inside an Ubuntu 10.04 GNOME terminal. The dual GeForce GTX 580 GPUs spin up to 100% fan speed, consuming nearly 500 watts of power as they process 2,240 images per second. After six days of continuous computation, the top-5 error rate converges at an unprecedented 15.3%, stunning the computer vision community."
+		},
+		{
+			"title": "Writing, Compiling & Benchmarking cuda-convnet in Ubuntu 10.04",
+			"role": "Senior CUDA Systems & Kernel Programmer",
+			"software": "GCC 4.4.3, NVIDIA NVCC Compiler, CUDA Driver 295.40, GDB Debugger",
+			"scenario": "Writing hand-optimized PTX assembly matrix multiplication routines and custom cross-GPU peer-to-peer synchronization code. Ubuntu's lightweight kernel and low memory footprint allow direct, uninhibited interaction with NVIDIA's unified virtual memory addressing and PCIe 2.0 DMA controllers."
+		},
+		{
+			"title": "The Ubuntu 10.04 LTS Desktop & The Impending Transition to Unity",
+			"role": "Canonical Community Contributor & Linux Desktop Architect (2010)",
+			"software": "GNOME 2.30.2, Ambiance GTK Theme, Metacity Window Manager, Ubuntu Software Center",
+			"scenario": "Customizing the new 'Ambiance' desktop, adapting to window close buttons situated on the top-left, and testing early prototype builds of the Clutter-based Unity shell on netbooks prior to its full desktop rollout in Ubuntu 11.04."
+		}
+	]
+	p.exhibit_images = _build_default_image_slots(
+		p.id,
+		"Fig 1. AlexNet Dual-GTX 580 Enthusiast Workstation Tower & 24\" Widescreen LCD",
+		"High-airflow ATX full-tower chassis with side acrylic panel revealing twin dual-slot NVIDIA GeForce GTX 580 graphics cards.",
+		"Fig 2. Intel X79 Motherboard, LGA2011 CPU, Quad-Channel DDR3 & Dual-GPU SLI PCIe Bus",
+		"Enthusiast motherboard architecture detailing the direct PCIe root complex lines and peer-to-peer DMA bridge between the two Fermi GPUs.",
+		"Fig 3. Ubuntu 10.04 LTS Ambiance Desktop: Left Window Controls & cuda-convnet Terminal",
+		"Signature dark aubergine GNOME 2.30 desktop featuring left-hand window controls and terminal output tracking AlexNet training loss."
 	)
 
 

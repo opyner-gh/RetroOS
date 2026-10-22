@@ -22,7 +22,7 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 
 ---
 
-## 🗂️ Supported System Exhibit Folder IDs (Chronological: 1972 → 2007)
+## 🗂️ Supported System Exhibit Folder IDs (Chronological: 1972 → 2010)
 
 | Folder Path | System & Operating System Exhibit |
 | :--- | :--- |
@@ -44,4 +44,5 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 | `res://assets/exhibits/winxp_alienware/` | **Windows XP Pro SP2** — Alienware Area-51 'Predator' P4 Extreme (2003) |
 | `res://assets/exhibits/freebsd_411/` | **FreeBSD 4.11-STABLE** — Supermicro P3TDDE Dual Pentium III (2004) |
 | `res://assets/exhibits/ubuntu_704/` | **Ubuntu 7.04 (Feisty Fawn)** — Dell OptiPlex GX620 (2007) |
+| `res://assets/exhibits/ubuntu_1004/` | **Ubuntu 10.04 LTS (Lucid Lynx)** — AlexNet Dual-GTX 580 AI Workstation (2010/2012) • Final Codex Entry #19 |
 

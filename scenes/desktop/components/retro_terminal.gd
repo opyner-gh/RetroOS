@@ -183,6 +183,8 @@ func _execute_command(cmd: String) -> void:
 					append_line("OPERATOR 1 (LOCAL CONSOLE)")
 				"ubuntu_704":
 					append_line("user")
+				"ubuntu_1004":
+					append_line("alex")
 				"hpux_cde":
 					append_line("root")
 				"plan9":

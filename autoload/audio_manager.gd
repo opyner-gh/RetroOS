@@ -613,6 +613,16 @@ func _synth_os_startup_chime(os_id: String) -> AudioStreamWAV:
 				{"freq": 622.25, "start": 0.34, "dur": 0.95, "amp": 0.28, "warmth": 1.0},
 			], 1.35)
 
+		"ubuntu_1004":
+			# Ubuntu 10.04 Lucid Lynx signature warm marimba / soft acoustic chord
+			return _synth_chord_sequence([
+				{"freq": 293.66, "start": 0.00, "dur": 0.90, "amp": 0.28, "warmth": 0.8},
+				{"freq": 369.99, "start": 0.10, "dur": 0.90, "amp": 0.26, "warmth": 0.8},
+				{"freq": 440.00, "start": 0.20, "dur": 1.05, "amp": 0.28, "warmth": 0.7},
+				{"freq": 587.33, "start": 0.32, "dur": 1.25, "amp": 0.30, "warmth": 0.6},
+				{"freq": 739.99, "start": 0.44, "dur": 1.40, "amp": 0.26, "warmth": 0.5},
+			], 1.85)
+
 		"hpux_cde":
 			# Crisp FM-synth UNIX workstation bell chord (E4 + B4 + F#5 + G#5)
 			return _synth_chord_sequence([

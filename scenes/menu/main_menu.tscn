@@ -75,7 +75,7 @@ clip_text = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.68, 0.76, 0.84, 1)
 theme_override_font_sizes/font_size = 11
-text = "Encyclopedic Hardware & OS Exhibit Archive (1972–2007) — Select an exhibit to inspect specs, usage cases & boot live BIOS"
+text = "Encyclopedic Hardware & OS Exhibit Archive (1972–2012) — Select an exhibit to inspect specs, usage cases & boot live BIOS"
 clip_text = true
 
 [node name="SearchInput" type="LineEdit" parent="MarginContainer/MainVBox/HeaderPanel/HeaderMargin/HeaderHBox"]

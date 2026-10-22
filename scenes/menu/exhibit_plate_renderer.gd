@@ -84,6 +84,11 @@ func _draw_chassis_plate(rect: Rect2) -> void:
 		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // DATAPOINT 2200 (1972)", Color("8ecae6"), Color("2b4560"), "ARCHIVAL VECTOR PLATE", Color("3a86ff"))
 		return
 
+	if os_id == "ubuntu_1004":
+		_draw_alexnet_chassis(rect, cx, cy, font)
+		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // ALEXNET DUAL-GTX 580 WORKSTATION (2012)", Color("ffaa5e"), Color("77216f"), "AI ZERO-POINT RIG", Color("dd4814"))
+		return
+
 	# Monitor (left/center) + System Unit (right or underneath depending on form factor)
 	var is_horizontal_desktop := os_id in ["os2_warp", "amiga_os31", "nextstep_33", "apple_iie"]
 
@@ -229,6 +234,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 		_draw_datapoint_motherboard(rect, pcb, font)
 		return
 
+	if os_id == "ubuntu_1004":
+		_draw_alexnet_motherboard(rect, pcb, font)
+		return
+
 	var is_dual_cpu := os_id in ["sgi_irix", "freebsd_411", "beos_r5", "redhat_62", "solaris_8", "sco_openserver"]
 
 	# Draw CPU socket(s)
@@ -283,6 +292,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 func _draw_software_plate(rect: Rect2) -> void:
 	if _profile.id == "datapoint_2200":
 		_draw_datapoint_software_plate(rect, ThemeDB.fallback_font)
+		return
+
+	if _profile.id == "ubuntu_1004":
+		_draw_ubuntu_1004_software_plate(rect, ThemeDB.fallback_font)
 		return
 
 	# Simulated live CRT frame of the operating system's desktop & terminal
@@ -552,4 +565,186 @@ func _draw_datapoint_software_plate(rect: Rect2, font: Font) -> void:
 
 	draw_rect(rect, Color("20c20e"), false, 1.5)
 	_draw_plate_badge("12x80 CRT SHELL", Color("1b6e28"))
+
+
+func _draw_alexnet_chassis(rect: Rect2, cx: float, cy: float, font: Font) -> void:
+	# Widescreen 24" 16:9 LCD Monitor on the Left
+	var mon_rect := Rect2(cx - 134, cy - 54, 150, 96)
+	var mon_bezel := Color("1e1e24")
+	draw_rect(mon_rect, mon_bezel, true)
+	draw_rect(mon_rect, mon_bezel.lightened(0.2), false, 1.5)
+	# Monitor stand and base
+	draw_rect(Rect2(mon_rect.position.x + 58, mon_rect.end.y, 34, 14), Color("121216"), true)
+	draw_rect(Rect2(mon_rect.position.x + 38, mon_rect.end.y + 12, 74, 5), Color("121216"), true)
+
+	# Screen contents: Ubuntu 10.04 Ambiance aubergine desktop
+	var scr := mon_rect.grow(-6)
+	draw_rect(scr, Color("2c001e"), true)
+	draw_rect(Rect2(scr.position.x, scr.position.y + scr.size.y * 0.45, scr.size.x, scr.size.y * 0.55), Color("77216f", 0.5), true)
+	# GNOME 2.30 Panels
+	draw_rect(Rect2(scr.position.x, scr.position.y, scr.size.x, 7), Color("1c191a"), true)
+	draw_rect(Rect2(scr.position.x, scr.end.y - 7, scr.size.x, 7), Color("1c191a"), true)
+	# Mini Ambiance window on screen
+	var w_mini := Rect2(scr.position.x + 12, scr.position.y + 12, 78, 48)
+	draw_rect(w_mini, Color("edeceb"), true)
+	draw_rect(Rect2(w_mini.position, Vector2(w_mini.size.x, 8)), Color("3c3b37"), true)
+	# Mini top-left window dots
+	draw_circle(w_mini.position + Vector2(4, 4), 1.5, Color("df5320"))
+	draw_circle(w_mini.position + Vector2(9, 4), 1.5, Color("888888"))
+
+	# High-Airflow ATX Full-Tower Case on the Right (AlexNet Rig)
+	var tw_rect := Rect2(cx + 26, cy - 68, 92, 132)
+	draw_rect(tw_rect, Color("141418"), true)
+	draw_rect(tw_rect, Color("2e2e36"), false, 1.5)
+
+	# Front mesh intake with dual 140mm cooling fans glowing green
+	draw_rect(Rect2(tw_rect.position.x + 4, tw_rect.position.y + 12, 16, 108), Color("0b0b0e"), true)
+	draw_circle(Vector2(tw_rect.position.x + 12, tw_rect.position.y + 40), 6.5, Color("76b900", 0.45))
+	draw_circle(Vector2(tw_rect.position.x + 12, tw_rect.position.y + 86), 6.5, Color("76b900", 0.45))
+
+	# Acrylic side viewing window
+	var win_rect := Rect2(tw_rect.position.x + 24, tw_rect.position.y + 12, 62, 108)
+	draw_rect(win_rect, Color("08080c"), true)
+	draw_rect(win_rect, Color("3a3a44"), false, 1.0)
+
+	# CPU Tower Cooler (top chamber)
+	var cooler_rect := Rect2(win_rect.position.x + 8, win_rect.position.y + 8, 28, 24)
+	draw_rect(cooler_rect, Color("a0a4a8"), true)
+	for f in range(4):
+		draw_line(Vector2(cooler_rect.position.x + 4 + f * 6, cooler_rect.position.y), Vector2(cooler_rect.position.x + 4 + f * 6, cooler_rect.end.y), Color("505356"), 1.0)
+
+	# 2x Dual-Slot NVIDIA GeForce GTX 580 Graphics Cards (Fermi 3GB)
+	for g in range(2):
+		var gpu_r := Rect2(win_rect.position.x + 6, win_rect.position.y + 38 + g * 22, 52, 16)
+		draw_rect(gpu_r, Color("202024"), true)
+		draw_rect(gpu_r, Color("383842"), false, 1.0)
+		# Green GeForce side logo & silver blower fan
+		draw_rect(Rect2(gpu_r.position.x + 2, gpu_r.position.y + 3, 22, 3), Color("76b900"), true)
+		draw_circle(Vector2(gpu_r.end.x - 10, gpu_r.position.y + 8), 5.5, Color("dcdcdc"))
+		draw_circle(Vector2(gpu_r.end.x - 10, gpu_r.position.y + 8), 2.0, Color("111111"))
+
+	# SLI Bridge linking the dual GTX 580 cards
+	draw_rect(Rect2(win_rect.position.x + 10, win_rect.position.y + 48, 6, 18), Color("76b900"), true)
+
+	# Heavy 1200W Power Supply at Bottom
+	draw_rect(Rect2(win_rect.position.x + 6, win_rect.end.y - 20, 52, 16), Color("16161a"), true)
+	draw_rect(Rect2(win_rect.position.x + 8, win_rect.end.y - 16, 20, 8), Color("333333"), true)
+	draw_string(font, Vector2(win_rect.position.x + 10, win_rect.end.y - 9), "1200W", HORIZONTAL_ALIGNMENT_LEFT, 24, 6, Color("ffaa5e"))
+
+
+func _draw_alexnet_motherboard(rect: Rect2, pcb: Rect2, font: Font) -> void:
+	# Intel X79 Enthusiast Motherboard Substrate
+	draw_rect(rect, Color("08080c"), true)
+	_draw_blueprint_grid(rect, Color(0.25, 0.20, 0.35, 0.18), 14.0)
+
+	draw_rect(pcb, Color("121118"), true)
+	draw_rect(pcb, Color("4a225d"), false, 1.5)
+
+	# LGA 2011 CPU Socket (Intel Core i7-3930K 6-Core)
+	var cpu_r := Rect2(pcb.position.x + 72, pcb.position.y + 16, 54, 54)
+	draw_rect(cpu_r, Color("25252c"), true)
+	draw_rect(cpu_r, Color("e0a96d"), false, 1.5)
+	draw_rect(cpu_r.grow(-8), Color("8d99ae"), true)
+	draw_string(font, cpu_r.position + Vector2(6, 26), "i7-3930K", HORIZONTAL_ALIGNMENT_CENTER, 42, 8, Color("111111"))
+	draw_string(font, cpu_r.position + Vector2(6, 38), "6C / 12T", HORIZONTAL_ALIGNMENT_CENTER, 42, 7, Color("333333"))
+
+	# 8x DDR3 Quad-Channel DIMM Slots (4 on Left, 4 on Right of CPU)
+	for side in range(2):
+		var base_x := pcb.position.x + 14 if side == 0 else pcb.position.x + 138
+		for d in range(4):
+			var dimm_r := Rect2(base_x + d * 11, pcb.position.y + 14, 8, 58)
+			draw_rect(dimm_r, Color("1a1a24") if d % 2 == 0 else Color("2a4478"), true)
+			draw_rect(dimm_r, Color("4ea8de"), false, 0.8)
+
+	# 2x Full-Length Dual-Slot PCIe 2.0 x16 Slots with Dual GTX 580s
+	for g in range(2):
+		var slot_y := pcb.position.y + 86 + g * 28
+		# PCIe Slot
+		draw_rect(Rect2(pcb.position.x + 14, slot_y, 160, 6), Color("22222a"), true)
+		# GTX 580 Card representation
+		var card_r := Rect2(pcb.position.x + 14, slot_y + 4, 156, 18)
+		draw_rect(card_r, Color("1e1e24"), true)
+		draw_rect(card_r, Color("76b900"), false, 1.2)
+		draw_string(font, card_r.position + Vector2(8, 12), "GPU %d: NVIDIA GEFORCE GTX 580 (512 CUDA CORES • 3GB GDDR5)" % g, HORIZONTAL_ALIGNMENT_LEFT, 148, 7, Color("a8e063"))
+
+	# High-speed Peer-to-Peer DMA Bridge between both GPUs
+	draw_line(Vector2(pcb.position.x + 28, pcb.position.y + 96), Vector2(pcb.position.x + 28, pcb.position.y + 124), Color("76b900"), 3.0)
+	draw_string(font, Vector2(pcb.position.x + 34, pcb.position.y + 114), "PEER-TO-PEER PCIE DMA (MODEL SPLIT)", HORIZONTAL_ALIGNMENT_LEFT, 130, 6, Color("76b900"))
+
+	# Intel X79 Chipset Heatsink
+	var x79_r := Rect2(pcb.end.x - 52, pcb.end.y - 42, 38, 32)
+	draw_rect(x79_r, Color("2c2c36"), true)
+	draw_rect(x79_r, Color("dd4814"), false, 1.2)
+	draw_string(font, x79_r.position + Vector2(4, 18), "X79 PCH", HORIZONTAL_ALIGNMENT_CENTER, 30, 7, Color("ffaa5e"))
+
+	_draw_plate_footer(
+		rect,
+		font,
+		"EXHIBIT PLATE II // INTEL X79 + DUAL NVIDIA GTX 580 FERMI (6GB GDDR5 TOTAL)",
+		Color("a8e063"),
+		Color("386616"),
+		"AI HARDWARE ZERO-POINT",
+		Color("76b900")
+	)
+
+
+func _draw_ubuntu_1004_software_plate(rect: Rect2, font: Font) -> void:
+	# Ubuntu 10.04 Lucid Lynx Ambiance Aubergine Gradient Desktop
+	draw_rect(rect, Color("2c001e"), true)
+	draw_rect(Rect2(0, rect.size.y * 0.40, rect.size.x, rect.size.y * 0.60), Color("77216f", 0.45), true)
+
+	# GNOME 2.30 Panels: Top (Applications/Places/System) + Bottom (Window List)
+	draw_rect(Rect2(0, 0, rect.size.x, 16), Color("1b181c"), true)
+	draw_string(font, Vector2(8, 12), "Applications   Places   System", HORIZONTAL_ALIGNMENT_LEFT, 160, 8, Color("dfdbd2"))
+	draw_string(font, Vector2(rect.size.x - 70, 12), "14:22   alex", HORIZONTAL_ALIGNMENT_RIGHT, 62, 8, Color("dfdbd2"))
+
+	draw_rect(Rect2(0, rect.size.y - 18, rect.size.x, 18), Color("1b181c"), true)
+	draw_string(font, Vector2(8, rect.size.y - 5), "[AlexNet Training Monitor]   [alex@alexnet-node0: ~/cuda-convnet]", HORIZONTAL_ALIGNMENT_LEFT, 260, 8, Color("9e9890"))
+
+	# Primary Application Window: Ambiance Theme with LEFT-ALIGNED WINDOW BUTTONS!
+	var w1 := Rect2(18, 26, rect.size.x * 0.54, rect.size.y * 0.56)
+	draw_rect(w1, Color("edeceb"), true)
+	draw_rect(w1, Color("3c3b37"), false, 1.5)
+
+	# Dark charcoal Ambiance titlebar
+	var tb_r := Rect2(w1.position, Vector2(w1.size.x, 16))
+	draw_rect(tb_r, Color("3c3b37"), true)
+	# Iconic Left-Aligned Ambiance Window Controls (close, minimize, maximize)
+	draw_circle(tb_r.position + Vector2(8, 8), 3.5, Color("df5320")) # Close (Orange)
+	draw_circle(tb_r.position + Vector2(18, 8), 3.5, Color("6e6d67")) # Minimize
+	draw_circle(tb_r.position + Vector2(28, 8), 3.5, Color("6e6d67")) # Maximize
+	draw_string(font, tb_r.position + Vector2(38, 12), "AlexNet 2012 Training Monitor", HORIZONTAL_ALIGNMENT_LEFT, w1.size.x - 44, 8, Color.WHITE)
+
+	# Training Stats inside window
+	var stats := [
+		"ILSVRC 2012 ImageNet Benchmark",
+		"Epoch: 84/90  •  Batch: 1200/1280",
+		"Step Time: 452ms (2,240 img/sec)",
+		"GPU 0: 98% Util (2884MB / 82°C)",
+		"GPU 1: 99% Util (2912MB / 84°C)",
+		"Top-5 Error: 15.3% (RECORD WIN)"
+	]
+	for s_idx in range(stats.size()):
+		var col := Color("dd4814") if s_idx == 5 else Color("222222")
+		draw_string(font, w1.position + Vector2(10, 32 + s_idx * 13), stats[s_idx], HORIZONTAL_ALIGNMENT_LEFT, w1.size.x - 20, 8, col)
+
+	# Overlapping Terminal Window (Bottom-Right)
+	var w2 := Rect2(rect.size.x * 0.34, rect.size.y * 0.36, rect.size.x * 0.60, rect.size.y * 0.48)
+	draw_rect(w2, Color("1a0a1e"), true)
+	draw_rect(w2, Color("3c3b37"), false, 1.5)
+	var tb2_r := Rect2(w2.position, Vector2(w2.size.x, 16))
+	draw_rect(tb2_r, Color("3c3b37"), true)
+	draw_circle(tb2_r.position + Vector2(8, 8), 3.5, Color("df5320"))
+	draw_circle(tb2_r.position + Vector2(18, 8), 3.5, Color("6e6d67"))
+	draw_circle(tb2_r.position + Vector2(28, 8), 3.5, Color("6e6d67"))
+	draw_string(font, tb2_r.position + Vector2(38, 12), "alex@alexnet-node0: ~/cuda-convnet", HORIZONTAL_ALIGNMENT_LEFT, w2.size.x - 44, 8, Color.WHITE)
+
+	# Terminal shell text
+	draw_string(font, w2.position + Vector2(8, 30), "alex@alexnet-node0:~$ python convdata.py", HORIZONTAL_ALIGNMENT_LEFT, w2.size.x - 16, 8, Color("dd4814"))
+	draw_string(font, w2.position + Vector2(8, 44), "Dual Fermi model parallelism active across GPUs 0 & 1.", HORIZONTAL_ALIGNMENT_LEFT, w2.size.x - 16, 8, Color("dfdbd2"))
+	draw_string(font, w2.position + Vector2(8, 58), "Training loss: 1.412  Top-5 error: 15.3% (Shattering 26.2%)", HORIZONTAL_ALIGNMENT_LEFT, w2.size.x - 16, 8, Color("76b900"))
+	draw_string(font, w2.position + Vector2(8, 72), "Impending move to Unity noted. Final GNOME 2 LTS active.", HORIZONTAL_ALIGNMENT_LEFT, w2.size.x - 16, 8, Color("9e9890"))
+
+	draw_rect(rect, Color("dd4814"), false, 1.5)
+	_draw_plate_badge("AI PARADIGM SHIFT (2012)", Color("dd4814"))
 

@@ -14,6 +14,7 @@ static func get_all_profiles() -> Array[OSProfile]:
 	var profiles: Array[OSProfile] = [
 		_build_datapoint_2200(),
 		_build_ubuntu_704(),
+		_build_ubuntu_1004(),
 		_build_hpux_cde(),
 		_build_plan9(),
 		_build_win98_se(),
@@ -1456,4 +1457,217 @@ static func _build_datapoint_2200() -> OSProfile:
 	p.fan_base_freq = 110.0
 	p.fan_noise_level = 0.22
 	p.hdd_seek_interval_range = Vector2(3.5, 8.0)
+	return p
+
+
+# ==============================================================================
+# 9. UBUNTU 10.04 LTS (LUCID LYNX) - APRIL 2010 • CHRONOLOGICAL FINAL ENTRY #19
+# THE ALEXNET WORKSTATION (2012) & THE PARADIGM SHIFT TO MODERN GPU AI
+# ==============================================================================
+static func _build_ubuntu_1004() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "ubuntu_1004"
+	p.category = "UNIX & Alt-OS"
+	p.display_name = "Ubuntu 10.04 LTS (AlexNet Workstation)"
+	p.short_name = "Ubuntu 10.04"
+	p.release_year = "2010"
+	p.vendor = "Canonical Ltd. / U of T Machine Learning Group"
+	p.architecture_summary = "x86_64 • Linux 2.6.32-21 • Dual NVIDIA GTX 580 (Fermi CUDA) • GNOME 2.30 Ambiance"
+	p.hardware_profile = "Enthusiast AI Rig • Intel Core i7-3930K @ 3.2GHz • 16GB DDR3 • 2× GeForce GTX 580 3GB • 1200W PSU"
+	p.description = (
+		"The hardware zero-point of the modern deep learning revolution and the twilight of classic desktop Linux. "
+		+ "Released in April 2010, Ubuntu 10.04 LTS ('Lucid Lynx') introduced the signature aubergine 'Ambiance' theme "
+		+ "and relocated window controls to the top-left, foreshadowing the impending transition to the Unity desktop. "
+		+ "In 2011–2012 at the University of Toronto, researchers Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton "
+		+ "deployed Ubuntu 10.04 to host 'cuda-convnet' across two high-wattage NVIDIA GeForce GTX 580 Fermi GPUs—splitting "
+		+ "the 60-million parameter AlexNet neural network in half and shattering the ImageNet benchmark (15.3% error vs 26.2%), "
+		+ "marking the paradigm shift to modern compute-driven AI as the final entry in the RetroOS Codex."
+	)
+
+	p.bios_header = (
+		"American Megatrends Inc. (AMI) BIOS v0402                    ASUS P9X79 Deluxe Workstation\n"
+		+ "Intel(R) Core(TM) i7-3930K CPU @ 3.20GHz                    PCIe 2.0: 2x NVIDIA GeForce GTX 580 3GB"
+	)
+	p.boot_bg_color = Color("110816")
+	p.boot_text_color = Color("f4eff6")
+	p.boot_logs = [
+		{"text": "AMI BIOS (C) 2011 American Megatrends, Inc. (Intel X79 / Sandy Bridge-E)", "delay": 0.90, "sfx": "fan_spinup", "color": "#e0e0e0"},
+		{"text": "Intel(R) Core(TM) i7-3930K CPU @ 3.20GHz (6 Cores, 12 Threads)", "delay": 1.10, "sfx": "beep", "color": "#e0e0e0"},
+		{"text": "Memory Passed: 16384MB DDR3-1600 Quad-Channel Interleaved (9-9-9-24)", "delay": 1.25, "sfx": "", "color": "#e0e0e0"},
+		{"text": "PCIe Bus 02:00.0: NVIDIA GeForce GTX 580 (512 CUDA Cores, 3072MB GDDR5)", "delay": 1.05, "sfx": "fan_spinup", "color": "#76b900"},
+		{"text": "PCIe Bus 03:00.0: NVIDIA GeForce GTX 580 (512 CUDA Cores, 3072MB GDDR5)", "delay": 1.05, "sfx": "", "color": "#76b900"},
+		{"text": "SATA Port 1: WDC WD1002FAEX 1.0TB 7200 RPM 64MB Cache (ImageNet Dataset)", "delay": 1.15, "sfx": "hdd_click", "color": "#b8b8b8"},
+		{"text": "", "delay": 0.40, "sfx": "", "color": ""},
+		{"text": "Booting 'Ubuntu 10.04.4 LTS, kernel 2.6.32-21-generic'...", "delay": 0.85, "sfx": "", "color": "#dd4814"},
+		{"text": "Loading Linux 2.6.32-21-generic ...", "delay": 0.90, "sfx": "hdd_burst", "color": "#ffffff"},
+		{"text": "Loading initial ramdisk ...", "delay": 1.05, "sfx": "hdd_click", "color": "#c8c8c8"},
+		{"text": "[    0.000000] Linux version 2.6.32-21-generic (buildd@alligator) (gcc 4.4.3)", "delay": 0.60, "sfx": "", "color": "#9ec49e"},
+		{"text": "[    1.120404] nvidia: module license 'NVIDIA' taints kernel.", "delay": 0.65, "sfx": "", "color": "#76b900"},
+		{"text": "[    1.148012] NVRM: loading NVIDIA UNIX x86_64 Kernel Module 295.40", "delay": 0.75, "sfx": "hdd_burst", "color": "#76b900"},
+		{"text": "[    1.152008] NVRM: GPU 0: GeForce GTX 580 (3072 MB VRAM, 512 CUDA cores)", "delay": 0.60, "sfx": "", "color": "#a8e063"},
+		{"text": "[    1.156014] NVRM: GPU 1: GeForce GTX 580 (3072 MB VRAM, 512 CUDA cores)", "delay": 0.60, "sfx": "", "color": "#a8e063"},
+		{"text": "[    1.160100] nvidia-uvm: Unified Memory / Peer-to-Peer DMA initialized.", "delay": 0.70, "sfx": "", "color": "#a8e063"},
+		{"text": " * Starting Plymouth boot splash (Ambiance aubergine)...                 [ OK ]", "delay": 0.90, "sfx": "", "color": "#dd4814"},
+		{"text": " * Mounting local filesystems (ext4)...                                 [ OK ]", "delay": 0.90, "sfx": "hdd_click", "color": "#dd4814"},
+		{"text": " * Initializing CUDA 4.2 Compute Toolkit & cuBLAS...                   [ OK ]", "delay": 1.10, "sfx": "", "color": "#76b900"},
+		{"text": " * Starting GNOME Display Manager (gdm) [Ambiance Theme]...             [ OK ]", "delay": 1.30, "sfx": "hdd_burst", "color": "#ffffff"}
+	]
+
+	p.chrome_style = "ubuntu_ambiance"
+	p.desktop_bg_color = Color("2c001e")
+	p.desktop_secondary_color = Color("77216f")
+	p.panel_bg_color = Color("1c191a")
+	p.panel_text_color = Color("dfdbd2")
+	p.window_bg_color = Color("edeceb")
+	p.window_text_color = Color("2c2c2c")
+	p.window_border_color = Color("3c3b37")
+	p.titlebar_active_color = Color("3c3b37")
+	p.titlebar_active_gradient_end = Color("2b2a26")
+	p.titlebar_inactive_color = Color("484643")
+	p.titlebar_text_color = Color("ffffff")
+	p.accent_color = Color("dd4814")
+
+	p.terminal_title = "alex@alexnet-node0: ~/cuda-convnet"
+	p.terminal_bg_color = Color("1a0a1e")
+	p.terminal_fg_color = Color("ffffff")
+	p.terminal_prompt = "alex@alexnet-node0:~/cuda-convnet$ "
+	p.terminal_welcome_banner = (
+		"Ubuntu 10.04.4 LTS (GNU/Linux 2.6.32-21-generic x86_64)\n"
+		+ "NVIDIA CUDA Driver Version: 295.40  •  CUDA Runtime Version: 4.2\n"
+		+ "GPU 0: GeForce GTX 580 (512 cores @ 1.54GHz, 3072 MB GDDR5)\n"
+		+ "GPU 1: GeForce GTX 580 (512 cores @ 1.54GHz, 3072 MB GDDR5)\n"
+		+ "Type 'nvidia-smi', 'train', 'cuda-convnet', 'imagenet', 'unity', or 'help'."
+	)
+
+	p.terminal_commands = {
+		"nvidia-smi": (
+			"+-----------------------------------------------------------------------------+\n"
+			+ "| NVIDIA-SMI 295.40                 Driver Version: 295.40                    |\n"
+			+ "|-------------------------------+----------------------+----------------------+\n"
+			+ "| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |\n"
+			+ "| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |\n"
+			+ "|===============================+======================+======================|\n"
+			+ "|   0  GeForce GTX 580      On  | 0000:02:00.0     Off |                  N/A |\n"
+			+ "| 85%   82C    P0   241W / 244W |   2884MB /  3072MB |     98%      Default |\n"
+			+ "|-------------------------------+----------------------+----------------------|\n"
+			+ "|   1  GeForce GTX 580      On  | 0000:03:00.0     Off |                  N/A |\n"
+			+ "| 86%   84C    P0   244W / 244W |   2912MB /  3072MB |     99%      Default |\n"
+			+ "+-------------------------------+----------------------+----------------------+\n"
+			+ "| Processes:                                                       GPU Memory |\n"
+			+ "|  GPU       PID  Type  Process name                               Usage      |\n"
+			+ "|=============================================================================|\n"
+			+ "|    0      4128     C  python ./convdata.py (cuda-convnet)             2880MB |\n"
+			+ "|    1      4128     C  python ./convdata.py (cuda-convnet)             2908MB |\n"
+			+ "+-----------------------------------------------------------------------------+"
+		),
+		"train": (
+			"[alex@alexnet-node0:~/cuda-convnet]$ python convdata.py --data-path=./imagenet --train-range=1-90\n"
+			+ "Initialized ImageNet dataset: 1,281,167 training images in 1000 categories.\n"
+			+ "Allocating model across dual Fermi architecture:\n"
+			+ "  GPU 0: Conv1, Conv2(top), Conv3, Conv4(top), Conv5(top), FC6, FC7\n"
+			+ "  GPU 1: Conv1, Conv2(bot), Conv3, Conv4(bot), Conv5(bot), FC6, FC7\n"
+			+ "Peer-to-Peer PCIe DMA active for inter-GPU convolution synchronization.\n"
+			+ "Epoch 84/90 [Batch 1200/1280] Step Time: 452ms (2,240 img/sec)\n"
+			+ "Training Loss: 1.412 | Validation Top-1: 37.5% | Validation Top-5: 15.3% (RECORD)"
+		),
+		"cuda-convnet": (
+			"cuda-convnet (Alex Krizhevsky, University of Toronto, 2012):\n"
+			+ "High-performance C++/CUDA framework for training deep convolutional neural networks.\n"
+			+ "Features:\n"
+			+ "  • Explicit multi-GPU model parallelism across two GeForce GTX 580 3GB cards\n"
+			+ "  • Hand-tuned assembly CUDA matrix multiplication and 2D convolution kernels\n"
+			+ "  • Cross-GPU synchronization at Conv2, Conv4, Conv5, and FC6 layers\n"
+			+ "  • Zero-copy memory pooling and asynchronous host-to-device streaming"
+		),
+		"imagenet": (
+			"ILSVRC 2012 ImageNet Benchmark Dataset:\n"
+			+ "  • Training Images  : 1,281,167 JPEGs (256x256 downsampled)\n"
+			+ "  • Validation Set   : 50,000 JPEGs\n"
+			+ "  • Test Set         : 100,000 JPEGs\n"
+			+ "  • Classes / Labels : 1,000 object categories\n"
+			+ "  • Disk Footprint   : 27 GB on Western Digital Caviar Black SATA drive\n"
+			+ "  • On-the-Fly CPU Augmentation: 224x224 random crops, horizontal flips, PCA RGB jitter"
+		),
+		"unity": (
+			"Ubuntu 10.04 LTS ('Lucid Lynx') Desktop Transition Note:\n"
+			+ "  • The final Long Term Support (LTS) release powered by classic GNOME 2.30.\n"
+			+ "  • Canonical introduced 'Light: Soft Software' rebranding and moved window buttons\n"
+			+ "    to the top-left (close,minimize,maximize:) to prepare users for the vertical launcher.\n"
+			+ "  • The Unity desktop debuted on Ubuntu Netbook Edition 10.10, and officially replaced\n"
+			+ "    GNOME on the main desktop in Ubuntu 11.04 ('Natty Narwhal')."
+		),
+		"ls": "checkpoints  convdata.py  cuda-convnet  data  example-layers  imagenet  src  train.py",
+		"uname -a": "Linux alexnet-node0 2.6.32-21-generic #32-Ubuntu SMP Fri Apr 16 08:09:38 UTC 2010 x86_64 GNU/Linux",
+		"lsb_release -a": "Distributor ID: Ubuntu\nDescription:    Ubuntu 10.04.4 LTS\nRelease:        10.04\nCodename:       lucid",
+		"top": (
+			"top - 14:22:04 up 6 days, 14:12,  2 users,  load average: 11.84, 11.62, 11.45\n"
+			+ "Tasks: 168 total,   2 running, 166 sleeping,   0 stopped,   0 zombie\n"
+			+ "Cpu(s): 88.4%us, 10.2%sy,  0.0%ni,  1.2%id,  0.2%wa,  0.0%hi,  0.0%si\n"
+			+ "Mem:  16428416k total, 15124920k used,  1303496k free,   284192k buffers\n"
+			+ "Swap:  8388604k total,   421008k used,  7967596k free,  9842104k cached"
+		),
+		"info": (
+			"Ubuntu 10.04 LTS 'Lucid Lynx' // AlexNet Workstation (2012)\n"
+			+ "Final Codex Entry #19 • Hardware Zero-Point of Modern Deep Learning\n"
+			+ "Intel Core i7-3930K • 2x NVIDIA GeForce GTX 580 3GB • GNOME 2.30 Ambiance"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "alex@alexnet-node0: ~/cuda-convnet",
+			"type": "terminal",
+			"pos": Vector2(130, 50),
+			"size": Vector2(580, 330),
+			"content": ""
+		},
+		{
+			"id": "monitor",
+			"title": "AlexNet 2012 ILSVRC Training Monitor (Epoch 84/90)",
+			"type": "monitor",
+			"pos": Vector2(520, 360),
+			"size": Vector2(480, 270),
+			"content": (
+				"EPOCH: 84 / 90  •  BATCH: 1200 / 1280  •  STEP TIME: 452 ms\n"
+				+ "-----------------------------------------------------------------\n"
+				+ "Model Architecture: 5 Convolutional + 3 Fully-Connected Layers\n"
+				+ "GPU 0 (Upper Net) : 98% UTIL • 2884 MB VRAM • 82°C • 241W\n"
+				+ "GPU 1 (Lower Net) : 99% UTIL • 2912 MB VRAM • 84°C • 244W\n"
+				+ "Cross-GPU P2P DMA : Layers Conv2, Conv4, Conv5, FC6 Sync OK\n"
+				+ "-----------------------------------------------------------------\n"
+				+ "Top-1 Training Loss : 1.412  (Validation Top-1 Error: 37.5%)\n"
+				+ "Top-5 Benchmark Rate: 15.3% (State-of-the-Art vs Traditional 26.2%)\n"
+				+ "Speed: 2,240 forward passes / second • ETA Completion: 18h 22m"
+			)
+		},
+		{
+			"id": "unity_notes",
+			"title": "Ubuntu 10.04 LTS 'Lucid Lynx' // Release Notes",
+			"type": "text",
+			"pos": Vector2(120, 420),
+			"size": Vector2(390, 230),
+			"content": (
+				"CANONICAL UBUNTU 10.04 LTS (LUCID LYNX)\n"
+				+ "-----------------------------------------------------------------\n"
+				+ "• New Visual Identity: 'Light: Soft Software' (Ambiance GTK)\n"
+				+ "• Window Controls Relocated to Top-Left (Precursor to Unity)\n"
+				+ "• Impending Transition: Unity Netbook 10.10 & Desktop 11.04\n"
+				+ "• Linux 2.6.32 Kernel • GCC 4.4.3 • Upstart 0.6.5\n"
+				+ "• Final Long Term Support (LTS) release of classic GNOME 2!\n\n"
+				+ "Tip: Run 'nvidia-smi' or 'train' in the terminal to inspect\n"
+				+ "the dual GTX 580 CUDA environment powering AlexNet."
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_terminal", "label": "CUDA\nTerminal", "glyph": "[>_]", "target_window_id": "terminal"},
+		{"id": "icon_train", "label": "AlexNet\nMonitor", "glyph": "[CNN]", "target_window_id": "monitor"},
+		{"id": "icon_unity", "label": "Lucid\nNotes", "glyph": "[UBT]", "target_window_id": "unity_notes"}
+	]
+
+	p.fan_base_freq = 155.0
+	p.fan_noise_level = 0.38
+	p.hdd_seek_interval_range = Vector2(2.0, 5.0)
 	return p

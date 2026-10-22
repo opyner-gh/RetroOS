@@ -167,6 +167,20 @@ func _apply_chrome_style(profile: OSProfile, active: bool) -> void:
 			maximize_btn.text = "□"
 			close_btn.text = "✕"
 
+		"ubuntu_ambiance":
+			outer_style.border_color = Color("3c3b37") if active else Color("4d4b47")
+			outer_style.set_border_width_all(2)
+			outer_style.corner_radius_top_left = 6
+			outer_style.corner_radius_top_right = 6
+			tb_style.corner_radius_top_left = 5
+			tb_style.corner_radius_top_right = 5
+			tb_style.bg_color = Color("3c3b37") if active else Color("2a2825")
+			left_menu_btn.visible = false
+			close_btn.text = "●"
+			minimize_btn.text = "–"
+			maximize_btn.text = "+"
+			close_btn.add_theme_color_override("font_color", Color("df5320"))
+
 		"motif_cde":
 			outer_style.border_color = Color("d8e0e8") if active else Color("9098a0")
 			outer_style.set_border_width_all(4)
@@ -301,6 +315,19 @@ func _apply_chrome_style(profile: OSProfile, active: bool) -> void:
 	title_bar.add_theme_stylebox_override("panel", tb_style)
 	body_panel.add_theme_stylebox_override("panel", body_style)
 	title_label.add_theme_color_override("font_color", profile.titlebar_text_color)
+
+	var title_hbox: HBoxContainer = $OuterVBox/TitleBar/TitleHBox
+	if profile.chrome_style == "ubuntu_ambiance":
+		title_hbox.move_child(close_btn, 0)
+		title_hbox.move_child(minimize_btn, 1)
+		title_hbox.move_child(maximize_btn, 2)
+		title_hbox.move_child(title_label, 3)
+	else:
+		title_hbox.move_child(left_menu_btn, 0)
+		title_hbox.move_child(title_label, 1)
+		title_hbox.move_child(minimize_btn, 2)
+		title_hbox.move_child(maximize_btn, 3)
+		title_hbox.move_child(close_btn, 4)
 
 
 # ==============================================================================
