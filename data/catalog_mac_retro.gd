@@ -23,6 +23,8 @@ static func _build_mac_sys75() -> OSProfile:
 	p.display_name = "Mac OS System 7.5.3 (Quadra 840AV)"
 	p.short_name = "Mac System 7.5"
 	p.release_year = "1995"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Apple Computer, Inc. (Cupertino, CA)"
 	p.architecture_summary = "Motorola 68040 + AT&T DSP3210 • System 7.5.3 (Rev 2) • MultiFinder"
 	p.hardware_profile = "Macintosh Quadra 840AV • MC68040 @ 40MHz • DSP3210 @ 66MHz • 64MB RAM • 1GB SCSI"
@@ -174,6 +176,8 @@ static func _build_macosx_g4() -> OSProfile:
 	p.display_name = "Mac OS X 10.2 (1999 Power Mac G4 Tower)"
 	p.short_name = "Mac OS X (G4)"
 	p.release_year = "1999"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Apple Computer, Inc."
 	p.architecture_summary = "PowerPC G4 (MPC7400 AltiVec) • Darwin 6.0 / Mach 3.0 • Quartz Extreme Aqua"
 	p.hardware_profile = "1999 Power Mac G4 'Sawtooth' (Graphite) • 450MHz AltiVec • 512MB PC100 • Rage 128 Pro AGP"
@@ -313,6 +317,8 @@ static func _build_amiga_os31() -> OSProfile:
 	p.display_name = "Commodore AmigaOS 3.1 (Amiga 3000)"
 	p.short_name = "AmigaOS 3.1"
 	p.release_year = "1993"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Commodore-Amiga, Inc. (West Chester, PA)"
 	p.architecture_summary = "Motorola 68030 + 68882 FPU • Kickstart 40.68 • Workbench 40.42 • Paula/Amber"
 	p.hardware_profile = "Amiga 3000 • MC68030 @ 25MHz • 2MB Chip + 16MB Fast RAM • WD33C93A SCSI"
@@ -472,6 +478,8 @@ static func _build_apple_iie() -> OSProfile:
 	p.display_name = "Apple IIe Enhanced (ProDOS 8 / BASIC)"
 	p.short_name = "Apple //e"
 	p.release_year = "1985"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Apple Computer, Inc."
 	p.architecture_summary = "MOS/WDC 65C02 @ 1.023MHz • 128KB Extended 80-Col • ProDOS 8 v2.0.3"
 	p.hardware_profile = "Apple //e Enhanced • Apple Monitor II (P31 Green Phosphor) • 2x Disk II 5.25\" + Profile 5MB"

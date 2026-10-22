@@ -74,6 +74,8 @@ static func _build_ubuntu_704() -> OSProfile:
 	p.display_name = "Ubuntu 7.04 (Feisty Fawn)"
 	p.short_name = "Ubuntu 7.04"
 	p.release_year = "2007"
+	p.has_crt = false
+	p.aspect_ratio = "4:3"
 	p.vendor = "Canonical Ltd."
 	p.architecture_summary = "i686 • Linux 2.6.20-15-generic • GNOME 2.18.1 (Human Theme)"
 	p.hardware_profile = "Dell OptiPlex GX620 • Intel Core 2 Duo E6400 @ 2.13GHz • 1024MB DDR2"
@@ -248,6 +250,8 @@ static func _build_hpux_cde() -> OSProfile:
 	p.display_name = "HP-UX 11i (CDE Workstation)"
 	p.short_name = "HP-UX (CDE)"
 	p.release_year = "2000"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Hewlett-Packard Company"
 	p.architecture_summary = "PA-RISC 2.0 (PA-8600) • HP-UX B.11.11 • Common Desktop Environment 2.1"
 	p.hardware_profile = "HP 9000 Visualize C3600 • PA-8600 @ 552MHz • 1024MB ECC • Ultra2 SCSI"
@@ -412,6 +416,8 @@ static func _build_plan9() -> OSProfile:
 	p.display_name = "Plan 9 from Bell Labs (4th Ed.)"
 	p.short_name = "Plan 9"
 	p.release_year = "2002"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Bell Labs / Lucent Technologies"
 	p.architecture_summary = "386 (9pcf) • 9P2000 Protocol • rio Window System • rc Shell"
 	p.hardware_profile = "Bell Labs 9pc Terminal • Pentium III 733MHz • 256MB RAM • 3Com 3C905C"
@@ -576,6 +582,8 @@ static func _build_win98_se() -> OSProfile:
 	p.display_name = "Windows 98 Second Edition"
 	p.short_name = "Windows 98 SE"
 	p.release_year = "1999"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Microsoft Corporation"
 	p.architecture_summary = "x86 • MS-DOS 7.10 / Win32 VMM 4.10.2222 A • Explorer Shell"
 	p.hardware_profile = "Intel Pentium III 500MHz • 128MB PC100 SDRAM • 3dfx Voodoo3 3000 AGP"
@@ -754,6 +762,8 @@ static func _build_os2_warp() -> OSProfile:
 	p.display_name = "IBM OS/2 Warp 4 (Merlin)"
 	p.short_name = "OS/2 Warp 4"
 	p.release_year = "1996"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "International Business Machines Corp."
 	p.architecture_summary = "x86 32-Bit Protected Mode • Rev 9.023 • Workplace Shell (PMSHELL)"
 	p.hardware_profile = "IBM PC 300PL • Pentium Pro 200MHz • 64MB EDO RAM • HPFS File System"
@@ -921,6 +931,8 @@ static func _build_winxp_alienware() -> OSProfile:
 	p.display_name = "Windows XP Pro SP2 (Alienware Area-51 P4)"
 	p.short_name = "WinXP (Area-51)"
 	p.release_year = "2003"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Microsoft / Alienware Corp. (Miami, FL)"
 	p.architecture_summary = "x86 NT 5.1 (Build 2600.xpsp2) • Luna / AlienGUIse Shell • DirectX 9.0c"
 	p.hardware_profile = "Alienware Area-51 'Predator' Full-Tower • P4 3.2GHz EE • Radeon 9800 XT • 2x WD Raptor 10K RAID-0"
@@ -1112,6 +1124,8 @@ static func _build_sgi_irix() -> OSProfile:
 	p.display_name = "SGI IRIX 6.5.22 (Octane2 VPro V12)"
 	p.short_name = "SGI IRIX 6.5"
 	p.release_year = "2001"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Silicon Graphics, Inc. (Mountain View, CA)"
 	p.architecture_summary = "MIPS64 (2x R14000A) • IRIX 6.5.22m • Indigo Magic / 4Dwm Desktop"
 	p.hardware_profile = "SGI Octane2 (IP30) • Dual 600MHz MIPS R14000A • 2GB ECC • VPro V12 Odyssey • 15K SCSI"
@@ -1281,6 +1295,8 @@ static func _build_datapoint_2200() -> OSProfile:
 	p.display_name = "Datapoint DOS 2.1 (Datapoint 2200)"
 	p.short_name = "Datapoint DOS"
 	p.release_year = "1972"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Computer Terminal Corporation (CTC • San Antonio, TX)"
 	p.architecture_summary = "CTC 8-bit Discrete TTL (Intel 8008 / x86 Ancestor) • Datapoint DOS 2.1"
 	p.hardware_profile = "Datapoint 2200 Type II • 8-Bit Discrete TTL @ 3.3MHz • 16KB RAM • Diablo 2.5MB Disk • Dual Cassette"
@@ -1472,6 +1488,8 @@ static func _build_ubuntu_1004() -> OSProfile:
 	p.display_name = "Ubuntu 10.04 LTS (AlexNet Workstation)"
 	p.short_name = "Ubuntu 10.04"
 	p.release_year = "2010"
+	p.has_crt = false
+	p.aspect_ratio = "16:9"
 	p.vendor = "Canonical Ltd. / U of T Machine Learning Group"
 	p.architecture_summary = "x86_64 • Linux 2.6.32-21 • Dual NVIDIA GTX 580 (Fermi CUDA) • GNOME 2.30 Ambiance"
 	p.hardware_profile = "Enthusiast AI Rig • Intel Core i7-3930K @ 3.2GHz • 16GB DDR3 • 2× GeForce GTX 580 3GB • 1200W PSU"
@@ -1685,6 +1703,8 @@ static func _build_evga_sr2() -> OSProfile:
 	p.display_name = "EVGA SR-2 Super Record (Triple-Boot)"
 	p.short_name = "EVGA SR-2"
 	p.release_year = "2011"
+	p.has_crt = false
+	p.aspect_ratio = "16:9"
 	p.vendor = "EVGA / Lian Li Custom HPTX Workstation"
 	p.architecture_summary = "Dual LGA1366 / Intel 5520 / Triple-Boot (x86_64)"
 	p.hardware_profile = "EVGA Classified SR-2 • 2x Xeon X5690 @ 4.4GHz • 48GB • 4x FirePro V9800"

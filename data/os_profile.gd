@@ -63,6 +63,10 @@ extends Resource
 @export var fan_noise_level: float = 0.25
 @export var hdd_seek_interval_range: Vector2 = Vector2(2.8, 7.5)
 
+@export_group("Display Hardware Profile")
+@export var has_crt: bool = true
+@export var aspect_ratio: String = "4:3"
+
 @export_group("Museum Exhibit & Codex Package")
 @export var exhibit_subtitle: String = ""
 @export var era_classification: String = ""

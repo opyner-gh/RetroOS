@@ -63,6 +63,9 @@ func configure_window(spec: Dictionary, profile: OSProfile) -> void:
 
 	position = spec.get("pos", Vector2(120, 90))
 	size = spec.get("size", Vector2(460, 300))
+	if profile and profile.aspect_ratio == "4:3":
+		if position.x + size.x > 952.0:
+			position.x = maxf(10.0, 952.0 - size.x)
 	custom_minimum_size = Vector2(240, 140)
 	_saved_rect = Rect2(position, size)
 
@@ -428,9 +431,15 @@ func _on_title_bar_gui_input(event: InputEvent) -> void:
 				_dragging = false
 	elif event is InputEventMouseMotion and _dragging and not is_maximized:
 		var target_pos := get_global_mouse_position() - _drag_offset
-		var vp_size := get_viewport_rect().size
-		target_pos.x = clampf(target_pos.x, -size.x + 80.0, vp_size.x - 80.0)
-		target_pos.y = clampf(target_pos.y, 0.0, vp_size.y - 64.0)
+		var parent_ctrl := get_parent_control()
+		if parent_ctrl:
+			var parent_rect := parent_ctrl.get_global_rect()
+			target_pos.x = clampf(target_pos.x, parent_rect.position.x - size.x + 80.0, parent_rect.end.x - 80.0)
+			target_pos.y = clampf(target_pos.y, parent_rect.position.y, parent_rect.end.y - 64.0)
+		else:
+			var vp_size := get_viewport_rect().size
+			target_pos.x = clampf(target_pos.x, -size.x + 80.0, vp_size.x - 80.0)
+			target_pos.y = clampf(target_pos.y, 0.0, vp_size.y - 64.0)
 		global_position = target_pos
 
 

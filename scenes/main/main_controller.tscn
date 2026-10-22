@@ -27,6 +27,40 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="DisplayFrame" type="Control" parent="StageContainer"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftPillarbox" type="ColorRect" parent="StageContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 160.0
+offset_bottom = -32.0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="RightPillarbox" type="ColorRect" parent="StageContainer"]
+visible = false
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -160.0
+offset_bottom = -32.0
+grow_horizontal = 0
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
 [node name="ChassisBezel" type="PanelContainer" parent="."]
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 1
@@ -115,7 +149,7 @@ text = "Seek A:"
 layout_mode = 2
 focus_mode = 0
 theme_override_font_sizes/font_size = 11
-text = "CRT (F2): ON"
+text = "CRT (F2): OFF"
 
 [node name="KVMSwitchBtn" type="Button" parent="ChassisBezel/BezelMargin/BezelHBox"]
 layout_mode = 2
@@ -127,11 +161,12 @@ text = "KVM / Reboot (F12)"
 layer = 10
 
 [node name="CRTOverlayRect" type="ColorRect" parent="CRTLayer"]
+visible = false
 material = SubResource("ShaderMaterial_crt")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-

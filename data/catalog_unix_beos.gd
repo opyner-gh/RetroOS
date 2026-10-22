@@ -25,6 +25,8 @@ static func _build_beos_r5() -> OSProfile:
 	p.display_name = "BeOS R5 Pro (5.0.3)"
 	p.short_name = "BeOS R5"
 	p.release_year = "2000"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Be Incorporated (Menlo Park, CA)"
 	p.architecture_summary = "x86 SMP • BeOS Kernel 5.0.3 • Tracker & Deskbar • 64-Bit BFS"
 	p.hardware_profile = "Tyan Tiger 100 (i440BX) • Dual Pentium III 800MHz • 512MB PC100 • Matrox G400 MAX"
@@ -181,6 +183,8 @@ static func _build_nextstep_33() -> OSProfile:
 	p.display_name = "NeXTSTEP 3.3 (NeXTstation Turbo Color)"
 	p.short_name = "NeXTSTEP 3.3"
 	p.release_year = "1995"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "NeXT Computer, Inc. (Redwood City, CA)"
 	p.architecture_summary = "Motorola 68040 • Mach 2.5 / 4.3BSD • Display PostScript • Workspace Manager"
 	p.hardware_profile = "NeXTstation Turbo Color ('The Slab') • MC68040 @ 33MHz • Motorola DSP56001 • 32MB RAM"
@@ -328,6 +332,8 @@ static func _build_solaris_8() -> OSProfile:
 	p.display_name = "Sun Solaris 8 (Ultra 60 Creator3D)"
 	p.short_name = "Solaris 8"
 	p.release_year = "2000"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Sun Microsystems, Inc."
 	p.architecture_summary = "SPARCv9 (64-Bit) • SunOS 5.8 • Solaris CDE 1.4 / OpenWindows"
 	p.hardware_profile = "Sun Ultra 60 • Dual 450MHz UltraSPARC-II • 1024MB ECC • UPA Creator3D"
@@ -478,6 +484,8 @@ static func _build_redhat_62() -> OSProfile:
 	p.display_name = "Red Hat Linux 6.2 (Zoot / Enlightenment)"
 	p.short_name = "Red Hat 6.2"
 	p.release_year = "2000"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "Red Hat, Inc. (Durham, NC)"
 	p.architecture_summary = "i686 • Linux 2.2.14-5.0 • GNOME 1.0.55 + Enlightenment 0.15.5"
 	p.hardware_profile = "AMD Athlon 750MHz (Slot-A Pluto) • Asus K7M • 256MB PC100 • Riva TNT2 Ultra"
@@ -620,6 +628,8 @@ static func _build_freebsd_411() -> OSProfile:
 	p.display_name = "FreeBSD 4.11-STABLE (WindowMaker)"
 	p.short_name = "FreeBSD 4.11"
 	p.release_year = "2004"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "The FreeBSD Project (Berkeley UNIX)"
 	p.architecture_summary = "i386 • FreeBSD 4.11-STABLE • SoftUpdates UFS • WindowMaker 0.80"
 	p.hardware_profile = "Supermicro P3TDDE • Dual Pentium III-S 1.4GHz Tualatin • 1GB ECC • Adaptec 29160"
@@ -759,6 +769,8 @@ static func _build_sco_openserver() -> OSProfile:
 	p.display_name = "SCO OpenServer 5.0.5 (SCO Panorama)"
 	p.short_name = "SCO UNIX 5.0.5"
 	p.release_year = "1999"
+	p.has_crt = true
+	p.aspect_ratio = "4:3"
 	p.vendor = "The Santa Cruz Operation, Inc."
 	p.architecture_summary = "i386 SVR3.2 v5.0.5 • HTFS • SCO Panorama (IXI X.desktop / Motif)"
 	p.hardware_profile = "Compaq ProLiant 1600 • Dual Pentium II 450MHz • 512MB ECC • Smart-2SL RAID"
