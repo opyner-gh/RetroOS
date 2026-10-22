@@ -79,6 +79,11 @@ func _draw_chassis_plate(rect: Rect2) -> void:
 	var os_id := _profile.id
 	var font := ThemeDB.fallback_font
 
+	if os_id == "dec_pdp7":
+		_draw_pdp7_chassis(rect, cx, cy, font)
+		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // DEC PDP-7 & TELETYPE MODEL 33 ASR (1970)", Color("e0a96d"), Color("383227"), "PRECURSOR TO THE WORKSTATION", Color("d97724"))
+		return
+
 	if os_id == "datapoint_2200":
 		_draw_datapoint_chassis(rect, cx, cy, font)
 		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // DATAPOINT 2200 (1972)", Color("8ecae6"), Color("2b4560"), "ARCHIVAL VECTOR PLATE", Color("3a86ff"))
@@ -234,6 +239,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 	var font := ThemeDB.fallback_font
 	var os_id := _profile.id
 
+	if os_id == "dec_pdp7":
+		_draw_pdp7_motherboard(rect, pcb, font)
+		return
+
 	if os_id == "datapoint_2200":
 		_draw_datapoint_motherboard(rect, pcb, font)
 		return
@@ -298,6 +307,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 
 
 func _draw_software_plate(rect: Rect2) -> void:
+	if _profile.id == "dec_pdp7":
+		_draw_pdp7_software_plate(rect, ThemeDB.fallback_font)
+		return
+
 	if _profile.id == "datapoint_2200":
 		_draw_datapoint_software_plate(rect, ThemeDB.fallback_font)
 		return
@@ -398,6 +411,209 @@ func _draw_plate_footer(
 	)
 	draw_rect(rect, border_col, false, 1.5)
 	_draw_plate_badge(badge_label, badge_col)
+
+
+func _draw_pdp7_chassis(rect: Rect2, cx: float, cy: float, font: Font) -> void:
+	# 1. DEC PDP-7 19-inch Industrial Relay Rack (Left Side)
+	var rack_rect := Rect2(cx - 134, cy - 65, 115, 122)
+	draw_rect(rack_rect, Color("1b222c"), true)
+	draw_rect(rack_rect, Color("2c3545"), false, 1.5)
+
+	# Rack top trim with DEC logo text
+	var dec_banner := Rect2(rack_rect.position.x + 6, rack_rect.position.y + 6, 103, 14)
+	draw_rect(dec_banner, Color("0f141a"), true)
+	draw_string(font, Vector2(dec_banner.position.x + 8, dec_banner.position.y + 10), "digital   PDP-7", HORIZONTAL_ALIGNMENT_LEFT, 90, 8, Color("d97724"))
+
+	# Front Panel Console Switch Register (Row of 18 switches in 6 octal triads)
+	var console_r := Rect2(rack_rect.position.x + 6, rack_rect.position.y + 24, 103, 38)
+	draw_rect(console_r, Color("14181f"), true)
+	draw_rect(console_r, Color("d97724"), false, 1.0)
+
+	# Indicator Lamps (Accumulator, PC, Link bit)
+	for i in range(18):
+		var lamp_x := console_r.position.x + 6 + i * 5.2
+		var lamp_col := Color("e0a96d") if (i % 2 == 0) else Color("3a2e1d")
+		draw_circle(Vector2(lamp_x, console_r.position.y + 8), 1.6, lamp_col)
+
+	# Switch Register Rockers (18 switches in octal color grouping: orange and white)
+	for i in range(18):
+		var sw_x := console_r.position.x + 5 + i * 5.2
+		var is_orange := (int(i / 3) % 2 == 0)
+		var sw_col := Color("d97724") if is_orange else Color("e8e2d5")
+		var is_up := (i in [0, 1, 4, 5, 6, 7, 8, 10, 11, 14, 16])
+		var sw_y := console_r.position.y + 16 if is_up else console_r.position.y + 22
+		draw_rect(Rect2(sw_x, sw_y, 3.8, 8), sw_col, true)
+
+	# Console action toggle levers (Deposit, Examine, Continue, Stop)
+	var levers := ["DEP", "EXAM", "CONT", "STOP"]
+	for li in range(levers.size()):
+		var lx := console_r.position.x + 10 + li * 22
+		draw_rect(Rect2(lx, console_r.position.y + 28, 14, 5), Color("c4bcae"), true)
+		draw_string(font, Vector2(lx, console_r.position.y + 36), levers[li], HORIZONTAL_ALIGNMENT_LEFT, 20, 6, Color("8d99ae"))
+
+	# Lower Bay: Burroughs RB09 1MB Fixed-Head Disk & Paper Tape Transport
+	var disk_bay := Rect2(rack_rect.position.x + 6, rack_rect.position.y + 66, 103, 48)
+	draw_rect(disk_bay, Color("11161d"), true)
+	draw_rect(disk_bay, Color("232c3a"), false, 1.0)
+	draw_circle(Vector2(disk_bay.position.x + 28, disk_bay.position.y + 24), 16.0, Color("1f2733"))
+	draw_circle(Vector2(disk_bay.position.x + 28, disk_bay.position.y + 24), 6.0, Color("d97724"))
+	draw_string(font, Vector2(disk_bay.position.x + 52, disk_bay.position.y + 20), "BURROUGHS", HORIZONTAL_ALIGNMENT_LEFT, 50, 7, Color("8ecae6"))
+	draw_string(font, Vector2(disk_bay.position.x + 52, disk_bay.position.y + 30), "1MB DISK", HORIZONTAL_ALIGNMENT_LEFT, 50, 7, Color("4ade80"))
+
+	# 2. Teletype Model 33 ASR (Right Side)
+	var tty_rect := Rect2(cx - 6, cy - 36, 138, 92)
+	draw_rect(tty_rect, Color("484f3e"), true) # Two-tone olive drab enclosure
+	draw_rect(tty_rect, Color("2d3326"), false, 1.5)
+
+	# Top housing & paper roll cavity
+	var top_cowl := Rect2(tty_rect.position.x + 12, tty_rect.position.y - 20, 114, 34)
+	draw_rect(top_cowl, Color("5a624f"), true)
+	draw_rect(top_cowl, Color("343a2c"), false, 1.0)
+
+	# Continuous yellow paper roll feeding out from platen
+	var paper_r := Rect2(top_cowl.position.x + 18, top_cowl.position.y - 18, 78, 30)
+	draw_rect(paper_r, Color("f5eed7"), true)
+	draw_rect(paper_r, Color("c8bfa6"), false, 1.0)
+	draw_string(font, Vector2(paper_r.position.x + 8, paper_r.position.y + 12), "login: ken", HORIZONTAL_ALIGNMENT_LEFT, 65, 7, Color("1c1b18"))
+	draw_string(font, Vector2(paper_r.position.x + 8, paper_r.position.y + 22), "@ ls", HORIZONTAL_ALIGNMENT_LEFT, 65, 7, Color("1c1b18"))
+
+	# Keyboard section
+	var kb_r := Rect2(tty_rect.position.x + 14, tty_rect.position.y + 24, 110, 48)
+	draw_rect(kb_r, Color("2a2824"), true)
+	draw_rect(kb_r, Color("45413a"), false, 1.0)
+
+	# 3 rows of typewriter keycaps
+	var key_c := Color("ded9cd")
+	for kr in range(3):
+		for kc in range(11):
+			var kpos := Vector2(kb_r.position.x + 6 + kc * 9.2, kb_r.position.y + 6 + kr * 10)
+			draw_rect(Rect2(kpos, Vector2(7, 7)), key_c, true)
+	# Spacebar
+	draw_rect(Rect2(kb_r.position.x + 28, kb_r.position.y + 38, 54, 6), key_c, true)
+
+	# Paper tape punch / reader module on left side of TTY
+	var punch_r := Rect2(tty_rect.position.x - 12, tty_rect.position.y + 10, 18, 42)
+	draw_rect(punch_r, Color("383e30"), true)
+	draw_rect(punch_r, Color("252a20"), false, 1.0)
+	draw_circle(Vector2(punch_r.position.x + 9, punch_r.position.y + 14), 5.0, Color("e8e2d5"))
+	draw_string(font, Vector2(punch_r.position.x + 2, punch_r.position.y + 36), "TAPE", HORIZONTAL_ALIGNMENT_LEFT, 16, 5, Color("e0a96d"))
+
+	# Stand legs under TTY
+	draw_line(Vector2(tty_rect.position.x + 16, tty_rect.end.y), Vector2(tty_rect.position.x + 10, tty_rect.end.y + 24), Color("1e1e24"), 3.0)
+	draw_line(Vector2(tty_rect.end.x - 16, tty_rect.end.y), Vector2(tty_rect.end.x - 10, tty_rect.end.y + 24), Color("1e1e24"), 3.0)
+
+
+func _draw_pdp7_motherboard(rect: Rect2, pcb: Rect2, font: Font) -> void:
+	# Deep vintage schematic background with blueprint grid
+	draw_rect(rect, Color("10141a"), true)
+	_draw_blueprint_grid(rect, Color(0.24, 0.38, 0.52, 0.22), 14.0)
+
+	draw_rect(pcb, Color("14181f"), true)
+	draw_rect(pcb, Color("d97724"), false, 1.5)
+
+	# Left Half: 18-Bit Magnetic Core Memory Matrix
+	var core_bay := Rect2(pcb.position.x + 10, pcb.position.y + 10, 138, 88)
+	draw_rect(core_bay, Color("0b0e13"), true)
+	draw_rect(core_bay, Color("d4af37"), false, 1.2)
+	draw_string(font, Vector2(core_bay.position.x + 6, core_bay.position.y + 12), "8K WORDS CORE MEMORY (18-BIT)", HORIZONTAL_ALIGNMENT_LEFT, 130, 7, Color("e0a96d"))
+
+	# Woven ferrite core wires and magnetic rings
+	for row in range(5):
+		var wy := core_bay.position.y + 24 + row * 12
+		draw_line(Vector2(core_bay.position.x + 8, wy), Vector2(core_bay.end.x - 8, wy), Color(0.83, 0.68, 0.21, 0.5), 1.0)
+	for col in range(8):
+		var wx := core_bay.position.x + 14 + col * 15
+		draw_line(Vector2(wx, core_bay.position.y + 20), Vector2(wx, core_bay.end.y - 8), Color(0.83, 0.68, 0.21, 0.5), 1.0)
+		for row in range(5):
+			var wy := core_bay.position.y + 24 + row * 12
+			draw_circle(Vector2(wx, wy), 2.2, Color("5c4928"))
+			draw_circle(Vector2(wx, wy), 1.0, Color("0b0e13"))
+	# Diagonal sense wire
+	draw_line(Vector2(core_bay.position.x + 10, core_bay.position.y + 20), Vector2(core_bay.end.x - 10, core_bay.end.y - 8), Color(0.9, 0.3, 0.2, 0.7), 1.2)
+
+	# Right Half: DEC Discrete Transistor Flip-Chip System Modules
+	var logic_bay := Rect2(pcb.position.x + 158, pcb.position.y + 10, 138, 88)
+	draw_rect(logic_bay, Color("0b0e13"), true)
+	draw_rect(logic_bay, Color("60a5fa"), false, 1.2)
+	draw_string(font, Vector2(logic_bay.position.x + 6, logic_bay.position.y + 12), "FLIP-CHIP LOGIC MODULES", HORIZONTAL_ALIGNMENT_LEFT, 130, 7, Color("93c5fd"))
+
+	# Discrete Germanium Transistors & Carbon Resistors
+	for r in range(3):
+		for c in range(5):
+			var tx := logic_bay.position.x + 16 + c * 24
+			var ty := logic_bay.position.y + 26 + r * 20
+			# Silver metallic transistor can
+			draw_circle(Vector2(tx, ty), 4.2, Color("b0b8c2"))
+			draw_circle(Vector2(tx, ty), 2.5, Color("6e7885"))
+			# Striped resistor
+			draw_rect(Rect2(tx + 6, ty - 2, 8, 4), Color("c49a6c"), true)
+			draw_line(Vector2(tx + 8, ty - 2), Vector2(tx + 8, ty + 2), Color("111111"), 1.0)
+			draw_line(Vector2(tx + 11, ty - 2), Vector2(tx + 11, ty + 2), Color("d97724"), 1.0)
+
+	_draw_plate_footer(rect, font, "EXHIBIT PLATE II // 18-BIT CORE MEMORY & TRANSISTOR MODULES", Color("e0a96d"), Color("1b222c"), "1.75 µs CORE CYCLE", Color("d97724"))
+
+
+func _draw_pdp7_software_plate(rect: Rect2, font: Font) -> void:
+	draw_rect(rect, Color("0a0e14"), true)
+
+	# Left Half: Circular DEC Type 340 Vector Display (Space Travel 1969)
+	var crt_r := Rect2(rect.position.x + 10, rect.position.y + 10, rect.size.x * 0.47, rect.size.y - 20)
+	draw_rect(crt_r, Color("061109"), true)
+	draw_rect(crt_r, Color("2d6a4f"), false, 1.5)
+
+	var scope_c := crt_r.get_center() - Vector2(0, 10)
+	draw_circle(scope_c, 44.0, Color("04180a"))
+	draw_arc(scope_c, 44.0, 0, TAU, 32, Color("33ff55"), 1.5)
+
+	# Space Travel celestial bodies: Sun at center with vector flares
+	draw_circle(scope_c, 5.0, Color("80ff80"))
+	for a in range(8):
+		var rad := a * (TAU / 8.0)
+		var flare_dir := Vector2(cos(rad), sin(rad))
+		draw_line(scope_c + flare_dir * 7.0, scope_c + flare_dir * 13.0, Color("33ff55"), 1.2)
+
+	# Planetary orbits
+	draw_arc(scope_c, 22.0, 0, TAU, 24, Color(0.2, 0.8, 0.3, 0.4), 1.0)
+	draw_circle(scope_c + Vector2(16, 14), 2.8, Color("33ff55")) # Earth
+	draw_circle(scope_c + Vector2(21, 16), 1.2, Color("80ff80")) # Moon
+
+	# Spacecraft vector glyph and trajectory
+	var ship_pos := scope_c + Vector2(-26, 22)
+	draw_line(ship_pos, ship_pos + Vector2(8, -6), Color("80ff80"), 1.5)
+	draw_line(ship_pos + Vector2(8, -6), ship_pos + Vector2(2, 6), Color("80ff80"), 1.5)
+	draw_line(ship_pos + Vector2(8, -6), ship_pos + Vector2(20, -15), Color(0.2, 1.0, 0.4, 0.6), 1.0)
+
+	draw_string(font, Vector2(crt_r.position.x + 8, crt_r.end.y - 8), "DEC 340 SCOPE: SPACE TRAVEL (1969)", HORIZONTAL_ALIGNMENT_LEFT, crt_r.size.x - 16, 7, Color("4ade80"))
+
+	# Right Half: Continuous Teletype Model 33 ASR Paper Roll
+	var roll_r := Rect2(rect.position.x + rect.size.x * 0.50, rect.position.y + 10, rect.size.x * 0.48, rect.size.y - 20)
+	draw_rect(roll_r, Color("f5eed7"), true)
+	draw_rect(roll_r, Color("bdae8c"), false, 1.5)
+
+	# Paper tractor perforations on side
+	for p in range(int(roll_r.size.y / 12.0)):
+		var py := roll_r.position.y + 8 + p * 12
+		draw_circle(Vector2(roll_r.position.x + 6, py), 1.6, Color("cec4ab"))
+		draw_circle(Vector2(roll_r.end.x - 6, py), 1.6, Color("cec4ab"))
+
+	var tty_ink := Color("1c1b18")
+	var tty_lines := [
+		"TELETYPE MODEL 33 ASR (110 BAUD)",
+		"login: ken",
+		"@ ls",
+		"as   b   cat   cp   ed   rm   sh   space.b",
+		"@ b space.b",
+		"0 ERRORS. OUTPUT: space.out",
+		"@ rm space.tmp",
+		"@ _"
+	]
+	for idx in range(tty_lines.size()):
+		var ly := roll_r.position.y + 16 + idx * 13
+		var col := Color("6b6252") if idx == 0 else tty_ink
+		draw_string(font, Vector2(roll_r.position.x + 14, ly), tty_lines[idx], HORIZONTAL_ALIGNMENT_LEFT, roll_r.size.x - 28, 8, col)
+
+	draw_rect(rect, Color("bdae8c"), false, 1.5)
+	_draw_plate_badge("DEC 340 CRT & ASR-33 PAPER ROLL", Color("383227"))
 
 
 func _draw_datapoint_chassis(rect: Rect2, cx: float, cy: float, font: Font) -> void:

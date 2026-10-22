@@ -30,6 +30,8 @@ var _cached_floppy_seek: AudioStream
 var _cached_optical_seek: AudioStream
 var _cached_disk2_bang: AudioStream
 var _cached_post_beep: AudioStream
+var _cached_teletype_clatter: AudioStream
+var _cached_teletype_bell: AudioStream
 var _cached_startup_streams: Dictionary = {}
 var _cached_fan_streams: Dictionary = {}
 
@@ -102,6 +104,8 @@ func _prebuild_core_streams() -> void:
 	_cached_optical_seek = _load_or_generate("res://assets/audio/sfx/optical_seek.ogg", _synth_optical_seek)
 	_cached_disk2_bang = _load_or_generate("res://assets/audio/sfx/disk2_bang.ogg", _synth_disk2_bang)
 	_cached_post_beep = _load_or_generate("res://assets/audio/sfx/post_beep.ogg", _synth_post_beep)
+	_cached_teletype_clatter = _load_or_generate("res://assets/audio/sfx/teletype_clatter.ogg", _synth_teletype_clatter)
+	_cached_teletype_bell = _load_or_generate("res://assets/audio/sfx/teletype_bell.ogg", _synth_teletype_bell)
 
 
 func _load_or_generate(path: String, generator: Callable) -> AudioStream:
@@ -219,6 +223,25 @@ func play_post_beep() -> void:
 	_beep_player.play()
 
 
+## Plays a mechanical Teletype Model 33 ASR typebasket striker and platen advance.
+func play_teletype_clatter() -> void:
+	if master_muted:
+		return
+	_hdd_player.stream = _cached_teletype_clatter
+	_hdd_player.pitch_scale = _rng.randf_range(0.96, 1.04)
+	_hdd_player.play()
+	disk_activity_pulsed.emit(false)
+
+
+## Plays an ASR-33 Teletype mechanical brass strike alert bell (ASCII 07 BEL).
+func play_teletype_bell() -> void:
+	if master_muted:
+		return
+	_beep_player.stream = _cached_teletype_bell
+	_beep_player.pitch_scale = _rng.randf_range(0.99, 1.01)
+	_beep_player.play()
+
+
 ## Plays the unique OS login/startup chime for the specified `os_id`.
 func play_os_startup_sound(os_id: String) -> void:
 	if master_muted:
@@ -257,6 +280,10 @@ func trigger_boot_sfx(sfx_key: String, profile: OSProfile = null) -> void:
 			play_hdd_burst()
 		"fan_spinup":
 			trigger_fan_spinup(profile)
+		"teletype_clatter":
+			play_teletype_clatter()
+		"teletype_bell":
+			play_teletype_bell()
 
 
 func _schedule_next_ambient_hdd_tick() -> void:
@@ -774,6 +801,10 @@ func _synth_os_startup_chime(os_id: String) -> AudioStreamWAV:
 				{"freq": 2400.00, "start": 0.00, "dur": 0.22, "amp": 0.32, "warmth": 0.2},
 			], 0.30)
 
+		"dec_pdp7":
+			# Teletype Model 33 ASR electromechanical motor engage, carriage advance, and brass strike bell
+			return _synth_teletype_startup_sequence()
+
 		"evga_sr2":
 			if GameState.sr2_active_os == "lion":
 				# Apple F-sharp Major chord (Mac OS X Lion)
@@ -832,4 +863,79 @@ func _synth_chord_sequence(notes: Array[Dictionary], total_duration: float) -> A
 				mix += (fundamental + harmonic2 + harmonic3) * amp * attack * decay
 		samples[i] = clampf(mix, -0.95, 0.95)
 
+	return _create_wav_stream(samples, false)
+
+
+## Synthesizes rapid mechanical typebasket striker clatter of a Model 33 ASR Teletype.
+func _synth_teletype_clatter() -> AudioStreamWAV:
+	var duration := 0.14
+	var count := int(MIX_RATE * duration)
+	var samples := PackedFloat32Array()
+	samples.resize(count)
+	var lp := 0.0
+	for i in range(count):
+		var t := float(i) / float(MIX_RATE)
+		var white := _rng.randf_range(-1.0, 1.0)
+		lp += 0.35 * (white - lp)
+		var val := 0.0
+		# Striker impact at 0.002s, carriage advance tick at 0.052s
+		for click_t in [0.002, 0.052]:
+			var dt: float = t - click_t
+			if dt >= 0.0 and dt < 0.040:
+				var clack := sin(TAU * 1150.0 * dt) * exp(-dt * 260.0) * 0.45
+				var metal := (white - lp) * exp(-dt * 450.0) * 0.85
+				val += clack + metal
+		samples[i] = clampf(val * 0.90, -0.98, 0.98)
+	return _create_wav_stream(samples, false)
+
+
+## Synthesizes the authentic mechanical brass bell strike (ASCII 07 BEL) of the Teletype 33.
+func _synth_teletype_bell() -> AudioStreamWAV:
+	var duration := 0.48
+	var count := int(MIX_RATE * duration)
+	var samples := PackedFloat32Array()
+	samples.resize(count)
+	for i in range(count):
+		var t := float(i) / float(MIX_RATE)
+		# Dual brass bell resonance: 2150 Hz and 2840 Hz with natural metallic ring decay
+		var bell := (sin(TAU * 2150.0 * t) * 0.65 + sin(TAU * 2840.0 * t) * 0.35) * exp(-t * 9.2)
+		if t < 0.012:
+			bell += _rng.randf_range(-0.35, 0.35) * exp(-t * 280.0)
+		samples[i] = clampf(bell * 0.72, -0.98, 0.98)
+	return _create_wav_stream(samples, false)
+
+
+## Synthesizes the full ASR-33 Teletype power-on & startup sequence.
+func _synth_teletype_startup_sequence() -> AudioStreamWAV:
+	var duration := 0.95
+	var count := int(MIX_RATE * duration)
+	var samples := PackedFloat32Array()
+	samples.resize(count)
+	var lp := 0.0
+	for i in range(count):
+		var t := float(i) / float(MIX_RATE)
+		var white := _rng.randf_range(-1.0, 1.0)
+		lp += 0.30 * (white - lp)
+		var val := 0.0
+
+		# 1. 110-baud motor relay engagement (0.01s - 0.08s)
+		if t >= 0.01 and t < 0.08:
+			var dt := t - 0.01
+			val += (sin(TAU * 120.0 * dt) + (white - lp) * 0.4) * exp(-dt * 120.0) * 0.40
+
+		# 2. Carriage return & linefeed clatter (0.12s - 0.32s)
+		if t >= 0.12 and t < 0.32:
+			var dt := t - 0.12
+			var step_dt := fmod(dt, 0.045)
+			val += (sin(TAU * 950.0 * step_dt) + (white - lp) * 0.6) * exp(-step_dt * 220.0) * 0.50
+
+		# 3. Authentic ASR-33 brass bell strike (0.38s - 0.92s)
+		if t >= 0.38:
+			var dt := t - 0.38
+			var bell := (sin(TAU * 2150.0 * dt) * 0.65 + sin(TAU * 2840.0 * dt) * 0.35) * exp(-dt * 8.5)
+			if dt < 0.010:
+				bell += (white - lp) * 0.45 * exp(-dt * 300.0)
+			val += bell * 0.75
+
+		samples[i] = clampf(val * 0.85, -0.98, 0.98)
 	return _create_wav_stream(samples, false)

@@ -4,16 +4,17 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![GDScript 2.0](https://img.shields.io/badge/GDScript-2.0-blue)
 
-**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 20 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
+**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 21 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
 
 ![RetroOS Main Menu KVM Switch](screenshot_main_menu.png)
 
 ---
 
-## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2011)
+## ✨ Included Operating Systems & Workstations (Chronological: 1970 → 2011)
 
 | OS Profile & Machine | Era | Firmware & Bootloader | Desktop Environment & Chrome | Shell & Prompt |
 | :--- | :---: | :--- | :--- | :--- |
+| **Research Unix Prototype (DEC PDP-7)** | 1970 | 18-Bit Switch Register (Deposit/Examine) → Burroughs RB09 Disk (Track 0) | Teletype Model 33 ASR Continuous Paper Roll (`pdp7_teletype` chrome) + DEC 340 Vector Scope | Ken Thompson Shell (`@ `) |
 | **Datapoint DOS 2.1 (Datapoint 2200)** | 1972 | CTC Bootstrap ROM 2.4 (8-bit Discrete TTL CPU) → Diablo Disk 0 → `DOS.SYS` | 12×80 Curved P31 Green CRT Console (`datapoint_green` chrome) | Datapoint DOS Executive (`: `) |
 | **Apple IIe Enhanced (ProDOS 8 / BASIC)** | 1985 | Apple Computer Inc. Apple //e Enhanced 64KB ROM (65C02 @ 1.023MHz) → ProDOS 8 | 40/80-column monochrome green phosphor display with Shugart SA-390 stepper clacks | Applesoft BASIC (`]`) |
 | **Commodore AmigaOS 3.1 (Amiga 3000)** | 1993 | Commodore Amiga 3000 Kickstart 3.1 (ROM 40.068, MC68030 @ 25MHz + Paula 8364) → `LoadWB` | Workbench 3.1 with 4-color Topaz palette (`#0055AA`, `#FFAA55`, `#FFFFFF`, `#000000`) and top screen menu bar | AmigaDOS CLI (`1.Workbench:>`) |
@@ -95,7 +96,7 @@ RetroOS/
 
 ## 🏛️ Wikipedia-Inspired Digital Computing Codex & Exhibit Packages
 
-Each of the 20 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
+Each of the 21 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
 
 1. **Hideable Catalog Sidebar (`[ ☰ Hide Sidebar [Tab] ]`)**:
    - Collapse or expand the left computer selection drawer at any time (via the top-left button or the `Tab` key) to read the Codex in full-width museum view, filter by category, or search across CPUs, vendors, and release years.
@@ -148,7 +149,7 @@ MainMenu (Control) [main_menu.gd]
         ├── HeaderPanel (PanelContainer)      # Sidebar Toggle [Tab], Search Bar, Wiki Light/Dark Toggle
         └── ContentHBox (HBoxContainer)
             ├── LeftSelectorPanel (PanelContainer)     # Hideable Computer Selection Sidebar
-            │   └── ... -> OSListVBox (VBoxContainer)  # Chronological 1972 -> 2011 Catalog (Ascending)
+            │   └── ... -> OSListVBox (VBoxContainer)  # Chronological 1970 -> 2011 Catalog (Ascending)
             └── RightPreviewPanel (PanelContainer)     # Wikipedia-Style Codex Workspace
                 └── ... -> PreviewVBox (VBoxContainer)
                     ├── ArticleBannerHBox (PreviewTitle, PreviewMeta)
@@ -210,6 +211,7 @@ DesktopEnvironment (Control) [desktop_environment.gd]
 4. **5.25" Apple Disk II Track-00 Bang (`play_disk2_bang`)**: Authentic Shugart SA-390 stepper clatter banging against the physical stop bracket.
 5. **SCSI / ATAPI CD-ROM Optical Sled Seek (`play_optical_seek`)**: High-speed laser sled homing and lens focus calibration for 90s/2000s multimedia towers.
 6. **Unique OS Startup Chimes (`play_os_startup_sound`)**:
+   - `dec_pdp7`: Teletype Model 33 ASR electromechanical motor engage, carriage advance clatter, and brass alert bell strike (`BEL`, ASCII 07)
    - `datapoint_2200`: Discrete TTL teletype console acoustic relay click & ready tone
    - `apple_iie`: High-pitched 1000Hz Apple II built-in speaker beep
    - `amiga_os31`: Paula 8-bit DMA stereo harmonic arpeggio (`A3 → C#4 → E4 → A4`)
@@ -237,6 +239,7 @@ DesktopEnvironment (Control) [desktop_environment.gd]
 
 Click inside any terminal window and type commands (`Up` / `Down` arrows navigate command history):
 - **Universal Commands**: `help`, `clear` / `cls`, `neofetch`, `date`, `whoami`, `floppy`, `cdrom` / `eject`, `reboot`, `exit`
+- **DEC PDP-7 (Research Unix Prototype)**: `ls`, `cat memo.txt`, `cat space.b`, `cat space.s`, `cat sys`, `b space.b`, `as space.s`, `space` (or `spacetravel`), `ed`, `rm <file>`, `cp <src> <dst>`, `mv <src> <dst>`, `who`, `pwd`, `sh`, `bell`, `pdp7`, `sysinfo` *(features silent execution on success and solitary `?` responses)*
 - **Datapoint 2200**: `cat`, `dir`, `load`, `run`, `date <mm/dd/yy>`, `status`, `reboot`
 - **Apple IIe Enhanced**: `catalog`, `catalog d1`, `list`, `run`, `print 2+2`, `pr#6`, `call -151`
 - **AmigaOS 3.1**: `version`, `dir`, `avail`, `info`, `list`, `type s:startup-sequence`

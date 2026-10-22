@@ -1,5 +1,5 @@
 extends RefCounted
-## Archival Museum Exhibit Packages (Part II: 1972–1999 Classic Systems).
+## Archival Museum Exhibit Packages (Part II: 1970–1999 Classic Systems).
 ## Provides historical context, engineering analysis, Wikipedia-style Infobox technical
 ## specifications, period-correct usage case dossiers, and media gallery slots.
 
@@ -8,6 +8,9 @@ const OSProfile = preload("res://data/os_profile.gd")
 
 static func populate(p: OSProfile) -> bool:
 	match p.id:
+		"dec_pdp7":
+			_populate_dec_pdp7(p)
+			return true
 		"datapoint_2200":
 			_populate_datapoint_2200(p)
 			return true
@@ -701,6 +704,133 @@ static func _populate_apple_iie(p: OSProfile) -> void:
 		"Fully socketed logic board showcasing Wozniak's 8-chip Disk II controller in Slot 6 and the Extended 80-Column RAM card.",
 		"Fig 3. P31 Monochrome Green Phosphor Screen: ProDOS 8 Catalog, MouseText & Applesoft `]`",
 		"Luminous #33FF55 P31 phosphor text displaying ProDOS volume directory `/USERS.DISK` and Applesoft BASIC listings."
+	)
+
+
+# ==============================================================================
+# 0. RESEARCH UNIX PROTOTYPE (DEC PDP-7) - 1970
+# THE PRECURSOR TO THE WORKSTATION & BIRTHPLACE OF UNIX, B, AND C
+# ==============================================================================
+static func _populate_dec_pdp7(p: OSProfile) -> void:
+	p.exhibit_subtitle = "The Precursor to the Workstation: Ken Thompson & Dennis Ritchie's 18-Bit Crucible (The Genesis of Unix, B, and C)"
+	p.era_classification = "The Dawn of Interactive Computing & Minicomputer Time-Sharing (1969–1971)"
+	p.historical_overview = (
+		"The DEC PDP-7 running Ken Thompson and Dennis Ritchie's original 1969–1970 assembly operating system marks the "
+		+ "historical genesis of Unix, the C programming language, and the interactive technical workstation. In early 1969, "
+		+ "Bell Telephone Laboratories withdrew from the ambitious but severely overengineered Multics (Multiplexed Information "
+		+ "and Computing Service) joint project on the GE-645 mainframe. Deprived of an interactive software development "
+		+ "environment—and eager to run his celestial mechanics game 'Space Travel'—Ken Thompson discovered an idle, obsolete "
+		+ "18-bit DEC PDP-7 minicomputer in Bell Labs Department 127 with 8,192 words (8K words / ~18 KB) of magnetic core memory.\n\n"
+		+ "Working closely with Dennis Ritchie, Rudd Canaday, and Joe Ossanna, Thompson hand-crafted a compact, multi-tasking operating "
+		+ "system directly in PDP-7 assembly. To eliminate the tedious necessity of writing utilities in raw machine code, Thompson "
+		+ "created the B programming language—a stripped-down, typeless derivative of Martin Richards' BCPL where every variable "
+		+ "represented a single 18-bit machine word. When Bell Labs acquired a 16-bit DEC PDP-11/20 in 1970 to handle text processing "
+		+ "for the patent department using 'roff', B's word-oriented nature and threaded execution hit architectural bottlenecks on "
+		+ "the PDP-11's byte-addressed architecture. Between 1971 and 1973, Dennis Ritchie evolved B into New B and ultimately C, "
+		+ "introducing native types ('char', 'int'), pointer-array decay, structures ('struct'), and a true machine compiler. In 1973, "
+		+ "Ritchie and Thompson rewrote the Unix Version 4 kernel in C—decoupling operating systems from proprietary hardware and "
+		+ "establishing the foundation of modern computing."
+	)
+	p.historical_context = (
+		"1. DISMANTLING THE MAINFRAME PARADIGM: FROM BATCH PROCESSING TO INTERACTIVE INTIMACY\n"
+		+ "Before the minicomputer revolution led by Digital Equipment Corporation (DEC), computing was dominated by massive, multimillion-dollar "
+		+ "batch-processing mainframes (IBM System/360, GE-645) isolated behind glass walls in air-conditioned computer centers. Programmers "
+		+ "punched hollerith cards on keypunch machines, submitted them to bureaucratic operators, and waited hours or days for printed listings. "
+		+ "DEC's Programmed Data Processor line—starting with the 12-bit PDP-8 (1965) and culminating in the 16-bit PDP-11 (1970)—dismantled this "
+		+ "regime. Costing tens of thousands of dollars rather than millions, PDP cabinets were small enough to sit in a departmental laboratory. "
+		+ "For the first time, a programmer sat directly in front of the console terminal, typed commands in real-time, edited code interactively, "
+		+ "and debugged live programs. This intimate feedback loop became the behavioral definition of the technical workstation.\n\n"
+		+ "2. HARDWARE PRECURSORS OF THE WORKSTATION: UNIBUS, BYTE-ADDRESSING, AND MMUS\n"
+		+ "Workstations of the 1980s (Sun Microsystems, Apollo, Silicon Graphics, DECstation) inherited their core architectural concepts directly "
+		+ "from DEC PDP platforms:\n"
+		+ "• Unified Bus Architecture (Unibus): Introduced on the PDP-11, Unibus mapped CPU registers, core memory, and I/O devices into a single "
+		+ "shared 16-bit address space, eliminating mainframe channel architecture and establishing open bus standards (Multibus, VMEbus, SBus).\n"
+		+ "• Byte-Addressability: Efficient 8-bit byte and 16-bit word handling with general-purpose registers and hardware stack pointers standardized "
+		+ "microprocessor design for the Motorola 68000 and early RISC architectures.\n"
+		+ "• Memory Management Units (MMU): The PDP-11/45 and 11/70 introduced hardware memory segmentation and dual Kernel/User protection rings, "
+		+ "enabling true protected-memory pre-emptive multitasking.\n\n"
+		+ "3. FROM MINICOMPUTER TO DESKTOP: THE '3M WORKSTATION' (1980s)\n"
+		+ "By the late 1970s, minicomputer time-sharing hit a scaling wall: as dozens of engineers logged into a shared PDP-11 or VAX-11/780, response "
+		+ "times degraded. The workstation industry emerged by shrinking that entire minicomputer environment onto dedicated single-user hardware. "
+		+ "The industry codified the '3M' workstation standard: 1 Megabyte of RAM, 1 Megapixel bitmapped display, and 1 Million Instructions Per "
+		+ "Second (1 MIPS) of compute. Every 3M workstation built in the early 1980s (Xerox Alto, Three Rivers PERQ, Apollo DOMAIN, Sun-1) traced "
+		+ "its software stack directly back to the PDP-7/PDP-11 crucible: they ran Unix, were compiled with C, and used interactive shells, pipes, "
+		+ "and daemons as their operating substrate."
+	)
+	p.engineering_innovations = (
+		"• 18-Bit Discrete Transistor Architecture: The PDP-7 utilized an 18-bit word format (15-bit addressable field addressing up to 32,768 "
+		+ "words) constructed entirely from discrete Germanium transistor flip-chip logic modules. It operated with a 1.75 µs cycle time (~570,000 "
+		+ "instructions/sec) with an Accumulator (AC), Link bit, and Program Counter (PC).\n"
+		+ "• Hierarchical Inode Filesystem & Device Abstraction: Ken Thompson invented the tree-structured filesystem rooted at '/', the representation "
+		+ "of directories as ordinary readable files, and the concept of special device files ('/dev/tty'), establishing the Unix philosophy that "
+		+ "'everything is a file'.\n"
+		+ "• Radical Keystroke Economy: Interacting over a 110-baud (10 character-per-second) electromechanical Teletype Model 33 ASR made printing "
+		+ "verbose output physically painful. Thompson designed shell commands with radical two-letter brevity ('ls', 'cp', 'rm', 'mv', 'cat', 'ed', "
+		+ "'sh', 'as', 'b'). Successful operations returned absolute silence (an immediate '@' prompt), and typos produced solitary '?' errors.\n"
+		+ "• DEC Type 340 Precision Vector CRT & 'Space Travel': Thompson ported his 'Space Travel' simulation to the PDP-7's auxiliary 16-inch "
+		+ "DEC 340 circular vector scope. The machine solved Newton's equations of celestial gravitational attraction in real-time, plotting "
+		+ "flickering vector outlines of the Sun and planets while the pilot controlled spacecraft RCS pitch via front-panel console switches.\n"
+		+ "• Burroughs RB09 Fixed-Head Disk: A 1-megabyte magnetic disk platter with dedicated read/write heads per track provided microsecond "
+		+ "sector access, allowing the kernel to swap processes and load assembly overlays without waiting for mechanical arm seeks.\n"
+		+ "• The B Programming Language: Thompson stripped Martin Richards' BCPL down to an 8K-word footprint. B was typeless and word-oriented; "
+		+ "every variable occupied an 18-bit machine word, paving the direct evolutionary path to Dennis Ritchie's C."
+	)
+	p.cultural_legacy = (
+		"The 1969–1970 PDP-7 Unix prototype is the ultimate origin point of the modern computing world. From this salvage project grew the C "
+		+ "programming language—which became the foundation of modern operating systems, compilers, game engines, and internet protocols—and "
+		+ "Unix itself, whose direct descendants power billions of devices worldwide today (including Apple macOS, iOS, Google Android, Linux "
+		+ "servers, and FreeBSD). Furthermore, the interactive philosophy pioneered on this machine—where an engineer sits directly at a console, "
+		+ "wields expressive tools, combines small utilities with pipes, and receives instantaneous feedback—formed the direct technical and "
+		+ "cultural blueprint for the desktop workstation."
+	)
+	p.technical_specs = {
+		"Manufacturer / Vendor": "Digital Equipment Corporation (DEC) / Bell Telephone Laboratories",
+		"Release Date": "1970 (Unix Prototype 1969–1970 • PDP-7 launched 1965)",
+		"System Model": "DEC PDP-7 (Programmed Data Processor 7) Minicomputer",
+		"Processor (CPU)": "DEC 18-Bit Discrete Transistor Logic (Flip-Chip Modules)",
+		"Instruction Word": "18-Bit (4-Bit Opcode, 1-Bit Indirect, 13-Bit Address)",
+		"Clock / Cycle Time": "1.75 µs Core Cycle (~570,000 instructions per second / 0.57 MIPS)",
+		"Memory (RAM)": "8,192 words (8K 18-bit words = ~18.4 KB Magnetic Core Memory)",
+		"Primary Storage": "Burroughs RB09 Fixed-Head Disk (1 Megabyte / 512K words)",
+		"Secondary Storage": "High-Speed Optical Paper Tape Reader / Punch (300 cps / 50 cps)",
+		"Primary Console": "Teletype Model 33 ASR (110 Baud, 10 CPS, 20mA Current Loop)",
+		"Auxiliary Display": "DEC Type 340 Precision Incremental Vector CRT (1024x1024)",
+		"Operating System": "Research Unix Prototype (Ken Thompson Assembler Kernel, Pre-V1)",
+		"Core Languages": "B (Typeless 18-Bit Word Language by Ken Thompson) + PDP-7 Assembly",
+		"Default Shell Prompt": "@ (Original Thompson Shell Prompt, precursor to % and $)",
+		"Primary Workloads": "'Space Travel' Celestial Simulation, Document Prep, B Compiler",
+		"Power Consumption": "~1,500 Watts (Standard 115V/30A laboratory mains feed)",
+		"Physical Enclosure": "Single 19-inch Relay Rack Cabinet (~600 lbs / 272 kg)",
+		"Historical Legacy": "Precursor to the Workstation; Birthplace of Unix, B, and C"
+	}
+	p.usage_cases = [
+		{
+			"title": "Ken Thompson's 'Space Travel' Simulation on the DEC 340 Vector Display (1969)",
+			"role": "Computing Science Researcher & Game Programmer (Ken Thompson, Bell Labs Dept 127)",
+			"software": "PDP-7 Assembler, Space Travel Vector Engine, DEC 340 Display Subroutine",
+			"scenario": "Sitting at the PDP-7 console switches while the DEC 340 green-phosphor CRT glows. Thompson pilots a lunar spacecraft against simulated orbital gravity calculations around the Sun, Earth, and Mars. The machine recalculates gravitational vectors across its 18-bit accumulator in real time, drawing flickering vector outlines while console switch register toggles command spacecraft thrusters."
+		},
+		{
+			"title": "Bootstrapping the Typeless B Language & File Utility Suite from Raw Assembly (1970)",
+			"role": "Systems Software Architect & Language Designer (Dennis Ritchie & Ken Thompson)",
+			"software": "B Language Compiler, PDP-7 Assembler (as), Line Editor (ed), Early Shell",
+			"scenario": "Writing utility programs without writing tedious PDP-7 assembly by compiling with Thompson's new B language. The programmer types 'b space.b', which parses typeless 18-bit words into threaded machine code. Running 'ls' prints the directory entries, and removing temporary intermediate files with 'rm' succeeds with absolute silence."
+		},
+		{
+			"title": "Bell Labs Patent Office Document Preparation & Shell Pipeline Composition (1970–1971)",
+			"role": "Technical Document Specialist & System Administrator (Joe Ossanna & Rudd Canaday)",
+			"software": "roff (Runoff text formatter), ed line editor, Hierarchical Inode Filesystem",
+			"scenario": "Preparing complex patent applications using 'ed' and 'roff'. Entering text line-by-line on the clattering Teletype Model 33 ASR paper roll. When a typo occurs, typing '?' alerts the operator without interrupting the continuous paper feed. The resulting documents convinced Bell Labs management to fund the purchase of a 16-bit PDP-11/20."
+		}
+	]
+	p.exhibit_images = _build_default_image_slots(
+		p.id,
+		"Fig 1. DEC PDP-7 Minicomputer Rack Cabinet & Teletype Model 33 ASR Console",
+		"The 19-inch industrial relay rack housing 8K words of 18-bit core memory and front-panel switch register beside the ASR-33 paper teletype.",
+		"Fig 2. 18-Bit Magnetic Core Memory Plane & Front-Panel Switch Register Matrix",
+		"Ferrite core memory plane strung with sensing wires alongside the octal address switches used to deposit the primary bootstrap loader.",
+		"Fig 3. DEC Type 340 Vector Display 'Space Travel' & Teletype Paper Roll Shell",
+		"Circular green-phosphor vector CRT plotting celestial planetary orbits alongside the continuous paper teletype roll displaying the '@' prompt."
 	)
 
 

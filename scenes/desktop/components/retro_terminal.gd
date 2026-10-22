@@ -88,12 +88,18 @@ func _on_command_submitted(raw_cmd: String) -> void:
 	command_input.clear()
 
 	if trimmed.is_empty():
-		AudioManager.play_hdd_click(0.04)
+		if _profile and _profile.id == "dec_pdp7":
+			AudioManager.play_teletype_clatter()
+		else:
+			AudioManager.play_hdd_click(0.04)
 		return
 
 	_history.append(trimmed)
 	_history_index = _history.size()
-	AudioManager.play_hdd_click()
+	if _profile and _profile.id == "dec_pdp7":
+		AudioManager.play_teletype_clatter()
+	else:
+		AudioManager.play_hdd_click()
 
 	_execute_command(trimmed)
 
@@ -145,6 +151,35 @@ func _execute_command(cmd: String) -> void:
 				date_str = "10/22/72"
 			append_line("DATE SET: " + date_str)
 			append_line("DOS READY.")
+			return
+
+	# DEC PDP-7 & Research Unix interactive commands
+	if _profile and _profile.id == "dec_pdp7":
+		if lower.begins_with("rm ") or lower == "rm":
+			# Radical economy of keystrokes: success yields absolute silence!
+			return
+
+		if lower.begins_with("cp ") or lower == "cp":
+			return
+
+		if lower.begins_with("mv ") or lower == "mv":
+			return
+
+		if lower == "bell":
+			AudioManager.play_teletype_bell()
+			return
+
+		if lower.begins_with("ed ") or lower == "ed":
+			AudioManager.play_teletype_clatter()
+			append_line("?")
+			return
+
+		if lower == "space" or lower == "spacetravel":
+			AudioManager.play_teletype_clatter()
+			append_line("INITIALIZING DEC TYPE 340 CRT DISPLAY VECTORS...")
+			append_line("CELESTIAL ORBITAL TABLES LOADED: [SOL, MERCURY, VENUS, EARTH, MARS]")
+			append_line("SOLVING KEPLER'S EQUATIONS ACROSS 18-BIT ACCUMULATOR...")
+			append_line("SPACE TRAVEL SIMULATION ACTIVE ON DEC 340 SCOPE.")
 			return
 
 	# EVGA SR-2 specific boot switching & BBS commands
@@ -214,6 +249,8 @@ func _execute_command(cmd: String) -> void:
 	if lower == "whoami":
 		if _profile:
 			match _profile.id:
+				"dec_pdp7":
+					append_line("ken")
 				"datapoint_2200":
 					append_line("OPERATOR 1 (LOCAL CONSOLE)")
 				"ubuntu_704":
@@ -275,6 +312,9 @@ func _execute_command(cmd: String) -> void:
 				append_line("?SYNTAX ERROR")
 			"datapoint_2200":
 				append_line("ERROR: UNKNOWN COMMAND OR FILE")
+			"dec_pdp7":
+				AudioManager.play_teletype_clatter()
+				append_line("?")
 			"evga_sr2":
 				if GameState.sr2_active_os == "lion":
 					append_line("-bash: " + cmd.split(" ")[0] + ": command not found")

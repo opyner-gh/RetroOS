@@ -1,7 +1,7 @@
 class_name RetroOSRegistry
 extends RefCounted
 ## Central registry for all available Operating System profiles in RetroOS.
-## Provides the 20 built-in historical operating systems and automatically discovers
+## Provides the 21 built-in historical operating systems and automatically discovers
 ## any additional `.tres` OSProfile resources placed in `res://data/profiles/`.
 
 const OSProfile = preload("res://data/os_profile.gd")
@@ -12,6 +12,7 @@ const CUSTOM_PROFILES_DIR := "res://data/profiles"
 
 static func get_all_profiles() -> Array[OSProfile]:
 	var profiles: Array[OSProfile] = [
+		_build_dec_pdp7(),
 		_build_datapoint_2200(),
 		_build_ubuntu_704(),
 		_build_ubuntu_1004(),
@@ -59,6 +60,8 @@ static func get_all_profiles() -> Array[OSProfile]:
 
 static func get_profile_by_id(os_id: String) -> OSProfile:
 	var builder_map: Dictionary = {
+		"dec_pdp7": _build_dec_pdp7,
+		"pdp7": _build_dec_pdp7,
 		"datapoint_2200": _build_datapoint_2200,
 		"ubuntu_704": _build_ubuntu_704,
 		"ubuntu_1004": _build_ubuntu_1004,
@@ -1322,6 +1325,240 @@ static func _build_sgi_irix() -> OSProfile:
 	p.fan_base_freq = 140.0
 	p.fan_noise_level = 0.32
 	p.hdd_seek_interval_range = Vector2(1.9, 4.8)
+	return p
+
+
+# ==============================================================================
+# 0. RESEARCH UNIX PROTOTYPE (DEC PDP-7) - 1970
+# THE PRECURSOR TO THE WORKSTATION & BIRTHPLACE OF UNIX, B, AND C
+# ==============================================================================
+static func _build_dec_pdp7() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "dec_pdp7"
+	p.category = "Pioneering Workstations"
+	p.display_name = "Research Unix Prototype (DEC PDP-7)"
+	p.short_name = "Unix (PDP-7)"
+	p.release_year = "1970"
+	p.has_crt = false
+	p.aspect_ratio = "4:3"
+	p.has_energy_star_badge = false
+	p.vendor = "Digital Equipment Corporation (DEC) / Bell Labs"
+	p.architecture_summary = "18-Bit Discrete Transistor Minicomputer • PDP-7 Assembly Kernel • Teletype Model 33 ASR"
+	p.hardware_profile = "DEC PDP-7 • 8K Words Core Memory (18KB) • Burroughs 1MB Fixed-Head Disk • DEC 340 CRT"
+	p.description = (
+		"The precursor to the modern workstation and the ancestral zero-point of Unix, B, and C. "
+		+ "Following Bell Labs' withdrawal from the Multics project on the GE-645 mainframe, Ken Thompson discovered an "
+		+ "idle 18-bit DEC PDP-7 with 8,192 words of magnetic core memory. To play his 'Space Travel' orbital gravity simulation "
+		+ "and create an interactive programming environment, Thompson and Dennis Ritchie authored the first Unix kernel "
+		+ "directly in PDP-7 assembly, followed by the typeless B language. Interacted with purely through an electromechanical "
+		+ "Teletype Model 33 ASR printing on a continuous roll of paper at 10 characters per second, the machine dismantled "
+		+ "batch mainframe computing—pioneering the intimate, interactive developer experience that defined the technical workstation."
+	)
+
+	p.bios_header = (
+		"DEC PDP-7 CONSOLE SWITCH REGISTER (18-BIT CORE MEMORY BOOTSTRAP)\n"
+		+ "DIGITAL EQUIPMENT CORPORATION • MAYNARD, MASSACHUSETTS • 1965-1970"
+	)
+	p.boot_bg_color = Color("14181f")
+	p.boot_text_color = Color("f5eed7")
+	p.boot_logs = [
+		{"text": "DEC PDP-7 FRONT PANEL CONSOLE // SWITCH REGISTER 017720 (OCTAL)", "delay": 1.10, "sfx": "teletype_clatter", "color": "#e0a96d"},
+		{"text": "SETTING 18-BIT CORE ADDRESS: [1][1][0] [0][1][1] [1][1][1] [0][1][0]", "delay": 0.95, "sfx": "", "color": "#d97724"},
+		{"text": "DEPOSIT PRIMARY BOOTSTRAP LOADER INTO 18-BIT MAGNETIC CORE MEMORY...", "delay": 1.30, "sfx": "teletype_clatter", "color": "#f5eed7"},
+		{"text": "BURROUGHS RB09 1MB FIXED-HEAD DISK PLATTER SPINUP [TRACK 0 ONLINE]", "delay": 1.40, "sfx": "hdd_burst", "color": "#4ade80"},
+		{"text": "LOADING THOMPSON ASSEMBLY KERNEL INTO 8,192 WORDS (8K 18-BIT CORE)...", "delay": 1.50, "sfx": "hdd_burst", "color": "#60a5fa"},
+		{"text": "TELETYPE MODEL 33 ASR MOTOR START // 110 BAUD (10 CPS) CURRENT LOOP", "delay": 1.25, "sfx": "teletype_bell", "color": "#f5eed7"},
+		{"text": "CARRIAGE RETURN • LINE FEED • PLUG-IN 20mA ASYNCHRONOUS TTY ONLINE", "delay": 1.10, "sfx": "teletype_clatter", "color": "#f5eed7"},
+		{"text": "login: ken", "delay": 1.20, "sfx": "teletype_clatter", "color": "#f5eed7"},
+		{"text": "@", "delay": 0.85, "sfx": "teletype_clatter", "color": "#f5eed7"},
+	]
+
+	p.chrome_style = "pdp7_teletype"
+	p.desktop_bg_color = Color("dcd3bb")
+	p.desktop_secondary_color = Color("cec4ab")
+	p.panel_bg_color = Color("383227")
+	p.panel_text_color = Color("f5eed7")
+	p.window_bg_color = Color("f8f4e6")
+	p.window_text_color = Color("1c1b18")
+	p.window_border_color = Color("bdae8c")
+	p.titlebar_active_color = Color("383227")
+	p.titlebar_active_gradient_end = Color("28241c")
+	p.titlebar_inactive_color = Color("5c5344")
+	p.titlebar_text_color = Color("f5eed7")
+	p.accent_color = Color("d97724")
+
+	p.terminal_title = "TELETYPE MODEL 33 ASR // CONTINUOUS PAPER ROLL (110 BAUD)"
+	p.terminal_bg_color = Color("f5eed7")
+	p.terminal_fg_color = Color("1c1b18")
+	p.terminal_prompt = "@ "
+	p.terminal_welcome_banner = (
+		"TELETYPE MODEL 33 ASR (110 BAUD • 20mA CURRENT LOOP)\n"
+		+ "login: ken"
+	)
+
+	p.terminal_commands = {
+		"ls": (
+			"as\n"
+			+ "b\n"
+			+ "cat\n"
+			+ "cp\n"
+			+ "ed\n"
+			+ "memo.txt\n"
+			+ "mv\n"
+			+ "rm\n"
+			+ "sh\n"
+			+ "space.b\n"
+			+ "space.s\n"
+			+ "sys"
+		),
+		"b": (
+			"B COMPILER V0.1 (KEN THOMPSON • 1969)\n"
+			+ "USAGE: b <source.b>\n"
+			+ "TARGET: 18-BIT WORD MEMORY • TYPELESS BCPL DERIVATIVE\n"
+			+ "EXAMPLE: b space.b"
+		),
+		"as": (
+			"PDP-7 ASSEMBLER (AS) V0.1\n"
+			+ "USAGE: as <source.s>\n"
+			+ "TARGET: 18-BIT BINARY MACHINE CODE (4-BIT OPCODE, 13-BIT ADDRESS)\n"
+			+ "EXAMPLE: as space.s"
+		),
+		"cat memo.txt": (
+			"MEMORANDUM:\n"
+			+ "FROM: K. THOMPSON & D. M. RITCHIE\n"
+			+ "TO: COMPUTING SCIENCE RESEARCH CENTER (DEPT 127)\n"
+			+ "DATE: JULY 1970\n"
+			+ "SUBJ: AN INTERACTIVE OPERATING SYSTEM FOR THE PDP-7\n\n"
+			+ "A NEW INTERACTIVE TIME-SHARING SYSTEM HAS BEEN DEVELOPED\n"
+			+ "ON THE IDLE PDP-7. IT PROVIDES A HIERARCHICAL FILE SYSTEM,\n"
+			+ "DEVICE-INDEPENDENT I/O, AND A COMMAND INTERPRETER.\n"
+			+ "RESOURCES ARE SEVERELY CONSTRAINED TO 8K 18-BIT WORDS.\n"
+			+ "PROPOSED NEXT STEP: ACQUIRE A 16-BIT PDP-11 FOR PATENT WORK."
+		),
+		"cat space.b": (
+			"/* SPACE TRAVEL -- KEN THOMPSON (1969) IN B */\n"
+			+ "main() {\n"
+			+ "    extrn grav, orbit, thrust, draw340;\n"
+			+ "    auto r, v, m;\n"
+			+ "    m = 1000;\n"
+			+ "    r = 3420;\n"
+			+ "    v = 11;\n"
+			+ "    draw340();\n"
+			+ "    orbit(r, v);\n"
+			+ "}"
+		),
+		"cat space.s": (
+			"/ SPACE TRAVEL KERNEL DRIVER (18-BIT PDP-7 ASSEMBLY)\n"
+			+ "START:\n"
+			+ "    LAC R          / LOAD RADIUS INTO ACCUMULATOR\n"
+			+ "    MUL G          / MULTIPLY GRAVITATIONAL CONSTANT\n"
+			+ "    DIV M          / DIVIDE BY CELESTIAL BODY MASS\n"
+			+ "    DAC ACCEL      / STORE RESULTING ACCELERATION\n"
+			+ "    IOT 340 1      / STROBE DEC 340 VECTOR CRT BEAM"
+		),
+		"cat sys": (
+			"RESEARCH UNIX KERNEL PROTOTYPE (PRE-V1 1970)\n"
+			+ "ARCHITECTURE : DEC PDP-7 (18-BIT DISCRETE TRANSISTOR CPU)\n"
+			+ "CORE MEMORY  : 8,192 WORDS (8K WORDS = ~18KB)\n"
+			+ "DISK STORAGE : BURROUGHS RB09 FIXED-HEAD DISK (1 MEGABYTE)\n"
+			+ "CONSOLE TTY  : TELETYPE MODEL 33 ASR (110 BAUD, 10 CPS)\n"
+			+ "GRAPHICS CRT : DEC TYPE 340 INCREMENTAL VECTOR DISPLAY\n"
+			+ "FILESYSTEM   : TREE ROOTED AT '/', INODES, DEVICE ABSTRACTION\n"
+			+ "DEVELOPERS   : KEN THOMPSON, DENNIS RITCHIE, R. CANADAY, J. OSSANNA"
+		),
+		"who": "ken        tty01",
+		"pwd": "/usr/ken",
+		"sh": "SHELL: KEN THOMPSON PRE-V1 UNIX COMMAND INTERPRETER",
+		"pdp7": (
+			"DIGITAL EQUIPMENT CORPORATION PDP-7 (1965-1970)\n"
+			+ "WORD SIZE    : 18 BITS\n"
+			+ "CYCLE TIME   : 1.75 MICROSECONDS (~570,000 OPS/SEC)\n"
+			+ "MEMORY       : 8K WORDS MAGNETIC CORE\n"
+			+ "I/O BUS      : DIRECT MEMORY ACCESS + PROGRAMMED I/O\n"
+			+ "TELETYPE     : ASR-33 110 BAUD ELECTROMECHANICAL"
+		),
+		"sysinfo": (
+			"DIGITAL EQUIPMENT CORPORATION PDP-7 (1965-1970)\n"
+			+ "WORD SIZE    : 18 BITS\n"
+			+ "CYCLE TIME   : 1.75 MICROSECONDS (~570,000 OPS/SEC)\n"
+			+ "MEMORY       : 8K WORDS MAGNETIC CORE\n"
+			+ "I/O BUS      : DIRECT MEMORY ACCESS + PROGRAMMED I/O\n"
+			+ "TELETYPE     : ASR-33 110 BAUD ELECTROMECHANICAL"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "TELETYPE MODEL 33 ASR // CONTINUOUS PAPER ROLL (110 BAUD)",
+			"type": "terminal",
+			"pos": Vector2(100, 48),
+			"size": Vector2(550, 350),
+			"content": ""
+		},
+		{
+			"id": "dec340",
+			"title": "DEC Type 340 Incremental Display — Space Travel (1969)",
+			"type": "monitor",
+			"pos": Vector2(510, 360),
+			"size": Vector2(460, 270),
+			"content": (
+				"============================================================\n"
+				+ "  DEC TYPE 340 PRECISION INCREMENTAL CRT DISPLAY (1024x1024)\n"
+				+ "  KEN THOMPSON'S 'SPACE TRAVEL' CELESTIAL ORBITAL SIMULATION\n"
+				+ "============================================================\n"
+				+ "         .     *          +                 .\n"
+				+ "               ( SUN )                 .          *\n"
+				+ "           \\      |      /\n"
+				+ "            -  [SOL]   -        .             +\n"
+				+ "           /      |      \\\n"
+				+ "         .     *     .\n"
+				+ "                     \\\n"
+				+ "                      \\  [ORBITAL VECTOR: 11.2 KM/S]\n"
+				+ "                       \\\n"
+				+ "                        O  (EARTH)\n"
+				+ "                       / \\\n"
+				+ "                      o   (MOON)\n"
+				+ "                                .\n"
+				+ "   [SPACECRAFT] >--->                   .\n"
+				+ "   ALTITUDE: 3,420 MILES | GRAV G: 0.38 | THRUST: 45%\n"
+				+ "   INPUT: PDP-7 CONSOLE SWITCH REGISTER (BITS 0-3: RCS PITCH)\n"
+				+ "------------------------------------------------------------\n"
+				+ "* Real-time orbital mechanics solved on 18-bit bare hardware *"
+			)
+		},
+		{
+			"id": "frontpanel",
+			"title": "DEC PDP-7 Console Switch Register & 18-Bit Core Memory",
+			"type": "text",
+			"pos": Vector2(95, 412),
+			"size": Vector2(400, 218),
+			"content": (
+				"DIGITAL EQUIPMENT CORPORATION • MAYNARD, MASS.\n"
+				+ "PDP-7 CONSOLE SWITCH REGISTER (18-BIT OCTAL)\n"
+				+ "================================================\n"
+				+ "[ADDRESS]  0 1 7 7 2 0    (CORE LOC: 8,144 / 8,192)\n"
+				+ "[DATA]     7 0 0 0 0 2    (INSTR: IO HALT / TTY READ)\n"
+				+ "------------------------------------------------\n"
+				+ "SWITCHES: [1][1][0] [0][1][1] [1][1][1] [0][1][0]\n"
+				+ "AC (ACCUMULATOR) : 000042 (OCTAL)\n"
+				+ "LINK BIT         : 0      (CLEAR)\n"
+				+ "PC (PROG COUNTER): 017720 (OCTAL)\n"
+				+ "BURROUGHS DISK   : TRACK 0, SECTOR 0 (1MB PLATTER)\n"
+				+ "TELETYPE 33 ASR  : 110 BAUD (10 CPS) ACTIVE"
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "tty_icon", "label": "Teletype 33", "glyph": "📠", "target_window_id": "terminal"},
+		{"id": "space_icon", "label": "Space Travel", "glyph": "🪐", "target_window_id": "dec340"},
+		{"id": "panel_icon", "label": "Front Panel", "glyph": "🎛", "target_window_id": "frontpanel"},
+	]
+
+	p.fan_base_freq = 60.0
+	p.fan_noise_level = 0.16
+	p.hdd_seek_interval_range = Vector2(4.0, 9.0)
 	return p
 
 

@@ -413,6 +413,30 @@ func _configure_shell_panels(profile: OSProfile) -> void:
 			_add_panel_button(top_center_box, profile.architecture_summary, func(): open_or_restore_window_by_id("terminal"))
 			_add_panel_button(bottom_left_box, "[ CLI / MONITOR ]", func(): open_or_restore_window_by_id("terminal"))
 
+		"pdp7_teletype":
+			# DEC PDP-7 & Teletype Model 33 ASR Paper Feed Bar + Maintenance Bus
+			top_panel.visible = true
+			bottom_panel.visible = true
+			top_clock_label.visible = false
+			bottom_clock_label.visible = false
+
+			_add_panel_button(top_left_box, "📠 TELETYPE MODEL 33 ASR", func(): _show_os_menu(Vector2(8, 30)))
+			_add_panel_button(top_left_box, "110 BAUD (10 CPS)", func():
+				AudioManager.play_teletype_clatter()
+				open_or_restore_window_by_id("terminal")
+			)
+			_add_panel_button(top_center_box, "• 18-BIT CORE MEMORY • BURROUGHS 1MB DISK • CURRENT LOOP •", func():
+				open_or_restore_window_by_id("frontpanel")
+			)
+			_add_panel_button(top_right_box, "🔔 BELL", func():
+				AudioManager.play_teletype_bell()
+			)
+
+			_add_panel_button(bottom_left_box, "[ 🎛 Switch Register ]", func(): open_or_restore_window_by_id("frontpanel"))
+			_add_panel_button(bottom_left_box, "[ 🪐 Space Travel (DEC 340) ]", func(): open_or_restore_window_by_id("dec340"))
+			_add_panel_button(bottom_left_box, "[ 📄 Paper Roll TTY ]", func(): open_or_restore_window_by_id("terminal"))
+			_add_panel_button(bottom_right_box, "PDP-7 HALT / REBOOT", func(): GameState.reboot_to_menu())
+
 		_:
 			# Windows 98 SE: Classic Bottom Taskbar with Start Button
 			top_panel.visible = false

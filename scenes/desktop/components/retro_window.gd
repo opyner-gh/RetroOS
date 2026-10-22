@@ -381,6 +381,18 @@ func _apply_chrome_style(profile: OSProfile, active: bool) -> void:
 			maximize_btn.text = "□"
 			close_btn.text = "X"
 
+		"pdp7_teletype":
+			outer_style.border_color = Color("bdae8c") if active else Color("6e6552")
+			outer_style.set_border_width_all(2)
+			outer_style.bg_color = Color("f5eed7")
+			tb_style.bg_color = Color("383227") if active else Color("221f18")
+			body_style.bg_color = Color("f8f4e6")
+			left_menu_btn.visible = true
+			left_menu_btn.text = "📠"
+			minimize_btn.text = "_"
+			maximize_btn.text = "□"
+			close_btn.text = "X"
+
 		_: # "win98_classic"
 			outer_style.border_color = Color("dfdfdf")
 			outer_style.set_border_width_all(2)
