@@ -765,6 +765,33 @@ func _synth_os_startup_chime(os_id: String) -> AudioStreamWAV:
 				{"freq": 2400.00, "start": 0.00, "dur": 0.22, "amp": 0.32, "warmth": 0.2},
 			], 0.30)
 
+		"evga_sr2":
+			if GameState.sr2_active_os == "lion":
+				# Apple F-sharp Major chord (Mac OS X Lion)
+				return _synth_chord_sequence([
+					{"freq": 92.50, "start": 0.00, "dur": 2.20, "amp": 0.34, "warmth": 0.4},
+					{"freq": 185.00, "start": 0.00, "dur": 2.20, "amp": 0.30, "warmth": 0.4},
+					{"freq": 277.18, "start": 0.00, "dur": 2.20, "amp": 0.26, "warmth": 0.3},
+					{"freq": 369.99, "start": 0.00, "dur": 2.20, "amp": 0.26, "warmth": 0.3},
+					{"freq": 466.16, "start": 0.00, "dur": 2.20, "amp": 0.22, "warmth": 0.3},
+				], 2.30)
+			elif GameState.sr2_active_os == "solaris":
+				# Sun/Oracle Solaris chime (F4 -> C5 -> G5)
+				return _synth_chord_sequence([
+					{"freq": 349.23, "start": 0.00, "dur": 1.05, "amp": 0.28, "warmth": 0.5},
+					{"freq": 523.25, "start": 0.12, "dur": 1.00, "amp": 0.26, "warmth": 0.4},
+					{"freq": 783.99, "start": 0.24, "dur": 1.10, "amp": 0.24, "warmth": 0.3},
+				], 1.40)
+			else:
+				# Windows 7 signature 4-note ascending chord (Eb3 -> Bb3 -> Eb4 -> G4)
+				return _synth_chord_sequence([
+					{"freq": 155.56, "start": 0.00, "dur": 2.10, "amp": 0.30, "warmth": 0.7},
+					{"freq": 233.08, "start": 0.12, "dur": 1.95, "amp": 0.28, "warmth": 0.6},
+					{"freq": 311.13, "start": 0.24, "dur": 1.85, "amp": 0.28, "warmth": 0.6},
+					{"freq": 392.00, "start": 0.38, "dur": 1.80, "amp": 0.32, "warmth": 0.5},
+					{"freq": 622.25, "start": 0.52, "dur": 1.70, "amp": 0.26, "warmth": 0.4},
+				], 2.30)
+
 
 		_:
 			return _synth_chord_sequence([

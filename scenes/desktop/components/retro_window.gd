@@ -115,6 +115,64 @@ func _populate_body_content(wtype: String, text_content: String, profile: OSProf
 	inner_panel.add_theme_stylebox_override("panel", inner_box)
 	content_holder.add_child(inner_panel)
 
+	if text_content.contains("EVGA CLASSIFIED SR-2 MULTI-OS BOOT MANAGER"):
+		var main_vb := VBoxContainer.new()
+		main_vb.set_anchors_preset(Control.PRESET_FULL_RECT)
+		main_vb.add_theme_constant_override("separation", 6)
+		inner_panel.add_child(main_vb)
+
+		var rtl := RichTextLabel.new()
+		rtl.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		rtl.selection_enabled = true
+		rtl.add_theme_font_size_override("normal_font_size", 12)
+		rtl.add_theme_color_override("default_color", profile.window_text_color)
+		rtl.text = text_content
+		main_vb.add_child(rtl)
+		_content_label = rtl
+
+		var btn_grid := GridContainer.new()
+		btn_grid.columns = 2
+		btn_grid.add_theme_constant_override("h_separation", 6)
+		btn_grid.add_theme_constant_override("v_separation", 6)
+		main_vb.add_child(btn_grid)
+
+		var b_w7 := Button.new()
+		b_w7.text = "🪟 Boot Windows 7"
+		b_w7.focus_mode = Control.FOCUS_NONE
+		b_w7.pressed.connect(func():
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("win7")
+		)
+		btn_grid.add_child(b_w7)
+
+		var b_lion := Button.new()
+		b_lion.text = "🍏 Boot OS X Lion"
+		b_lion.focus_mode = Control.FOCUS_NONE
+		b_lion.pressed.connect(func():
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("lion")
+		)
+		btn_grid.add_child(b_lion)
+
+		var b_sol := Button.new()
+		b_sol.text = "☀️ Boot Solaris 11"
+		b_sol.focus_mode = Control.FOCUS_NONE
+		b_sol.pressed.connect(func():
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("solaris")
+		)
+		btn_grid.add_child(b_sol)
+
+		var b_bbs := Button.new()
+		b_bbs.text = "📟 Reboot to BIOS BBS"
+		b_bbs.focus_mode = Control.FOCUS_NONE
+		b_bbs.pressed.connect(func():
+			AudioManager.play_hdd_click()
+			GameState.select_and_boot_os("evga_sr2")
+		)
+		btn_grid.add_child(b_bbs)
+		return
+
 	var rtl := RichTextLabel.new()
 	rtl.set_anchors_preset(Control.PRESET_FULL_RECT)
 	rtl.selection_enabled = true
@@ -208,6 +266,20 @@ func _apply_chrome_style(profile: OSProfile, active: bool) -> void:
 			left_menu_btn.text = "▣"
 			minimize_btn.text = "▾"
 			maximize_btn.text = "▴"
+			close_btn.text = "✕"
+
+		"win7_aero":
+			outer_style.border_color = Color("2a4e7c") if active else Color("162840")
+			outer_style.set_border_width_all(2)
+			outer_style.corner_radius_top_left = 7
+			outer_style.corner_radius_top_right = 7
+			tb_style.corner_radius_top_left = 6
+			tb_style.corner_radius_top_right = 6
+			tb_style.bg_color = Color("143b66") if active else Color("0c1a2e")
+			left_menu_btn.visible = true
+			left_menu_btn.text = "🪟"
+			minimize_btn.text = "–"
+			maximize_btn.text = "□"
 			close_btn.text = "✕"
 
 		"winxp_luna":

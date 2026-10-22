@@ -11,7 +11,7 @@ To override any built-in sound with custom recordings, drop `.ogg` files into th
 - `res://assets/audio/sfx/optical_seek.ogg` — CD-ROM laser lens focus and sled homing seek
 - `res://assets/audio/sfx/post_beep.ogg` — BIOS POST speaker beep
 
-### OS Startup Chimes (Chronological: 1972 → 2010)
+### OS Startup Chimes (Chronological: 1972 → 2011)
 - `res://assets/audio/startup/datapoint_2200.ogg` — Datapoint 2200 alert beep & Diablo disk spin [1972]
 - `res://assets/audio/startup/apple_iie.ogg` — Apple IIe speaker beep [1985]
 - `res://assets/audio/startup/amiga_os31.ogg` — Commodore AmigaOS 3.1 Paula arpeggio [1993]
@@ -31,5 +31,6 @@ To override any built-in sound with custom recordings, drop `.ogg` files into th
 - `res://assets/audio/startup/freebsd_411.ogg` — FreeBSD 4.11-STABLE login chime [2004]
 - `res://assets/audio/startup/ubuntu_704.ogg` — Ubuntu 7.04 login sound [2007]
 - `res://assets/audio/startup/ubuntu_1004.ogg` — Ubuntu 10.04 Lucid Lynx marimba/chime [2010]
+- `res://assets/audio/startup/evga_sr2.ogg` — EVGA SR-2 Super Record multi-OS chime (Win7 chord / Apple F# / Solaris chime) [2011]
 
 

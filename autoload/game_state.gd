@@ -16,11 +16,13 @@ signal os_selected(profile: OSProfile)
 signal boot_completed(profile: OSProfile)
 signal system_reboot_requested()
 signal crt_toggled(enabled: bool)
+signal sr2_os_switched(new_sub_os: String)
 
 var available_profiles: Array[OSProfile] = []
 var current_profile: OSProfile = null
 var current_phase: SimPhase = SimPhase.MAIN_MENU
 var crt_enabled: bool = true
+var sr2_active_os: String = "win7" # "win7", "lion", "solaris"
 
 
 func _ready() -> void:
@@ -29,8 +31,17 @@ func _ready() -> void:
 		current_profile = available_profiles[0]
 
 
+func set_sr2_active_os(new_sub_os: String) -> void:
+	sr2_active_os = new_sub_os
+	if current_profile and current_profile.id == "evga_sr2":
+		OSRegistry.apply_sr2_sub_profile(current_profile, sr2_active_os)
+	sr2_os_switched.emit(new_sub_os)
+
+
 func select_and_boot_os(os_id: String) -> void:
 	current_profile = OSRegistry.get_profile_by_id(os_id)
+	if current_profile and current_profile.id == "evga_sr2":
+		OSRegistry.apply_sr2_sub_profile(current_profile, sr2_active_os)
 	current_phase = SimPhase.BOOT_SEQUENCE
 	os_selected.emit(current_profile)
 	phase_changed.emit(current_phase)

@@ -89,6 +89,10 @@ func _draw_chassis_plate(rect: Rect2) -> void:
 		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // ALEXNET DUAL-GTX 580 WORKSTATION (2012)", Color("ffaa5e"), Color("77216f"), "AI ZERO-POINT RIG", Color("dd4814"))
 		return
 
+	if os_id == "evga_sr2":
+		_draw_sr2_chassis(rect, cx, cy, font)
+		return
+
 	# Monitor (left/center) + System Unit (right or underneath depending on form factor)
 	var is_horizontal_desktop := os_id in ["os2_warp", "amiga_os31", "nextstep_33", "apple_iie"]
 
@@ -238,6 +242,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 		_draw_alexnet_motherboard(rect, pcb, font)
 		return
 
+	if os_id == "evga_sr2":
+		_draw_sr2_motherboard(rect, pcb, font)
+		return
+
 	var is_dual_cpu := os_id in ["sgi_irix", "freebsd_411", "beos_r5", "redhat_62", "solaris_8", "sco_openserver"]
 
 	# Draw CPU socket(s)
@@ -296,6 +304,10 @@ func _draw_software_plate(rect: Rect2) -> void:
 
 	if _profile.id == "ubuntu_1004":
 		_draw_ubuntu_1004_software_plate(rect, ThemeDB.fallback_font)
+		return
+
+	if _profile.id == "evga_sr2":
+		_draw_sr2_software_plate(rect, ThemeDB.fallback_font)
 		return
 
 	# Simulated live CRT frame of the operating system's desktop & terminal
@@ -747,4 +759,190 @@ func _draw_ubuntu_1004_software_plate(rect: Rect2, font: Font) -> void:
 
 	draw_rect(rect, Color("dd4814"), false, 1.5)
 	_draw_plate_badge("AI PARADIGM SHIFT (2012)", Color("dd4814"))
+
+
+func _draw_sr2_chassis(rect: Rect2, cx: float, cy: float, font: Font) -> void:
+	# Left: Lian Li HPTX Full-Tower Chassis (Black Brushed Aluminum)
+	var tower_r := Rect2(cx - 105, cy - 80, 96, 160)
+	draw_rect(tower_r, Color("141418"), true)
+	draw_rect(tower_r, Color("3b4252"), false, 2.0)
+
+	# Brushed aluminum front panel stripes & drive bays
+	for bay in range(4):
+		draw_rect(Rect2(tower_r.position.x + 8, tower_r.position.y + 12 + bay * 12, 80, 8), Color("20222a"), true)
+	# Power switch & EVGA badge
+	draw_circle(tower_r.position + Vector2(48, 68), 5.0, Color("e03c28"))
+
+	# Acrylic side window
+	var win_r := Rect2(tower_r.position.x + 8, tower_r.position.y + 78, 80, 52)
+	draw_rect(win_r, Color("0a0e14"), true)
+	draw_rect(win_r, Color("60a5fa"), false, 1.0)
+
+	# Liquid cooling loops visible through window (Dual EK CPU blocks + red coolant)
+	draw_circle(win_r.position + Vector2(24, 18), 8.0, Color("dc2626"))
+	draw_circle(win_r.position + Vector2(56, 18), 8.0, Color("dc2626"))
+	draw_line(win_r.position + Vector2(24, 18), win_r.position + Vector2(56, 18), Color("ef4444"), 2.0)
+
+	# 4x FirePro V9800 cards with S400 Genlock bus
+	for g in range(4):
+		draw_rect(Rect2(win_r.position.x + 6, win_r.position.y + 30 + g * 5, 68, 3), Color("1e293b"), true)
+	draw_line(win_r.position + Vector2(14, 30), win_r.position + Vector2(14, 48), Color("4ade80"), 2.0)
+
+	# Basement chamber: Dual Corsair AX1200 PSUs
+	var psu_r := Rect2(tower_r.position.x + 8, tower_r.end.y - 24, 80, 18)
+	draw_rect(psu_r, Color("0f172a"), true)
+	draw_rect(psu_r, Color("facc15"), false, 1.0)
+	draw_string(font, psu_r.position + Vector2(6, 12), "2x AX1200 (2400W)", HORIZONTAL_ALIGNMENT_LEFT, 72, 7, Color("facc15"))
+
+	# Right Top: Dual 27" Color-Calibrated IPS Displays
+	for m in range(2):
+		var mon_x := cx + 8 + m * 76
+		var mon_r := Rect2(mon_x, cy - 76, 72, 44)
+		draw_rect(mon_r, Color("1e222a"), true)
+		draw_rect(mon_r, Color("64748b"), false, 1.5)
+		draw_rect(mon_r.grow(-3), Color("0d1e33") if m == 0 else Color("1a1824"), true)
+		draw_string(font, mon_r.position + Vector2(6, 24), "IPS 27\" [%d]" % (m + 1), HORIZONTAL_ALIGNMENT_LEFT, 60, 8, Color("94a3b8"))
+		# Stand
+		draw_rect(Rect2(mon_x + 30, mon_r.end.y, 12, 10), Color("475569"), true)
+		draw_rect(Rect2(mon_x + 22, mon_r.end.y + 10, 28, 3), Color("64748b"), true)
+
+	# Right Bottom: 24-Monitor Synchronized Video Wall (6x4 Matrix driven by S400 Genlock)
+	var wall_r := Rect2(cx + 8, cy - 14, 150, 72)
+	draw_rect(wall_r, Color("080d14"), true)
+	draw_rect(wall_r, Color("2563eb"), false, 1.2)
+
+	var cols := 6
+	var rows := 4
+	var cell_w := (wall_r.size.x - 14.0) / float(cols)
+	var cell_h := (wall_r.size.y - 18.0) / float(rows)
+
+	for c in range(cols):
+		for r in range(rows):
+			var cell_rect := Rect2(wall_r.position.x + 7 + c * cell_w, wall_r.position.y + 14 + r * cell_h, cell_w - 2, cell_h - 2)
+			draw_rect(cell_rect, Color("1e3a8a"), true)
+			draw_rect(cell_rect, Color("60a5fa"), false, 0.6)
+
+	# Green S400 Genlock lock overlay
+	draw_line(Vector2(wall_r.position.x + 7, wall_r.position.y + 14 + 2 * cell_h), Vector2(wall_r.end.x - 7, wall_r.position.y + 14 + 2 * cell_h), Color("4ade80"), 1.5)
+	draw_string(font, wall_r.position + Vector2(6, 11), "ATI FIREPRO S400: 24-SCREEN WALL (11520x4320)", HORIZONTAL_ALIGNMENT_LEFT, 140, 7, Color("4ade80"))
+
+	_draw_plate_footer(
+		rect,
+		font,
+		"EXHIBIT PLATE I // LIAN LI HPTX CHASSIS, DUAL 27\" IPS & 24-SCREEN WALL (2011)",
+		Color("60a5fa"),
+		Color("1e3a8a"),
+		"TRIPLE-BOOT MONOLITH",
+		Color("3b82f6")
+	)
+
+
+func _draw_sr2_motherboard(rect: Rect2, pcb: Rect2, font: Font) -> void:
+	# Massive HPTX Form Factor PCB (Matte Black with EVGA Blood-Red Traces)
+	draw_rect(pcb, Color("101014"), true)
+	draw_rect(pcb, Color("dc2626"), false, 2.0)
+
+	# Dual LGA1366 Sockets (CPU 0 and CPU 1) with EK-Supreme waterblocks
+	for idx in range(2):
+		var cpu_r := Rect2(pcb.position.x + 22 + idx * 82, pcb.position.y + 14, 62, 54)
+		draw_rect(cpu_r, Color("181820"), true)
+		draw_rect(cpu_r, Color("dc2626"), false, 1.5)
+		draw_rect(cpu_r.grow(-8), Color("282834"), true)
+		draw_circle(cpu_r.get_center(), 14.0, Color("b91c1c"))
+		draw_string(font, cpu_r.position + Vector2(4, 24), "XEON X5690", HORIZONTAL_ALIGNMENT_CENTER, 54, 7, Color("f87171"))
+		draw_string(font, cpu_r.position + Vector2(4, 38), "@ 4.40 GHz", HORIZONTAL_ALIGNMENT_CENTER, 54, 7, Color("facc15"))
+
+	# 12x Corsair Dominator GT DDR3 DIMM Slots (6 per CPU, red finned tops)
+	for side in range(2):
+		var base_x := pcb.position.x + 8 if side == 0 else pcb.position.x + 168
+		for d in range(6):
+			var dimm_r := Rect2(base_x + d * 6, pcb.position.y + 14, 4, 54)
+			draw_rect(dimm_r, Color("dc2626"), true)
+			draw_rect(dimm_r, Color("ef4444"), false, 0.6)
+
+	# 4x Full-Length Dual-Slot PCIe 2.0 x16 Slots with 4x ATI FirePro V9800 Workstation Cards
+	for g in range(4):
+		var slot_y := pcb.position.y + 78 + g * 18
+		# Card body
+		var card_r := Rect2(pcb.position.x + 14, slot_y, 165, 14)
+		draw_rect(card_r, Color("1e222a"), true)
+		draw_rect(card_r, Color("ef4444"), false, 1.0)
+		draw_string(font, card_r.position + Vector2(6, 10), "GPU %d: ATI FIREPRO V9800 4GB (6x Mini-DP)" % g, HORIZONTAL_ALIGNMENT_LEFT, 155, 6, Color("f87171"))
+
+	# ATI FirePro S400 Hardware Genlock / Framelock ribbon bridge connecting all 4 cards
+	var s400_x := pcb.position.x + 172
+	draw_line(Vector2(s400_x, pcb.position.y + 80), Vector2(s400_x, pcb.position.y + 138), Color("4ade80"), 3.0)
+	draw_string(font, Vector2(pcb.position.x + 40, pcb.position.y + 146), "ATI FIREPRO S400 FRAMELOCK & GENLOCK BUS", HORIZONTAL_ALIGNMENT_LEFT, 140, 6, Color("4ade80"))
+
+	# 3x Dedicated OCZ Vertex 3 SATA3 SSDs on bottom-right
+	for ssd in range(3):
+		var ssd_r := Rect2(pcb.end.x - 48, pcb.position.y + 80 + ssd * 18, 42, 14)
+		draw_rect(ssd_r, Color("1e293b"), true)
+		draw_rect(ssd_r, Color("38bdf8"), false, 0.8)
+		var os_lbl := "Win7" if ssd == 0 else ("Lion" if ssd == 1 else "Solaris")
+		draw_string(font, ssd_r.position + Vector2(4, 10), "SSD %d: %s" % [ssd, os_lbl], HORIZONTAL_ALIGNMENT_LEFT, 38, 6, Color("38bdf8"))
+
+	_draw_plate_footer(
+		rect,
+		font,
+		"EXHIBIT PLATE II // EVGA CLASSIFIED SR-2 HPTX & QUAD V9800 S400 ARRAY",
+		Color("f87171"),
+		Color("7f1d1d"),
+		"DUAL LGA1366 / HPTX",
+		Color("ef4444")
+	)
+
+
+func _draw_sr2_software_plate(rect: Rect2, font: Font) -> void:
+	# Triple-Boot Multi-OS Composite Canvas
+	draw_rect(rect, Color("080c14"), true)
+
+	var half_w := (rect.size.x - 18.0) * 0.5
+	var half_h := (rect.size.y - 36.0) * 0.5
+
+	# Pane 1 (Top-Left): Windows 7 Ultimate SP1 (Aero Glass, 3ds Max 24-Thread Render)
+	var p1 := Rect2(6, 6, half_w, half_h)
+	draw_rect(p1, Color("0c1a2e"), true)
+	draw_rect(p1, Color("2563eb"), false, 1.2)
+	draw_rect(Rect2(p1.position, Vector2(p1.size.x, 14)), Color("1e40af"), true)
+	draw_string(font, p1.position + Vector2(6, 11), "🪟 Windows 7 Ultimate SP1 (x64) • 3ds Max 2012 / V-Ray", HORIZONTAL_ALIGNMENT_LEFT, p1.size.x - 12, 7, Color.WHITE)
+	draw_string(font, p1.position + Vector2(6, 26), "24 Threads @ 4.40GHz • 48GB Corsair Dominator GT", HORIZONTAL_ALIGNMENT_LEFT, p1.size.x - 12, 7, Color("93c5fd"))
+	draw_string(font, p1.position + Vector2(6, 38), "DirectX 11.0 SLS • 1,840W Peak Load • 0 dropped frames", HORIZONTAL_ALIGNMENT_LEFT, p1.size.x - 12, 7, Color("4ade80"))
+
+	# Pane 2 (Top-Right): Mac OS X 10.7 Lion (Graphite Aqua, Final Cut Studio ProRes)
+	var p2 := Rect2(rect.size.x - half_w - 6, 6, half_w, half_h)
+	draw_rect(p2, Color("1e222a"), true)
+	draw_rect(p2, Color("a78bfa"), false, 1.2)
+	draw_rect(Rect2(p2.position, Vector2(p2.size.x, 14)), Color("475569"), true)
+	draw_string(font, p2.position + Vector2(6, 11), "🍏 Mac OS X 10.7 Lion • Final Cut Studio Pro 7 / Color", HORIZONTAL_ALIGNMENT_LEFT, p2.size.x - 12, 7, Color.WHITE)
+	draw_string(font, p2.position + Vector2(6, 26), "Chameleon v2.1-r1684 • FakeSMC 4.2.0 • MacPro5,1 Profile", HORIZONTAL_ALIGNMENT_LEFT, p2.size.x - 12, 7, Color("c4b5fd"))
+	draw_string(font, p2.position + Vector2(6, 38), "4x FirePro OpenCL 1.1 • Real-time 4K ProRes 422 Grade", HORIZONTAL_ALIGNMENT_LEFT, p2.size.x - 12, 7, Color("4ade80"))
+
+	# Pane 3 (Bottom-Left): Oracle Solaris 11 (Java Desktop System, ZFS RAIDZ2 Pool)
+	var p3 := Rect2(6, rect.size.y - half_h - 22, half_w, half_h)
+	draw_rect(p3, Color("0f172a"), true)
+	draw_rect(p3, Color("0284c7"), false, 1.2)
+	draw_rect(Rect2(p3.position, Vector2(p3.size.x, 14)), Color("0369a1"), true)
+	draw_string(font, p3.position + Vector2(6, 11), "☀️ Oracle Solaris 11 (11/11 x86) • ZFS Enterprise Storage", HORIZONTAL_ALIGNMENT_LEFT, p3.size.x - 12, 7, Color.WHITE)
+	draw_string(font, p3.position + Vector2(6, 26), "datapool: 4x 2TB WD Black RAIDZ2 (5.79TB Usable)", HORIZONTAL_ALIGNMENT_LEFT, p3.size.x - 12, 7, Color("7dd3fc"))
+	draw_string(font, p3.position + Vector2(6, 38), "DTrace PCIe DMA Monitor • 98.6% ARC Cache Hit Rate", HORIZONTAL_ALIGNMENT_LEFT, p3.size.x - 12, 7, Color("4ade80"))
+
+	# Pane 4 (Bottom-Right): ATI FirePro S400 Genlock & 24-Screen Wall Telemetry
+	var p4 := Rect2(rect.size.x - half_w - 6, rect.size.y - half_h - 22, half_w, half_h)
+	draw_rect(p4, Color("0a101d"), true)
+	draw_rect(p4, Color("10b981"), false, 1.2)
+	draw_rect(Rect2(p4.position, Vector2(p4.size.x, 14)), Color("065f46"), true)
+	draw_string(font, p4.position + Vector2(6, 11), "⚡ ATI FirePro S400 Hardware Genlock / Eyefinity Wall", HORIZONTAL_ALIGNMENT_LEFT, p4.size.x - 12, 7, Color.WHITE)
+	draw_string(font, p4.position + Vector2(6, 26), "Resolution: 11,520 x 4,320 SLS Matrix (24x Displays)", HORIZONTAL_ALIGNMENT_LEFT, p4.size.x - 12, 7, Color("6ee7b7"))
+	draw_string(font, p4.position + Vector2(6, 38), "Sync Status: LOCKED @ 59.94 Hz • Phase Skew: <0.02 µs", HORIZONTAL_ALIGNMENT_LEFT, p4.size.x - 12, 7, Color("facc15"))
+
+	_draw_plate_footer(
+		rect,
+		font,
+		"EXHIBIT PLATE III // TRIPLE-BOOT OS MATRIX & 24-DISPLAY EYEFINITY CONSOLE",
+		Color("38bdf8"),
+		Color("0369a1"),
+		"MULTI-OS CONSOLE",
+		Color("0284c7")
+	)
 

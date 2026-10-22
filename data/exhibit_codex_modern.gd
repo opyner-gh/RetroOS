@@ -14,6 +14,9 @@ static func populate(p: OSProfile) -> bool:
 		"ubuntu_1004":
 			_populate_ubuntu_1004(p)
 			return true
+		"evga_sr2":
+			_populate_evga_sr2(p)
+			return true
 		"freebsd_411":
 			_populate_freebsd_411(p)
 			return true
@@ -917,6 +920,166 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		"Enthusiast motherboard architecture detailing the direct PCIe root complex lines and peer-to-peer DMA bridge between the two Fermi GPUs.",
 		"Fig 3. Ubuntu 10.04 LTS Ambiance Desktop: Left Window Controls & cuda-convnet Terminal",
 		"Signature dark aubergine GNOME 2.30 desktop featuring left-hand window controls and terminal output tracking AlexNet training loss."
+	)
+
+
+# ==============================================================================
+# 11. EVGA SR-2 "SUPER RECORD" TRIPLE-BOOT WORKSTATION - LATE 2011
+# THE PINNACLE AND FIERY TWILIGHT OF BRUTE-FORCE ENTHUSIAST COMPUTING
+# ==============================================================================
+static func _populate_evga_sr2(p: OSProfile) -> void:
+	p.exhibit_subtitle = "The Super Record HPTX Platform, FirePro S400 24-Screen Genlock & The Fiery Twilight of Brute-Force Computing"
+	p.era_classification = "Enthusiast Overclocking Zenith & Fiery Twilight of Brute-Force Multi-Socket Computing (Late 2011)"
+	p.historical_overview = (
+		"The EVGA SR-2 'Super Record' Triple-Boot Workstation is a featured exhibit in the digital computer museum, "
+		+ "representing the absolute pinnacle—and the fiery twilight—of enthusiast desktop computing in late 2011. "
+		+ "Built around the legendary EVGA Classified SR-2 motherboard, this system demonstrates the rare convergence "
+		+ "of enterprise-grade server hardware with extreme overclocking capabilities and multi-OS versatility. "
+		+ "This specific configuration highlights a notoriously complex triple-boot environment, utilizing distinct physical "
+		+ "solid-state drives to run Windows 7 Ultimate SP1, Mac OS X 10.7 Lion (via 'Hackintosh' bootloaders), and Oracle "
+		+ "Solaris 11. Housed in a massive black aluminum Lian Li HPTX full-tower chassis and historically paired with dual "
+		+ "27-inch professional color-calibrated IPS monitors alongside a high-powered 24-screen synchronized video wall, "
+		+ "it functioned as an unprecedented computing monolith capable of dominating any consumer, scientific, or enterprise "
+		+ "visualization workload of the era."
+	)
+	p.historical_context = (
+		"The historical significance of the EVGA Classified SR-2 workstation encompasses four monumental hardware paradigms:\n\n"
+		+ "1. THE END OF THE BRUTE-FORCE ERA & THE EFFICIENCY REVOLUTION:\n"
+		+ "While the SR-2 reigned supreme for extreme overclockers, it also represented the end of an era characterized by "
+		+ "high-powered workstations producing ridiculous amounts of heat. The dual 32nm Westmere-EP processors and quad-GPU "
+		+ "configurations required staggering power draw—often necessitating dual 1200W power supplies just to keep the system "
+		+ "stable under load and turning the chassis into a space heater. The impending launch of Intel’s 2nd-generation "
+		+ "Sandy Bridge-E architecture in November 2011 signaled a fundamental shift in hardware design. As processor lithography "
+		+ "technology advanced to 32nm and subsequently 22nm (Ivy Bridge), future architectures became drastically more power-efficient. "
+		+ "This relentless push for efficiency over raw thermal output set the stage for massive industry disruptions. AMD’s eventual "
+		+ "Ryzen and Threadripper lines would go on to democratize massive core counts on single, highly efficient consumer motherboards, "
+		+ "eliminating the need for complex dual-socket server workarounds. Similarly, the heat and power limitations of Intel’s older "
+		+ "architectures ultimately drove Apple to abandon Intel entirely, transitioning to their remarkably power-efficient, ARM-based "
+		+ "Apple Silicon chips—a stark philosophical departure from the 1200-watt monoliths of 2011.\n\n"
+		+ "2. QUAD ATI FIREPRO V9800 & S400 SYNCHRONIZATION MODULE (24-SCREEN MATRIX):\n"
+		+ "Each ATI FirePro V9800 featured six independent Mini DisplayPort outputs and 4GB of high-speed GDDR5 memory (16GB total "
+		+ "across four cards). Advanced builds linked all four cards together using a dedicated ATI FirePro S400 synchronization module. "
+		+ "Instead of just sharing compute rendering across a standard bridge, the S400 perfectly locked the frame pacing, pixel clocks, "
+		+ "and refresh rates across all four GPUs via dedicated hardware Genlock and Framelock buses. This allowed the workstation to "
+		+ "drive up to 24 perfectly synchronized monitors simultaneously (delivering a massive 11,520 x 4,320 resolution Single Large "
+		+ "Surface matrix). In an era when driving more than two or three displays caused screen tearing and phase latency, the SR-2 "
+		+ "S400 matrix allowed mission control centers, military flight simulators, broadcast video walls, and CAVE immersive virtual "
+		+ "reality environments to operate with zero micro-stutter and frame-accurate synchronization across every bezel.\n\n"
+		+ "3. TRIPLE-BOOT ORCHESTRATION ACROSS DEDICATED PHYSICAL SSDs:\n"
+		+ "Managing three fundamentally different operating systems on server-class hardware required careful bootloader orchestration. "
+		+ "To prevent file system corruption and OS conflicts, each operating system was assigned its own dedicated OCZ Vertex 3 240GB "
+		+ "SATA III SSD: the Chameleon bootloader for Mac OS X 10.7 Lion with custom DSDT ACPI table patches and FakeSMC for the dual "
+		+ "LGA1366 Tylersburg platform, a heavily modified GRUB2 for Oracle Solaris 11 with native ZFS boot environments, and the native "
+		+ "Windows Boot Manager for Windows 7 Ultimate SP1. The mechanical hard drives—four 2TB Western Digital Caviar Blacks—were formatted "
+		+ "across NTFS, HFS+, and ZFS RAIDZ2 for specific, isolated storage pools, guaranteeing high data throughput without file table collisions.\n\n"
+		+ "4. THE LEGENDARY EVGA CLASSIFIED SR-2 MOTHERBOARD ARCHITECTURE:\n"
+		+ "Engineered by EVGA and renowned overclocker Peter 'Shamino' Tan, the Classified SR-2 redefined what desktop motherboards could "
+		+ "achieve. Measuring a colossal 13.6 by 15 inches in the proprietary HPTX form factor, it featured dual LGA1366 sockets powered by "
+		+ "8+2 phase digital PWMs, dual Intel 5520 chipset hubs, and twin NVIDIA NF200 bridge chips supplying 7 full-bandwidth PCI Express 2.0 "
+		+ "x16 slots. Overclockers routinely pushed dual 6-core Xeon X5690s from 3.46 GHz past 4.40 GHz on custom water loops, breaking "
+		+ "dozens of world benchmark records in 3DMark and Cinebench."
+	)
+	p.engineering_innovations = (
+		"• Dual-Socket HPTX Overclocking Architecture: Dual LGA1366 sockets powered by dual Intel 5520 chipset hubs and twin NF200 bridges, "
+		+ "overclocking dual 32nm Intel Xeon X5690 processors from 3.46 GHz to 4.40 GHz across 24 threads.\n"
+		+ "• Quad ATI FirePro V9800 & S400 Genlock/Framelock Hardware Sync: Linked four 4GB workstation cards via the FirePro S400 "
+		+ "synchronization module, driving up to 24 perfectly synchronized 1080p monitors simultaneously (11520x4320 Eyefinity matrix).\n"
+		+ "• Physical Drive-Isolated Triple-Boot Architecture: Dedicated OCZ Vertex 3 SSDs isolating Windows 7 (Windows Boot Manager), "
+		+ "Mac OS X 10.7 Lion (Chameleon v2.1 / FakeSMC), and Oracle Solaris 11 (GRUB2 ZFS Root Pool).\n"
+		+ "• Dual 1200W Synchronized Power Supply Subsystem: Dual Corsair AX1200 80+ Gold power supplies linked via 24-pin relay bridge, "
+		+ "delivering 2400W total capacity to feed dual overclocked Xeons and quad 225W GPUs.\n"
+		+ "• Custom Dual-Loop Liquid Cooling Subsystem: Twin EK-Supreme HF CPU waterblocks, EK full-cover motherboard block, 4x GPU full-cover "
+		+ "blocks, dual 480mm quad-fan radiators, and dual Swiftech MCP655 / D5 high-flow pumps.\n"
+		+ "• Multi-Terabyte ZFS Enterprise Storage on Enthusiast Hardware: 4x 2TB Western Digital Caviar Black HDDs configured in ZFS RAIDZ2 "
+		+ "with 100% data checksum verification and self-healing resilience."
+	)
+	p.cultural_legacy = (
+		"The EVGA SR-2 Super Record stands as the grand finale of the brute-force, high-wattage enthusiast desktop era. Exactly as late "
+		+ "1960s muscle cars represented the peak of naturally aspirated cubic inches before the fuel crises, the SR-2 stood as the absolute "
+		+ "zenith of multi-socket, dual-power-supply personal supercomputers. Its legendary legacy lives on as both a celebrated milestone "
+		+ "in extreme PC overclocking and the historical turning point that prompted the computing industry to embrace the energy-efficient, "
+		+ "multi-core consumer paradigms of Sandy Bridge-E, AMD Threadripper, and Apple Silicon."
+	)
+	p.technical_specs = {
+		"Manufacturer / Platform": "EVGA / Custom Enthusiast HPTX Workstation",
+		"Release Date": "Late 2011 (EVGA SR-2 / Intel Xeon X5690 / Vertex 3 Era)",
+		"Motherboard Model": "EVGA Classified SR-2 (Intel 5520 / ICH10R / Dual NF200, HPTX)",
+		"Processors (CPU)": "2x Intel Xeon X5690 (Westmere-EP 32nm, 12 Cores / 24 Threads @ 4.40 GHz O/C)",
+		"System Memory (RAM)": "48GB (12x 4GB) Corsair Dominator GT DDR3-1600 MHz in Triple-Channel (x2)",
+		"Graphics Subsystem": "4x ATI FirePro V9800 4GB GDDR5 (6,400 Stream Cores / 16GB Total VRAM)",
+		"Display Synchronization": "ATI FirePro S400 Hardware Genlock / Framelock Synchronization Module",
+		"Display Output Capacity": "Up to 24x Independent Mini DisplayPort Outputs (11,520 x 4,320 SLS Matrix)",
+		"Primary Console Displays": "Dual 27-inch Color-Calibrated IPS Displays (2560x1440 10-Bit)",
+		"Graphic Boot Storage": "3x OCZ Vertex 3 240GB SATA III SSDs (SandForce SF-2281, Independent OS Drives)",
+		"Mass Storage Pools": "4x Western Digital Caviar Black 2TB 7200RPM HDDs (8TB Raw across NTFS/HFS+/ZFS)",
+		"Power Supply (PSU)": "Dual Corsair AX1200 (1200W) 80+ Gold Power Supplies (2400W Combined Headroom)",
+		"Cooling Subsystem": "Custom Dual-Loop Liquid Cooling (EKWB blocks, dual 480mm radiators, dual D5 pumps)",
+		"Chassis / Form Factor": "Custom-Modified Black Aluminum Lian Li HPTX Full Tower (Acoustic Dampened)",
+		"Operating Systems": "Windows 7 Ultimate SP1 (x64) / Mac OS X 10.7 Lion / Oracle Solaris 11 (11/11)",
+		"Bootloader Orchestration": "Windows Boot Manager (BCD) / Chameleon v2.1 r1684 / GRUB2 ZFS BE"
+	}
+	p.usage_cases = [
+		{
+			"title": "24-Screen Synchronized Eyefinity Command Center & Simulation Wall",
+			"institution": "Advanced Simulation Laboratory / Global Command & Control Center",
+			"hardware_setup": "EVGA SR-2 • 4x FirePro V9800 + S400 Genlock • 24x 1080p Thin-Bezel IPS Displays",
+			"software_stack": "Windows 7 Ultimate SP1 (x64) • AMD Catalyst Pro 8.911 • DirectX 11 Simulation Engine",
+			"workflow": (
+				"The workstation drives a massive 6-column by 4-row video wall comprising 24 independent 1080p IPS displays, "
+				+ "delivering an ultra-high resolution Single Large Surface (SLS) canvas of 11,520 by 4,320 pixels (49.7 megapixels). "
+				+ "While un-synchronized multi-GPU setups suffered from severe tearing, frame-rate oscillation, and phase jitter across "
+				+ "screen boundaries, the ATI FirePro S400 hardware synchronization module locked the pixel clocks and vertical refresh "
+				+ "cycles across all four cards to a studio reference signal. Flight simulator pilots and command center operators "
+				+ "view continuous, tear-free telemetry and real-time 3D flight dynamics spanning the entire 24-screen canvas."
+			),
+			"impact": (
+				"Proved that an enthusiast multi-GPU workstation could replace multimillion-dollar proprietary Unix visualization "
+				+ "clusters, powering seamless immersive military simulators, CAVE virtual environments, and broadcast studio walls."
+			)
+		},
+		{
+			"title": "24-Thread Liquid-Overclocked 3D Raytracing & VFX Render Node",
+			"institution": "Boutique Visual Effects Studio & Architectural Visualization Lab",
+			"hardware_setup": "EVGA SR-2 • Dual Xeon X5690 @ 4.40GHz • 48GB Corsair Dominator GT • Dual 480mm Radiators",
+			"software_stack": "Windows 7 Ultimate SP1 (x64) • Autodesk 3ds Max 2012 • Chaos Group V-Ray 2.0",
+			"workflow": (
+				"Visual effects artists utilize the 24 threads of the liquid-cooled Xeon processors to render massive architectural scenes "
+				+ "with complex global illumination, subsurface scattering, and multi-layer reflection passes. The 48GB triple-channel "
+				+ "Corsair Dominator memory pool easily accommodates 12-million-polygon geometry caches without disk swapping. While rendering, "
+				+ "the workstation draws over 1,800 Watts from the dual Corsair AX1200 power supplies, with dual 480mm radiators expelling "
+				+ "tremendous thermal energy to keep both 4.40GHz Xeons under 65°C."
+			),
+			"impact": (
+				"Delivered rendering throughput that eclipsed standard 8-node dual-quad-core render farms of the late 2000s, consolidating "
+				+ "an entire studio's computational pipeline into a single, aggressively overclocked desktop chassis."
+			)
+		},
+		{
+			"title": "Cross-Platform Enterprise Software Development & ZFS Storage Vault",
+			"institution": "Cross-Platform Enterprise Systems R&D / High-Throughput Financial Firm",
+			"hardware_setup": "EVGA SR-2 • 3x OCZ Vertex 3 SSDs • 4x 2TB WD Black RAIDZ2 • Dual 27\" Color IPS Displays",
+			"software_stack": "Oracle Solaris 11 11/11 (ZFS / DTrace) • Mac OS X 10.7 Lion (Final Cut Studio) • Win7 x64",
+			"workflow": (
+				"Engineers utilize the triple-boot architecture to execute isolated, mission-critical workflows without cross-contamination. "
+				+ "Under Oracle Solaris 11, the 4x 2TB Western Digital Caviar Black hard drives are managed as an enterprise ZFS RAIDZ2 pool, "
+				+ "providing continuous checksumming, snapshotting, and DTrace dynamic kernel inspection across PCIe DMA transfers. "
+				+ "Rebooting via Chameleon into Mac OS X 10.7 Lion provides a native Apple environment for ProRes 422 color grading and "
+				+ "OpenCL compute, while Windows 7 provides DirectX 11 engineering compatibility—each OS running on its own dedicated SATA3 SSD."
+			),
+			"impact": (
+				"Demonstrated the absolute pinnacle of desktop hardware virtualization and multi-OS deployment before cloud hypervisors "
+				+ "and containerization displaced bare-metal multi-booting."
+			)
+		}
+	]
+	p.exhibit_images = _build_default_image_slots(
+		p.id,
+		"Fig 1. Lian Li HPTX Workstation Chassis, Dual 27\" IPS Displays & 24-Screen Wall",
+		"Massive black anodized aluminum Lian Li full-tower chassis with acrylic side window, dual liquid cooling loops, and 24-monitor Eyefinity video wall.",
+		"Fig 2. EVGA Classified SR-2 Motherboard, Dual Xeons & Quad-V9800 S400 Array",
+		"Architectural schematic showing dual LGA1366 sockets, 12 Corsair Dominator GT slots, 4x FirePro V9800 GPUs, and S400 Genlock ribbon interconnect.",
+		"Fig 3. Triple-Boot Multi-OS Desktop Matrix & ATI FirePro Eyefinity Control Panel",
+		"Interactive composite displaying Windows 7 Aero Glass, Mac OS X Lion Aqua, and Oracle Solaris 11 Java Desktop interfaces with 24-screen Genlock telemetry."
 	)
 
 

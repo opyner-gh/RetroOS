@@ -212,7 +212,7 @@ func _build_category_filter_bar() -> void:
 	selector_vbox.move_child(_filter_grid, 1)
 
 	var categories := [
-		{"key": "ALL", "label": "All (19)"},
+		{"key": "ALL", "label": "All (20)"},
 		{"key": "Pioneering Workstations", "label": "Pioneering (1972)"},
 		{"key": "PC & OS/2", "label": "PC & OS/2"},
 		{"key": "UNIX & Alt-OS", "label": "UNIX / Linux / BeOS"},
@@ -453,6 +453,8 @@ func _select_profile_for_preview(profile: OSProfile) -> void:
 		test_floppy_btn.text = "📼 Cassette / Diablo"
 	elif profile.id == "ubuntu_1004":
 		test_floppy_btn.text = "💿 Live CD"
+	elif profile.id == "evga_sr2":
+		test_floppy_btn.text = "⚡ Triple-Boot BBS"
 	else:
 		test_floppy_btn.text = "💾 Floppy"
 
@@ -873,6 +875,8 @@ func _on_test_removable_media_pressed() -> void:
 		AudioManager.play_hdd_burst()
 	elif _selected_profile.id == "ubuntu_1004":
 		AudioManager.play_optical_seek()
+	elif _selected_profile.id == "evga_sr2":
+		AudioManager.play_hdd_burst()
 	else:
 		AudioManager.play_floppy_seek()
 

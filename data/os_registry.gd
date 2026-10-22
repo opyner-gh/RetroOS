@@ -15,6 +15,7 @@ static func get_all_profiles() -> Array[OSProfile]:
 		_build_datapoint_2200(),
 		_build_ubuntu_704(),
 		_build_ubuntu_1004(),
+		_build_evga_sr2(),
 		_build_hpux_cde(),
 		_build_plan9(),
 		_build_win98_se(),
@@ -1671,3 +1672,476 @@ static func _build_ubuntu_1004() -> OSProfile:
 	p.fan_noise_level = 0.38
 	p.hdd_seek_interval_range = Vector2(2.0, 5.0)
 	return p
+
+
+# ==============================================================================
+# 10. EVGA SR-2 "SUPER RECORD" TRIPLE-BOOT WORKSTATION - LATE 2011
+# THE PINNACLE AND FIERY TWILIGHT OF BRUTE-FORCE ENTHUSIAST COMPUTING
+# ==============================================================================
+static func _build_evga_sr2() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "evga_sr2"
+	p.category = "PC & OS/2"
+	p.display_name = "EVGA SR-2 Super Record (Triple-Boot)"
+	p.short_name = "EVGA SR-2"
+	p.release_year = "2011"
+	p.vendor = "EVGA / Lian Li Custom HPTX Workstation"
+	p.architecture_summary = "Dual LGA1366 / Intel 5520 / Triple-Boot (x86_64)"
+	p.hardware_profile = "EVGA Classified SR-2 • 2x Xeon X5690 @ 4.4GHz • 48GB • 4x FirePro V9800"
+	p.description = (
+		"The EVGA SR-2 'Super Record' Triple-Boot Workstation represents the absolute pinnacle—and the "
+		+ "fiery twilight—of enthusiast desktop computing in late 2011. Built around the legendary EVGA "
+		+ "Classified SR-2 motherboard, this system demonstrates the rare convergence of enterprise-grade server "
+		+ "hardware with extreme overclocking capabilities and multi-OS versatility. Featuring dual 32nm Intel "
+		+ "Xeon X5690 processors liquid-overclocked to 4.40 GHz across 24 threads, 48GB of triple-channel Corsair "
+		+ "Dominator GT DDR3, and a quad-GPU array of ATI FirePro V9800 workstation graphics cards hardware-synchronized "
+		+ "via a dedicated ATI FirePro S400 Genlock/Framelock module driving up to 24 synchronized displays simultaneously, "
+		+ "this 2400W dual-PSU monolith pushed the limits of brute-force computing before the industry pivoted to "
+		+ "high-efficiency architectures, Ryzen, Threadripper, and Apple Silicon. A complex triple-boot environment "
+		+ "utilizes three dedicated physical solid-state drives to run Windows 7 Ultimate SP1, Mac OS X 10.7 Lion "
+		+ "(via Chameleon Hackintosh bootloader), and Oracle Solaris 11."
+	)
+
+	p.bios_header = (
+		"EVGA CLASSIFIED SR-2 AWARD BIOS v1.21 (E759) • INTEL 5520 / DUAL NF200\n"
+		+ "2x INTEL XEON X5690 @ 4.40 GHz (12C/24T) • 48GB CORSAIR DOMINATOR GT • 4x FIREPRO V9800 + S400"
+	)
+	p.boot_bg_color = Color("06080c")
+	p.boot_text_color = Color("e2e8f0")
+
+	p.boot_logs = [
+		{"text": "EVGA Classified SR-2 (E759) AwardBIOS v1.21 (Release 10/28/2011)", "delay": 0.65, "sfx": "fan_spinup", "color": "e2e8f0"},
+		{"text": "Chipset: Intel 5520 (Tylersburg-36D) + ICH10R + Dual NVIDIA NF200 Bridge (7x PCIe 2.0 x16)", "delay": 0.70, "sfx": "hdd_click", "color": "94a3b8"},
+		{"text": "CPU 0: Intel(R) Xeon(R) CPU X5690 @ 3.46GHz [Liquid O/C: 200 BCLK x 22 = 4.40 GHz]", "delay": 0.75, "sfx": "", "color": "38bdf8"},
+		{"text": "CPU 1: Intel(R) Xeon(R) CPU X5690 @ 3.46GHz [Liquid O/C: 200 BCLK x 22 = 4.40 GHz]", "delay": 0.75, "sfx": "", "color": "38bdf8"},
+		{"text": "Hyper-Threading: ENABLED (12 Physical Cores / 24 Logical Processors Active)", "delay": 0.65, "sfx": "beep", "color": "4ade80"},
+		{"text": "Memory Testing: 48,128 MB Corsair Dominator GT DDR3-1600 (Triple-Channel x2) ... OK", "delay": 0.85, "sfx": "", "color": "facc15"},
+		{"text": "PCIe Gen2 Link 1-4: 4x ATI FirePro V9800 4GB GDDR5 (6,400 Stream Processors / 16GB VRAM)", "delay": 0.80, "sfx": "", "color": "f87171"},
+		{"text": "ATI FirePro S400 Module: FRAMELOCK & GENLOCK LOCKED (24 Displays / 11520x4320 Eyefinity)", "delay": 0.85, "sfx": "hdd_burst", "color": "4ade80"},
+		{"text": "Marvell 88SE9128 SATA3 6Gbps Controller Initialized (3x Dedicated Physical SSDs):", "delay": 0.65, "sfx": "", "color": "94a3b8"},
+		{"text": "  Port 0: OCZ-VERTEX3 240GB SSD -> Windows 7 Ultimate SP1 (x64) [NTFS Boot Volume]", "delay": 0.60, "sfx": "hdd_click", "color": "60a5fa"},
+		{"text": "  Port 1: OCZ-VERTEX3 240GB SSD -> Mac OS X 10.7 Lion (x86_64) [Chameleon v2.1 r1684]", "delay": 0.60, "sfx": "hdd_click", "color": "a78bfa"},
+		{"text": "  Port 2: OCZ-VERTEX3 240GB SSD -> Oracle Solaris 11 11/11 (x86) [GRUB2 ZFS Root Pool]", "delay": 0.60, "sfx": "hdd_click", "color": "f472b6"},
+		{"text": "ICH10R SATA2: 4x Western Digital Caviar Black 2TB (8TB Storage Pools across NTFS/HFS+/ZFS)", "delay": 0.70, "sfx": "hdd_burst", "color": "94a3b8"},
+		{"text": "Power Supply Telemetry: Dual Corsair AX1200 80+ Gold (2400W Combined / 920W Idle Load)", "delay": 0.75, "sfx": "", "color": "fb923c"},
+		{"text": "Thermal Telemetry: Dual EK-Supreme HF Blocks + Dual 480mm Rads (CPU0: 38°C / CPU1: 41°C)", "delay": 0.70, "sfx": "", "color": "38bdf8"},
+		{"text": "Press [F12] or [BBS POPUP] for BIOS Boot Device Selection...", "delay": 0.90, "sfx": "hdd_burst", "color": "facc15"},
+		{"text": "BIOS BBS Default: Booting SATA Port 0 (OCZ Vertex 3) -> Windows Boot Manager...", "delay": 0.80, "sfx": "hdd_burst", "color": "60a5fa"},
+		{"text": "Starting Windows...", "delay": 0.90, "sfx": "", "color": "e2e8f0"},
+		{"text": "[OK] Windows 7 Ultimate SP1 (Build 7601) x64 Kernel loaded", "delay": 0.70, "sfx": "", "color": "4ade80"},
+		{"text": "[OK] ATI FirePro Catalyst 8.911 Workstation Driver initialized", "delay": 0.70, "sfx": "", "color": "4ade80"},
+		{"text": "[OK] S400 Hardware Genlock: 24 Displays locked in frame sync @ 59.94 Hz", "delay": 0.75, "sfx": "hdd_burst", "color": "4ade80"},
+		{"text": "[OK] Desktop Window Manager (Aero DWM Compositor) ready.", "delay": 0.70, "sfx": "", "color": "4ade80"},
+	]
+
+	# Default sub-profile: Windows 7 Ultimate SP1
+	apply_sr2_sub_profile(p, "win7")
+
+	p.fan_base_freq = 135.0
+	p.fan_noise_level = 0.32
+	p.hdd_seek_interval_range = Vector2(2.5, 6.0)
+	return p
+
+
+static func apply_sr2_sub_profile(p: OSProfile, sub_os_id: String) -> void:
+	match sub_os_id:
+		"lion":
+			p.display_name = "EVGA SR-2 Super Record // Mac OS X 10.7 Lion (x86_64)"
+			p.short_name = "OS X Lion"
+			p.chrome_style = "aqua_pinstripe"
+			p.desktop_bg_color = Color("1e2638")
+			p.desktop_secondary_color = Color("334155")
+			p.panel_bg_color = Color("e2e8f0")
+			p.panel_text_color = Color("0f172a")
+			p.window_bg_color = Color("f1f5f9")
+			p.window_text_color = Color("0f172a")
+			p.window_border_color = Color("64748b")
+			p.titlebar_active_color = Color("94a3b8")
+			p.titlebar_inactive_color = Color("cbd5e1")
+			p.titlebar_text_color = Color("0f172a")
+			p.accent_color = Color("3b82f6")
+
+			p.terminal_title = "admin@sr2-mac-pro: ~ (bash - 80x24)"
+			p.terminal_bg_color = Color("0f172a")
+			p.terminal_fg_color = Color("f8fafc")
+			p.terminal_prompt = "sr2-mac-pro:~ admin$ "
+			p.terminal_welcome_banner = (
+				"Last login: Mon Oct 24 10:14:02 on ttys000\n"
+				+ "Mac OS X Version 10.7 (Build 11A511) [Darwin Kernel 11.0.0]\n"
+				+ "EVGA SR-2 Hackintosh Workstation • 24 Virtual Cores • 48GB RAM\n"
+				+ "Chameleon v2.1-r1684 • FakeSMC 4.2.0 • 4x FirePro V9800 OpenCL Ready\n"
+				+ "Type 'help' for available commands or 'switch-win7' to change OS."
+			)
+
+			p.terminal_commands = {
+				"sw_vers": "ProductName:\tMac OS X\nProductVersion:\t10.7\nBuildVersion:\t11A511",
+				"uname -a": "Darwin sr2-mac-pro.local 11.0.0 Darwin Kernel Version 11.0.0: Sat Jun 18 12:56:35 PDT 2011; root:xnu-1699.22.73~1/RELEASE_X86_64 x86_64",
+				"system_profiler": (
+					"Hardware Overview:\n"
+					+ "  Model Name: Mac Pro (Mid 2010 / EVGA Classified SR-2 Hackintosh)\n"
+					+ "  Model Identifier: MacPro5,1\n"
+					+ "  Processor Name: 6-Core Intel Xeon (Westmere-EP X5690)\n"
+					+ "  Processor Speed: 4.40 GHz (Overclocked Liquid-Cooled)\n"
+					+ "  Number of Processors: 2\n"
+					+ "  Total Number of Cores: 12 (24 Threads with Hyper-Threading)\n"
+					+ "  L2 Cache (per Core): 256 KB\n"
+					+ "  L3 Cache (per Processor): 12 MB\n"
+					+ "  Memory: 48 GB 1600 MHz DDR3 Corsair Dominator GT\n"
+					+ "  Boot ROM Version: Chameleon v2.1-r1684 (Apple EFI v1.30 Emulation)\n"
+					+ "  Graphics: 4x ATI FirePro V9800 4096 MB GDDR5 (S400 Genlock Synced)"
+				),
+				"clinfo": (
+					"OpenCL Platform: Apple OpenCL 1.1\n"
+					+ "  Device 0: 4x Cypress XT (ATI FirePro V9800 Workstation)\n"
+					+ "  Total Compute Units: 80 (6,400 Stream Processors)\n"
+					+ "  Global Memory: 16,384 MB GDDR5\n"
+					+ "  Max Clock Frequency: 850 MHz\n"
+					+ "  Double-Precision Support: cl_khr_fp64 enabled\n"
+					+ "  Status: Online • Accelerated Final Cut Pro 7 / Color 1.5 Pipeline"
+				),
+				"fcp": (
+					"Apple Final Cut Studio Pro 7 // Color 1.5 Real-Time Engine\n"
+					+ "--------------------------------------------------------\n"
+					+ "Active Sequence: 4K ProRes 422 HQ (3840x2160 @ 23.98 fps)\n"
+					+ "GPU Acceleration: 4x FirePro V9800 OpenCL Primary Buffers\n"
+					+ "Scratch Disk: 4x 2TB WD Caviar Black HFS+ Striped Array\n"
+					+ "Playback Status: Real-time 4K Color Grade without drop frames."
+				),
+				"kextstat": (
+					"Index Refs Address            Size       Name (Version)\n"
+					+ "  112    0 0xffffff7f81a00000 0x12000    org.netkas.FakeSMC (4.2.0)\n"
+					+ "  113    0 0xffffff7f81a15000 0x08000    org.tgvs.NullCPUPowerManagement (1.0.0)\n"
+					+ "  114    2 0xffffff7f81a20000 0x48000    com.insanelymac.ATY_Init (1.3.1)\n"
+					+ "  115    0 0xffffff7f81a69000 0x32000    com.insanelymac.AppleIntelE1000e (2.4.14)"
+				),
+				"switch-win7": "Switching active boot drive to SSD 0: Windows 7 Ultimate SP1 (x64)...",
+				"switch-solaris": "Switching active boot drive to SSD 2: Oracle Solaris 11 (11/11)...",
+				"bbs": "Opening BIOS Boot Device Selection (BBS) menu..."
+			}
+
+			p.default_windows = [
+				{
+					"id": "terminal",
+					"title": "admin@sr2-mac-pro: ~ (bash)",
+					"type": "terminal",
+					"pos": Vector2(120, 50),
+					"size": Vector2(560, 320),
+					"content": ""
+				},
+				{
+					"id": "fcp",
+					"title": "Final Cut Studio Pro 7 // 4K ProRes Color Grade",
+					"type": "monitor",
+					"pos": Vector2(510, 350),
+					"size": Vector2(500, 280),
+					"content": (
+						"FINAL CUT STUDIO PRO 7 • APPLE COLOR 1.5 PIPELINE\n"
+						+ "---------------------------------------------------------\n"
+						+ "Project: 'Fiery Twilight' (Feature Documentary 4K Master)\n"
+						+ "Timeline Codec: Apple ProRes 422 HQ (3840x2160 10-Bit)\n"
+						+ "Hardware Engine: 24 Cores @ 4.40GHz + 4x FirePro V9800\n"
+						+ "Memory Footprint: 28.4 GB / 48 GB Allocated\n"
+						+ "Real-time 3-Way Color Corrector: 60 fps Continuous Playback\n"
+						+ "Display Output: Dual 27\" Apple LED Cinema IPS Displays"
+					)
+				},
+				{
+					"id": "switcher",
+					"title": "EVGA SR-2 Multi-OS Boot Manager & BIOS BBS Switcher",
+					"type": "text",
+					"pos": Vector2(100, 390),
+					"size": Vector2(390, 240),
+					"content": (
+						"EVGA CLASSIFIED SR-2 MULTI-OS BOOT MANAGER\n"
+						+ "=========================================================\n"
+						+ "Active OS: [2] Mac OS X 10.7 Lion (x86_64 Hackintosh)\n"
+						+ "Boot SSD : SATA Port 1 - OCZ Vertex 3 240GB (HFS+)\n\n"
+						+ "Switch OS immediately or reboot to BIOS BBS:\n"
+						+ "• Type 'switch-win7' in Terminal for Windows 7 Ultimate\n"
+						+ "• Type 'switch-solaris' in Terminal for Oracle Solaris 11\n"
+						+ "• Press [ESC] or run 'bbs' to return to BIOS POST"
+					)
+				}
+			]
+
+			p.desktop_icons = [
+				{"id": "icon_term", "label": "Terminal", "glyph": "[>_]", "target_window_id": "terminal"},
+				{"id": "icon_fcp", "label": "Final Cut\nPro 7", "glyph": "[🎬]", "target_window_id": "fcp"},
+				{"id": "icon_switcher", "label": "Multi-Boot\nSwitcher", "glyph": "[⚡]", "target_window_id": "switcher"}
+			]
+
+		"solaris":
+			p.display_name = "EVGA SR-2 Super Record // Oracle Solaris 11 (11/11 x86_64)"
+			p.short_name = "Solaris 11"
+			p.chrome_style = "solaris_cde"
+			p.desktop_bg_color = Color("0f1f33")
+			p.desktop_secondary_color = Color("1a3556")
+			p.panel_bg_color = Color("1e293b")
+			p.panel_text_color = Color("e2e8f0")
+			p.window_bg_color = Color("111c2a")
+			p.window_text_color = Color("e2e8f0")
+			p.window_border_color = Color("0284c7")
+			p.titlebar_active_color = Color("0369a1")
+			p.titlebar_inactive_color = Color("1e293b")
+			p.titlebar_text_color = Color("ffffff")
+			p.accent_color = Color("0284c7")
+
+			p.terminal_title = "admin@sr2-solaris:~# (ksh93 - 80x24)"
+			p.terminal_bg_color = Color("070c14")
+			p.terminal_fg_color = Color("38bdf8")
+			p.terminal_prompt = "admin@sr2-solaris:~# "
+			p.terminal_welcome_banner = (
+				"Oracle Solaris 11 11/11 x86 (SunOS 5.11)\n"
+				+ "Copyright (c) 1983, 2011, Oracle and/or its affiliates. All rights reserved.\n"
+				+ "EVGA SR-2 Super Record • 24 CPU threads • 48GB RAM • 8TB ZFS Storage Pool\n"
+				+ "Type 'help' for Solaris commands or 'switch-win7' to change OS."
+			)
+
+			p.terminal_commands = {
+				"zpool status": (
+					"  pool: datapool\n"
+					+ " state: ONLINE\n"
+					+ "  scan: scrub repaired 0 in 1h42m with 0 errors on Sun Oct 23 04:12:00 2011\n"
+					+ "config:\n"
+					+ "\tNAME                       STATE     READ WRITE CKSUM\n"
+					+ "\tdatapool                   ONLINE       0     0     0\n"
+					+ "\t  raidz2-0                 ONLINE       0     0     0\n"
+					+ "\t    c2t0d0 (WD2002FAEX)    ONLINE       0     0     0\n"
+					+ "\t    c2t1d0 (WD2002FAEX)    ONLINE       0     0     0\n"
+					+ "\t    c2t2d0 (WD2002FAEX)    ONLINE       0     0     0\n"
+					+ "\t    c2t3d0 (WD2002FAEX)    ONLINE       0     0     0\n"
+					+ "errors: No known data errors\n"
+					+ "--------------------------------------------------------\n"
+					+ "  pool: rpool\n"
+					+ " state: ONLINE (OCZ-VERTEX3 240GB SATA3 SSD - SSD Port 2)"
+				),
+				"zfs list": (
+					"NAME                         USED  AVAIL  REFER  MOUNTPOINT\n"
+					+ "datapool                    3.41T  2.38T   128K  /datapool\n"
+					+ "datapool/cad_vault          1.82T  2.38T  1.82T  /datapool/cad_vault\n"
+					+ "datapool/render_frames       980G  2.38T   980G  /datapool/render_frames\n"
+					+ "datapool/telemetry           610G  2.38T   610G  /datapool/telemetry\n"
+					+ "rpool                       18.4G   205G  4.20G  /\n"
+					+ "rpool/ROOT                  12.1G   205G    31K  legacy\n"
+					+ "rpool/ROOT/solaris-11       12.1G   205G  12.1G  /"
+				),
+				"psrinfo -v": (
+					"Status of virtual processors:\n"
+					+ "  Status of processor 0-11: on-line since 10/24/2011 08:30:12 (Socket 0: Xeon X5690 @ 4.40GHz)\n"
+					+ "  Status of processor 12-23: on-line since 10/24/2011 08:30:12 (Socket 1: Xeon X5690 @ 4.40GHz)\n"
+					+ "  Total: 24 virtual processors operating at full liquid-cooled frequency."
+				),
+				"prtconf": (
+					"System Configuration: Oracle Corporation SunOS x86 Workstation\n"
+					+ "Memory size: 48,128 Megabytes (Triple-Channel Corsair Dominator GT)\n"
+					+ "Device Nodes: 4x PCI-Express Cypress XT (ATI FirePro V9800 4GB)\n"
+					+ "Display Sync: ATI FirePro S400 Genlock driver active on bus /pci@0/pci8086,3408"
+				),
+				"dtrace": (
+					"DTrace script 'pcie_dma_bandwidth.d' active:\n"
+					+ "  DEVICE                  DMA READ (MB/s)    DMA WRITE (MB/s)   LATENCY\n"
+					+ "  FirePro V9800 [Card 0]  1,420.5 MB/s       880.2 MB/s         1.8 us\n"
+					+ "  FirePro V9800 [Card 1]  1,390.1 MB/s       875.4 MB/s         1.9 us\n"
+					+ "  FirePro V9800 [Card 2]  1,410.8 MB/s       882.0 MB/s         1.8 us\n"
+					+ "  FirePro V9800 [Card 3]  1,405.2 MB/s       879.6 MB/s         1.8 us\n"
+					+ "  ZFS ARC Cache Hit Rate: 98.6% (Hit/Miss: 1,482,901 / 21,040)"
+				),
+				"firepro-sync": "FirePro S400 Genlock: 24/24 Synced Displays @ 59.94 Hz (Zero frame drift)",
+				"switch-win7": "Switching active boot drive to SSD 0: Windows 7 Ultimate SP1 (x64)...",
+				"switch-lion": "Switching active boot drive to SSD 1: Mac OS X 10.7 Lion (x86_64)...",
+				"bbs": "Opening BIOS Boot Device Selection (BBS) menu..."
+			}
+
+			p.default_windows = [
+				{
+					"id": "terminal",
+					"title": "admin@sr2-solaris:~# (ksh93)",
+					"type": "terminal",
+					"pos": Vector2(120, 50),
+					"size": Vector2(560, 320),
+					"content": ""
+				},
+				{
+					"id": "zfs",
+					"title": "Oracle Solaris 11 ZFS Storage Administration",
+					"type": "monitor",
+					"pos": Vector2(510, 350),
+					"size": Vector2(500, 280),
+					"content": (
+						"ORACLE SOLARIS 11 ZFS ENTERPRISE STORAGE POOL\n"
+						+ "---------------------------------------------------------\n"
+						+ "Storage Array: 4x 2TB WD Caviar Black (RAIDZ2 Configuration)\n"
+						+ "Total Usable Capacity: 5.79 TB (Checksum Validation Active)\n"
+						+ "Compression: lzjb Enabled (1.32x space savings)\n"
+						+ "Self-Healing Scrub: 0 checksum errors, 0 disk faults\n"
+						+ "ZFS ARC Cache: 36 GB allocated in Corsair Dominator RAM"
+					)
+				},
+				{
+					"id": "switcher",
+					"title": "EVGA SR-2 Multi-OS Boot Manager & BIOS BBS Switcher",
+					"type": "text",
+					"pos": Vector2(100, 390),
+					"size": Vector2(390, 240),
+					"content": (
+						"EVGA CLASSIFIED SR-2 MULTI-OS BOOT MANAGER\n"
+						+ "=========================================================\n"
+						+ "Active OS: [3] Oracle Solaris 11 (11/11 x86_64)\n"
+						+ "Boot SSD : SATA Port 2 - OCZ Vertex 3 240GB (ZFS rpool)\n\n"
+						+ "Switch OS immediately or reboot to BIOS BBS:\n"
+						+ "• Type 'switch-win7' in Terminal for Windows 7 Ultimate\n"
+						+ "• Type 'switch-lion' in Terminal for Mac OS X 10.7 Lion\n"
+						+ "• Press [ESC] or run 'bbs' to return to BIOS POST"
+					)
+				}
+			]
+
+			p.desktop_icons = [
+				{"id": "icon_term", "label": "Terminal", "glyph": "[>_]", "target_window_id": "terminal"},
+				{"id": "icon_zfs", "label": "ZFS Pool\nManager", "glyph": "[ZFS]", "target_window_id": "zfs"},
+				{"id": "icon_switcher", "label": "Multi-Boot\nSwitcher", "glyph": "[⚡]", "target_window_id": "switcher"}
+			]
+
+		_: # "win7"
+			p.display_name = "EVGA SR-2 Super Record // Windows 7 Ultimate SP1 (x64)"
+			p.short_name = "Windows 7"
+			p.chrome_style = "win7_aero"
+			p.desktop_bg_color = Color("0d233a")
+			p.desktop_secondary_color = Color("1b4673")
+			p.panel_bg_color = Color(0.06, 0.12, 0.20, 0.92)
+			p.panel_text_color = Color("ffffff")
+			p.window_bg_color = Color("0c1420")
+			p.window_text_color = Color("e0e6ed")
+			p.window_border_color = Color("2a4e7c")
+			p.titlebar_active_color = Color("143b66")
+			p.titlebar_inactive_color = Color("0e2238")
+			p.titlebar_text_color = Color("ffffff")
+			p.accent_color = Color("2563eb")
+
+			p.terminal_title = "Command Prompt - cmd.exe (Administrator)"
+			p.terminal_bg_color = Color("080c12")
+			p.terminal_fg_color = Color("d1d5db")
+			p.terminal_prompt = "C:\\Users\\Admin> "
+			p.terminal_welcome_banner = (
+				"Microsoft Windows [Version 6.1.7601]\n"
+				+ "Copyright (c) 2009 Microsoft Corporation. All rights reserved.\n"
+				+ "EVGA SR-2 Super Record • Dual Xeon X5690 @ 4.40GHz • 48GB RAM\n"
+				+ "ATI FirePro S400 Genlock: 24 Displays Active (11520x4320 Eyefinity Wall)\n"
+				+ "Type 'help' for available commands or 'switch-lion' to change OS."
+			)
+
+			p.terminal_commands = {
+				"systeminfo": (
+					"OS Name:                   Microsoft Windows 7 Ultimate SP1 (64-bit)\n"
+					+ "OS Version:                6.1.7601 Service Pack 1 Build 7601\n"
+					+ "System Manufacturer:       EVGA / Lian Li Custom HPTX Workstation\n"
+					+ "System Model:              EVGA Classified SR-2 (270-WS-W555-A2)\n"
+					+ "Processors:                2 Processor(s) Installed.\n"
+					+ "                           [01]: Intel64 Family 6 Model 44 Stepping 2 @ 4400 Mhz (6 Cores/12 Threads)\n"
+					+ "                           [02]: Intel64 Family 6 Model 44 Stepping 2 @ 4400 Mhz (6 Cores/12 Threads)\n"
+					+ "BIOS Version:              Award Software International, Inc. 1.21, 10/28/2011\n"
+					+ "Total Physical Memory:     48,128 MB (12x 4GB Corsair Dominator GT DDR3-1600 Triple-Channel)\n"
+					+ "Available Physical Memory: 42,910 MB\n"
+					+ "Graphics Cards:            4x ATI FirePro V9800 4GB GDDR5 (16GB Total VRAM)\n"
+					+ "Display Genlock:           ATI FirePro S400 Hardware Frame Synchronization Module"
+				),
+				"dxdiag": (
+					"DirectX Diagnostic Tool Version 6.01.7601.17514 64-bit\n"
+					+ "---------------------------------------------------------\n"
+					+ "DirectX Version: DirectX 11.0\n"
+					+ "DDI Version: 11 • Feature Levels: 11_0, 10_1, 10_0, 9_3\n"
+					+ "Display Devices: 4x ATI FirePro V9800 (6x Mini-DP outputs per card)\n"
+					+ "Eyefinity SLS (Single Large Surface) Matrix: 6x4 = 24 Panels (11520 x 4320 @ 60Hz)\n"
+					+ "Driver Name: aticfx64.dll,aticfx64.dll,aticfx32,aticfx32\n"
+					+ "Driver Version: 8.911.0.0 (Catalyst Pro 2011)"
+				),
+				"firepro-s400": (
+					"ATI FirePro S400 Synchronization Status:\n"
+					+ "  Genlock Mode: Broadcast Studio Reference (House Sync NTSC/PAL/HD)\n"
+					+ "  Framelock Status: LOCKED across all 4 GPUs\n"
+					+ "  GPU 0 (Master): Slot 1 PCIe 2.0 x16 - Clock 850MHz, 4GB GDDR5 [Displays 1-6]\n"
+					+ "  GPU 1 (Slave):  Slot 3 PCIe 2.0 x16 - S400 Bus In/Out [Displays 7-12]\n"
+					+ "  GPU 2 (Slave):  Slot 5 PCIe 2.0 x16 - S400 Bus In/Out [Displays 13-18]\n"
+					+ "  GPU 3 (Slave):  Slot 7 PCIe 2.0 x16 - S400 Bus In/Out [Displays 19-24]\n"
+					+ "  Frame Drop Count: 0 • Phase Skew: <0.02 microseconds"
+				),
+				"eyefinity": (
+					"AMD Eyefinity Multi-Display Control Panel:\n"
+					+ "  Display Group: 24-Monitor Synchronized Video Wall\n"
+					+ "  Grid Layout: 6 columns x 4 rows of 1920x1080 24\" IPS Displays\n"
+					+ "  Total Resolution: 11,520 x 4,320 pixels (49.7 Megapixels total)\n"
+					+ "  Bezel Compensation: Enabled (32px horizontal / 24px vertical)\n"
+					+ "  Color Calibration: 10-bit per channel wide color gamut (Rec.709)"
+				),
+				"cpuz": (
+					"CPU-Z 1.58 Report:\n"
+					+ "  CPU: 2x Intel Xeon X5690 'Westmere-EP' (32nm LGA1366)\n"
+					+ "  Base Clock (BCLK): 200.0 MHz (Stock 133.3 MHz)\n"
+					+ "  Multiplier: x22.0 -> Core Speed: 4,400.0 MHz\n"
+					+ "  QPI Link: 3,600.0 MHz (7.2 GT/s)\n"
+					+ "  Vcore: 1.375 V (Dual EK-Supreme HF Custom Water Loop)\n"
+					+ "  Memory: 48 GB Triple-Channel DDR3-1600 (7-8-7-20 1T @ 1.65V)"
+				),
+				"render": (
+					"Autodesk 3ds Max 2012 / Chaos Group V-Ray 2.0 Benchmark:\n"
+					+ "  Scene: 'Cathedral of Light' (4K Raytraced Interior with 12M Polys)\n"
+					+ "  Active Threads: 24 (Dual Xeon X5690 @ 4.40GHz)\n"
+					+ "  Global Illumination: Irradiance Map + Light Cache\n"
+					+ "  Render Time: 1 min 42 sec (Record score for 2011 enthusiast hardware!)\n"
+					+ "  Peak Power Draw: 1,840 Watts (Dual Corsair AX1200 load: 76.6%)"
+				),
+				"switch-lion": "Switching active boot drive to SSD 1: Mac OS X 10.7 Lion (x86_64)...",
+				"switch-solaris": "Switching active boot drive to SSD 2: Oracle Solaris 11 (11/11)...",
+				"bbs": "Opening BIOS Boot Device Selection (BBS) menu..."
+			}
+
+			p.default_windows = [
+				{
+					"id": "terminal",
+					"title": "Command Prompt - cmd.exe",
+					"type": "terminal",
+					"pos": Vector2(120, 50),
+					"size": Vector2(560, 320),
+					"content": ""
+				},
+				{
+					"id": "eyefinity",
+					"title": "ATI FirePro Catalyst Workstation — 24-Display S400 Sync Console",
+					"type": "monitor",
+					"pos": Vector2(520, 350),
+					"size": Vector2(500, 280),
+					"content": (
+						"ATI FIREPRO S400 HARDWARE FRAMELOCK & EYEFINITY WALL\n"
+						+ "---------------------------------------------------------\n"
+						+ "GPU Architecture: 4x ATI FirePro V9800 4GB (6,400 Stream Cores)\n"
+						+ "Active Displays: 24 independent Mini-DP outputs @ 1920x1080 60Hz\n"
+						+ "Combined Resolution: 11,520 x 4,320 SLS Desktop Matrix\n"
+						+ "S400 Genlock State: LOCKED to Studio Reference (0 dropped frames)\n"
+						+ "Primary Console: Dual 27-inch Color-Calibrated IPS Displays (2560x1440)\n"
+						+ "Workloads: Military Simulation • CAVE VR • Broadcast Video Wall"
+					)
+				},
+				{
+					"id": "switcher",
+					"title": "EVGA SR-2 Multi-OS Boot Manager & BIOS BBS Switcher",
+					"type": "text",
+					"pos": Vector2(100, 390),
+					"size": Vector2(400, 240),
+					"content": (
+						"EVGA CLASSIFIED SR-2 MULTI-OS BOOT MANAGER\n"
+						+ "=========================================================\n"
+						+ "Active OS: [1] Microsoft Windows 7 Ultimate SP1 (x64)\n"
+						+ "Boot SSD : SATA Port 0 - OCZ Vertex 3 240GB (NTFS)\n\n"
+						+ "Switch OS immediately or reboot to BIOS BBS:\n"
+						+ "• Type 'switch-lion' in Command Prompt for Mac OS X Lion\n"
+						+ "• Type 'switch-solaris' in Command Prompt for Oracle Solaris 11\n"
+						+ "• Press [ESC] or run 'bbs' to return to BIOS POST"
+					)
+				}
+			]
+
+			p.desktop_icons = [
+				{"id": "icon_cmd", "label": "Command\nPrompt", "glyph": "[>_]", "target_window_id": "terminal"},
+				{"id": "icon_eyefinity", "label": "Eyefinity\n24-Wall", "glyph": "[24-DP]", "target_window_id": "eyefinity"},
+				{"id": "icon_switcher", "label": "Multi-Boot\nSwitcher", "glyph": "[⚡]", "target_window_id": "switcher"}
+			]

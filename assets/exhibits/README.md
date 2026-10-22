@@ -22,7 +22,7 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 
 ---
 
-## 🗂️ Supported System Exhibit Folder IDs (Chronological: 1972 → 2010)
+## 🗂️ Supported System Exhibit Folder IDs (Chronological: 1972 → 2011)
 
 | Folder Path | System & Operating System Exhibit |
 | :--- | :--- |
@@ -45,4 +45,5 @@ Drop `.png`, `.jpg`, `.jpeg`, or `.webp` files into the corresponding `<os_id>` 
 | `res://assets/exhibits/freebsd_411/` | **FreeBSD 4.11-STABLE** — Supermicro P3TDDE Dual Pentium III (2004) |
 | `res://assets/exhibits/ubuntu_704/` | **Ubuntu 7.04 (Feisty Fawn)** — Dell OptiPlex GX620 (2007) |
 | `res://assets/exhibits/ubuntu_1004/` | **Ubuntu 10.04 LTS (Lucid Lynx)** — AlexNet Dual-GTX 580 AI Workstation (2010/2012) |
+| `res://assets/exhibits/evga_sr2/` | **EVGA SR-2 Super Record (Triple-Boot)** — Dual Xeon X5690 @ 4.4GHz, 4x FirePro V9800 + S400 Genlock, 24-Screen Wall & Triple-Boot SSDs (2011) |
 

@@ -10,7 +10,7 @@
 
 ---
 
-## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2010)
+## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2011)
 
 | OS Profile & Machine | Era | Firmware & Bootloader | Desktop Environment & Chrome | Shell & Prompt |
 | :--- | :---: | :--- | :--- | :--- |
@@ -33,6 +33,7 @@
 | **FreeBSD 4.11-STABLE** | 2004 | Beastie Boot Menu (Dual-Pentium III SMP) → `/boot/kernel` | FreeBSD C-shell / XFree86 4.3 twm | `tcsh` (`daemonic#`) |
 | **Ubuntu 7.04 (Feisty Fawn)** | 2007 | PhoenixBIOS 4.0 → GRUB 0.97 → Linux `2.6.20-15-generic` | GNOME 2.18 *Human* theme (Top & Bottom Panels, amber titlebars) | `bash` (`user@feisty-desktop:~$`) |
 | **Ubuntu 10.04 LTS (AlexNet Workstation)** | 2010 | AMI EFI BIOS (ASUS P9X79 Dual GTX 580) → GRUB 1.98 → Linux `2.6.32-21` (CUDA 4.2) | GNOME 2.30 *Ambiance* aubergine theme (Left-aligned window controls) | `bash` (`alex@alexnet-node0:~$`) |
+| **EVGA SR-2 Super Record (Triple-Boot)** | 2011 | EVGA Award BIOS v1.21 (Dual Xeon X5690 @ 4.4GHz + 4x FirePro V9800 + S400 Genlock) → BBS Selector | Triple-Boot: Windows 7 Aero Glass / Mac OS X Lion Aqua / Oracle Solaris 11 CDE | `cmd.exe` / `bash` / `ksh93` |
 
 > **Extensible Architecture:** Adding new operating systems requires either registering a new `OSProfile` entry in `data/os_registry.gd` or dropping a `.tres` `OSProfile` resource file into `res://data/profiles/`. The KVM selector automatically sorts all profiles chronologically (earliest/oldest at the top, newest/latest at the bottom).
 

@@ -150,6 +150,33 @@ func _execute_command(cmd: String) -> void:
 			append_line("DOS READY.")
 			return
 
+	if lower == "switch-win7":
+		AudioManager.play_hdd_burst()
+		GameState.set_sr2_active_os("win7")
+		append_line("Switching active boot SSD to Port 0: Windows 7 Ultimate SP1 (x64)...")
+		append_line("Desktop environment reloaded.")
+		return
+
+	if lower == "switch-lion":
+		AudioManager.play_hdd_burst()
+		GameState.set_sr2_active_os("lion")
+		append_line("Switching active boot SSD to Port 1: Mac OS X 10.7 Lion (x86_64 Hackintosh)...")
+		append_line("Desktop environment reloaded.")
+		return
+
+	if lower == "switch-solaris":
+		AudioManager.play_hdd_burst()
+		GameState.set_sr2_active_os("solaris")
+		append_line("Switching active boot SSD to Port 2: Oracle Solaris 11 (11/11 x86)...")
+		append_line("Desktop environment reloaded.")
+		return
+
+	if lower == "bbs":
+		AudioManager.play_hdd_click()
+		append_line("Initiating soft reboot into EVGA Classified SR-2 BIOS BBS menu...")
+		GameState.select_and_boot_os("evga_sr2")
+		return
+
 	# Universal help command listing OS-specific + global commands
 	if lower == "help" or lower == "?" or lower == "man":
 		var os_cmds := PackedStringArray()
@@ -197,6 +224,13 @@ func _execute_command(cmd: String) -> void:
 					append_line("area51-predator\\Area51")
 				"sgi_irix":
 					append_line("vfx")
+				"evga_sr2":
+					if GameState.sr2_active_os == "lion":
+						append_line("admin")
+					elif GameState.sr2_active_os == "solaris":
+						append_line("root")
+					else:
+						append_line("SR-2-SUPERRECORD\\OverclockAdmin")
 				_:
 					append_line("operator")
 		return
@@ -233,6 +267,13 @@ func _execute_command(cmd: String) -> void:
 				append_line("?SYNTAX ERROR")
 			"datapoint_2200":
 				append_line("ERROR: UNKNOWN COMMAND OR FILE")
+			"evga_sr2":
+				if GameState.sr2_active_os == "lion":
+					append_line("-bash: " + cmd.split(" ")[0] + ": command not found")
+				elif GameState.sr2_active_os == "solaris":
+					append_line("ksh93: " + cmd.split(" ")[0] + ": not found [No such file or directory]")
+				else:
+					append_line("'" + cmd.split(" ")[0] + "' is not recognized as an internal or external command,\noperable program or batch file.")
 			_:
 				append_line("bash: " + cmd.split(" ")[0] + ": command not found")
 	else:

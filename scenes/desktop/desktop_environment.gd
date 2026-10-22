@@ -38,6 +38,7 @@ var _clock_timer: Timer
 
 func _ready() -> void:
 	gui_input.connect(_on_desktop_background_gui_input)
+	GameState.sr2_os_switched.connect(_on_sr2_os_switched)
 	_clock_timer = Timer.new()
 	_clock_timer.wait_time = 1.0
 	_clock_timer.autostart = true
@@ -48,8 +49,17 @@ func _ready() -> void:
 		load_os_environment(GameState.current_profile)
 
 
+func _on_sr2_os_switched(_new_sub_os: String) -> void:
+	if _profile and _profile.id == "evga_sr2":
+		load_os_environment(_profile)
+
+
 func load_os_environment(profile: OSProfile) -> void:
 	_profile = profile
+	if _profile and _profile.id == "evga_sr2":
+		var OSRegistry = preload("res://data/os_registry.gd")
+		OSRegistry.apply_sr2_sub_profile(_profile, GameState.sr2_active_os)
+
 	if not is_node_ready():
 		await ready
 
@@ -242,6 +252,48 @@ func _configure_shell_panels(profile: OSProfile) -> void:
 			_add_panel_button(top_center_box, "Drive C: 1,842 MB Free (HPFS)", func(): AudioManager.play_hdd_burst())
 			_add_panel_button(top_center_box, "OS/2 Window", func(): open_or_restore_window_by_id("terminal"))
 			_add_panel_button(bottom_left_box, "[ WPS Objects ]", func(): open_or_restore_window_by_id("wps_sys"))
+
+		"win7_aero":
+			# Windows 7 Superbar: Bottom dark glass taskbar with Start Orb
+			top_panel.visible = false
+			bottom_panel.visible = true
+			bottom_clock_label.visible = true
+
+			var win7_start := _add_panel_button(
+				bottom_left_box,
+				" 🪟 Start ",
+				func(): _show_os_menu(Vector2(6, size.y - 270))
+			)
+			win7_start.custom_minimum_size = Vector2(80, 26)
+			var start_style := StyleBoxFlat.new()
+			start_style.bg_color = Color("1e40af")
+			start_style.border_color = Color("60a5fa")
+			start_style.set_border_width_all(1)
+			start_style.set_corner_radius_all(4)
+			win7_start.add_theme_stylebox_override("normal", start_style)
+
+			_add_panel_button(bottom_left_box, "[cmd.exe]", func(): open_or_restore_window_by_id("terminal"))
+			_add_panel_button(bottom_left_box, "[FirePro S400 24-Wall]", func(): open_or_restore_window_by_id("eyefinity"))
+			_add_panel_button(bottom_left_box, "[Multi-Boot]", func(): open_or_restore_window_by_id("switcher"))
+
+			_add_panel_button(bottom_right_box, "🔒 S400 Genlock: 24/24 Synced Displays @ 60Hz", func():
+				AudioManager.play_hdd_click()
+				open_or_restore_window_by_id("eyefinity")
+			)
+
+		"solaris_cde":
+			# Oracle Solaris 11: Top Menu Bar + Bottom Window Switcher
+			top_panel.visible = true
+			bottom_panel.visible = true
+			top_clock_label.visible = true
+			bottom_clock_label.visible = false
+
+			_add_panel_button(top_left_box, "☀️ Applications", func(): _show_os_menu(Vector2(8, 30)))
+			_add_panel_button(top_left_box, "Places", func(): open_or_restore_window_by_id("zfs"))
+			_add_panel_button(top_left_box, "System", func(): open_or_restore_window_by_id("dtrace"))
+			_add_panel_button(top_center_box, "ksh93 Terminal", func(): open_or_restore_window_by_id("terminal"))
+			_add_panel_button(bottom_left_box, "[ Multi-Boot Switcher ]", func(): open_or_restore_window_by_id("switcher"))
+			_add_panel_button(bottom_right_box, "ZFS datapool: ONLINE (5.8TB RAIDZ2)", func(): open_or_restore_window_by_id("zfs"))
 
 		"winxp_luna":
 			# Windows XP Pro SP2 (Alienware Area-51 Predator): Luna Blue Taskbar + Green Start Button
@@ -481,6 +533,54 @@ func _show_os_menu(screen_pos: Vector2) -> void:
 			AudioManager.play_os_startup_sound(_profile.id)
 	)
 	popup_vbox.add_child(chime_item)
+
+	if _profile and _profile.id == "evga_sr2":
+		var sep_sr2 := HSeparator.new()
+		popup_vbox.add_child(sep_sr2)
+
+		var b_w7 := Button.new()
+		b_w7.text = "🪟 Boot Windows 7 Ultimate SP1"
+		b_w7.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b_w7.focus_mode = Control.FOCUS_NONE
+		b_w7.pressed.connect(func():
+			popup_menu.hide()
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("win7")
+		)
+		popup_vbox.add_child(b_w7)
+
+		var b_lion := Button.new()
+		b_lion.text = "🍏 Boot Mac OS X 10.7 Lion"
+		b_lion.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b_lion.focus_mode = Control.FOCUS_NONE
+		b_lion.pressed.connect(func():
+			popup_menu.hide()
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("lion")
+		)
+		popup_vbox.add_child(b_lion)
+
+		var b_sol := Button.new()
+		b_sol.text = "☀️ Boot Oracle Solaris 11"
+		b_sol.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b_sol.focus_mode = Control.FOCUS_NONE
+		b_sol.pressed.connect(func():
+			popup_menu.hide()
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("solaris")
+		)
+		popup_vbox.add_child(b_sol)
+
+		var b_bbs := Button.new()
+		b_bbs.text = "📟 Reboot to BIOS BBS Selector"
+		b_bbs.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		b_bbs.focus_mode = Control.FOCUS_NONE
+		b_bbs.pressed.connect(func():
+			popup_menu.hide()
+			AudioManager.play_hdd_click()
+			GameState.select_and_boot_os("evga_sr2")
+		)
+		popup_vbox.add_child(b_bbs)
 
 	var sep2 := HSeparator.new()
 	popup_vbox.add_child(sep2)
