@@ -1,6 +1,6 @@
 # RetroOS — Ambient Retro Workstation & OS Vibe Simulator
 
-![Godot 4.2+](https://img.shields.io/badge/Godot-4.2%2B-478cbf?logo=godotengine&logoColor=white)
+![Godot 4.7](https://img.shields.io/badge/Godot-4.7-478cbf?logo=godotengine&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![GDScript 2.0](https://img.shields.io/badge/GDScript-2.0-blue)
 
@@ -119,7 +119,10 @@ Each of the 20 systems in **RetroOS** includes a comprehensive **Museum Exhibit 
 ### 1. Root Scene (`scenes/main/main_controller.tscn`)
 ```text
 MainController (Control) [main_controller.gd]
-├── StageContainer (Control)          # Dynamically hosts MainMenu, BootSequence, or DesktopEnvironment
+├── StageContainer (Control)          # Responsive display framing (4:3 pillarbox or 16:9 widescreen)
+│   ├── DisplayFrame (Control)        # Hosts MainMenu, BootSequence, or DesktopEnvironment
+│   ├── LeftPillarbox (ColorRect)     # 4:3 authentic side pillarbox (active on vintage systems)
+│   └── RightPillarbox (ColorRect)    # 4:3 authentic side pillarbox (active on vintage systems)
 ├── ChassisBezel (PanelContainer)     # Persistent bottom hardware monitor bezel
 │   └── BezelMargin (MarginContainer)
 │       └── BezelHBox (HBoxContainer)
@@ -130,7 +133,7 @@ MainController (Control) [main_controller.gd]
 │           ├── FanToggleBtn (Button)
 │           ├── HDDToggleBtn (Button)
 │           ├── FloppySeekBtn (Button)
-│           ├── CRTToggleBtn (Button)         # Hotkey: F2
+│           ├── CRTToggleBtn (Button)         # Hotkey: F2 (CRT auto-enables only on vintage CRT systems)
 │           └── KVMSwitchBtn (Button)         # Hotkey: F12
 └── CRTLayer (CanvasLayer)
     └── CRTOverlayRect (ColorRect)            # crt_monitor.gdshader (mouse_filter = IGNORE)
@@ -145,7 +148,7 @@ MainMenu (Control) [main_menu.gd]
         ├── HeaderPanel (PanelContainer)      # Sidebar Toggle [Tab], Search Bar, Wiki Light/Dark Toggle
         └── ContentHBox (HBoxContainer)
             ├── LeftSelectorPanel (PanelContainer)     # Hideable Computer Selection Sidebar
-            │   └── ... -> OSListVBox (VBoxContainer)  # Chronological 2007 -> 1985 Catalog
+            │   └── ... -> OSListVBox (VBoxContainer)  # Chronological 1972 -> 2011 Catalog (Ascending)
             └── RightPreviewPanel (PanelContainer)     # Wikipedia-Style Codex Workspace
                 └── ... -> PreviewVBox (VBoxContainer)
                     ├── ArticleBannerHBox (PreviewTitle, PreviewMeta)
@@ -207,23 +210,26 @@ DesktopEnvironment (Control) [desktop_environment.gd]
 4. **5.25" Apple Disk II Track-00 Bang (`play_disk2_bang`)**: Authentic Shugart SA-390 stepper clatter banging against the physical stop bracket.
 5. **SCSI / ATAPI CD-ROM Optical Sled Seek (`play_optical_seek`)**: High-speed laser sled homing and lens focus calibration for 90s/2000s multimedia towers.
 6. **Unique OS Startup Chimes (`play_os_startup_sound`)**:
-   - `ubuntu_704`: Warm marimba/djembe resonant arpeggio (`B3 → F#4 → B4 → D#5`)
-   - `freebsd_411`: Classic FreeBSD console dual-tone bell chime (`C5 + G5`)
-   - `winxp_alienware`: Iconic 6-note Windows XP major chord swell (`Eb3 → Bb3 → Eb4 → F4 → G4 → Bb4`)
-   - `plan9`: Minimalist Bell Labs pure harmonic fifths (`C4 → G4 → D5`)
-   - `sgi_irix`: Resonant Silicon Graphics metallic workstation gong (`C3 + G3 + D4 + F#4 + A4`)
+   - `datapoint_2200`: Discrete TTL teletype console acoustic relay click & ready tone
+   - `apple_iie`: High-pitched 1000Hz Apple II built-in speaker beep
+   - `amiga_os31`: Paula 8-bit DMA stereo harmonic arpeggio (`A3 → C#4 → E4 → A4`)
+   - `mac_sys75`: Iconic Quadra 840AV C-major harmonic power chime
+   - `nextstep_33`: Steve Jobs' NeXT Computer warm stereo digital bell triad (`Eb4 + Bb4 + G5`)
+   - `os2_warp`: Deep IBM orchestral synth swell (`D3 + A3 + D4 + F#4 + A4`)
+   - `win98_se`: Shimmering ambient pad & bell cascade (`Eb4 → Bb4 → Ab4 → Eb5 → Bb5`)
+   - `macosx_g4`: Historic Apple Power Mac G4 major triad chime with rich ambient sustain (`F-major`)
+   - `sco_openserver`: Dual server console beep and BIOS relay tone
    - `beos_r5`: Distinctive BeOS warm 4-note ascending marimba/synth sequence (`C4 → E4 → G4 → C5`)
    - `hpux_cde`: Metallic FM UNIX workstation crystal chord (`E4 + B4 + F#5 + G#5`)
    - `redhat_62`: Red Hat Linux dual console chime (`A4 + E5`)
    - `solaris_8`: Sun UltraSPARC OpenBoot keyboard bell (`F#5`)
-   - `win98_se`: Shimmering ambient pad & bell cascade (`Eb4 → Bb4 → Ab4 → Eb5 → Bb5`)
-   - `macosx_g4`: Historic Apple Power Mac G4 major triad chime with rich ambient sustain (`F-major`)
-   - `sco_openserver`: ProLiant dual server console chime (`D4 + A4`)
-   - `os2_warp`: Deep IBM orchestral synth swell (`D3 + A3 + D4 + F#4 + A4`)
-   - `mac_sys75`: Iconic Quadra 840AV C-major harmonic power chime
-   - `nextstep_33`: Steve Jobs' NeXT Computer warm stereo digital bell triad (`Eb4 + Bb4 + G5`)
-   - `amiga_os31`: Paula 8-bit DMA stereo harmonic arpeggio (`A3 → C#4 → E4 → A4`)
-   - `apple_iie`: High-pitched 1000Hz Apple II built-in speaker beep
+   - `freebsd_411`: Classic FreeBSD console dual-tone bell chime (`C5 + G5`)
+   - `plan9`: Minimalist Bell Labs pure harmonic fifths (`C4 → G4 → D5`)
+   - `sgi_irix`: Resonant Silicon Graphics metallic workstation gong (`C3 + G3 + D4 + F#4 + A4`)
+   - `winxp_alienware`: Iconic 6-note Windows XP major chord swell (`Eb3 → Bb3 → Eb4 → F4 → G4 → Bb4`)
+   - `ubuntu_704`: Warm marimba/djembe resonant arpeggio (`B3 → F#4 → B4 → D#5`)
+   - `ubuntu_1004`: Authentic Ubuntu Lucid marimba arpeggio (`C4 → G4 → C5 → E5`)
+   - `evga_sr2`: Multi-OS dynamic boot chime matching the active boot drive (Win7 orchestral swell, OS X Lion F-major chime, or Sun Solaris tone)
 
 ---
 
@@ -231,23 +237,26 @@ DesktopEnvironment (Control) [desktop_environment.gd]
 
 Click inside any terminal window and type commands (`Up` / `Down` arrows navigate command history):
 - **Universal Commands**: `help`, `clear` / `cls`, `neofetch`, `date`, `whoami`, `floppy`, `cdrom` / `eject`, `reboot`, `exit`
-- **Ubuntu 7.04**: `uname -a`, `lsb_release -a`, `cat /etc/issue`, `ls`, `ls -la`, `free -m`, `df -h`, `apt-get moo`, `ps aux`
-- **FreeBSD 4.11**: `uname -a`, `dmesg`, `top`, `df -h`, `sockstat`, `fortune`
-- **Windows XP (Alienware)**: `ver`, `dir`, `tasklist`, `systeminfo`, `dxdiag`, `alienware`, `winamp`
-- **Plan 9**: `lc`, `cat /dev/drivers`, `cat /dev/osversion`, `cat /dev/sysname`, `ps`, `ns`, `fortune`, `glenda`
-- **SGI IRIX 6.5**: `uname -aR`, `hinv`, `gr_osview`, `glman`, `top`, `ls -la`
+- **Datapoint 2200**: `cat`, `dir`, `load`, `run`, `date <mm/dd/yy>`, `status`, `reboot`
+- **Apple IIe Enhanced**: `catalog`, `catalog d1`, `list`, `run`, `print 2+2`, `pr#6`, `call -151`
+- **AmigaOS 3.1**: `version`, `dir`, `avail`, `info`, `list`, `type s:startup-sequence`
+- **Mac System 7.5.3**: `about`, `dir`, `memory`, `system`, `extensions`, `pr#6`
+- **NeXTSTEP 3.3**: `uname -a`, `hostinfo`, `ps aux`, `mach_sw`, `ls`
+- **OS/2 Warp 4**: `ver`, `dir`, `chkdsk`, `type config.sys`, `pstat`
+- **Windows 98 SE**: `ver`, `dir`, `mem`, `ipconfig`, `winver`, `type autoexec.bat`, `type config.sys`
+- **Mac OS X 10.2 (G4)**: `sw_vers`, `uname -a`, `system_profiler`, `top`, `cal`, `uptime`
+- **SCO OpenServer**: `uname -a`, `hwconfig`, `df -v`, `sysconf`, `ls`
 - **BeOS R5**: `uname -a`, `sysinfo`, `listres`, `ps`, `cat /boot/home/welcome.txt`
 - **HP-UX 11i (CDE)**: `uname -a`, `model`, `bdf`, `ioscan -fn`, `swapinfo`, `sam`, `ls`
 - **Red Hat 6.2**: `uname -a`, `rpm -qa`, `cat /etc/redhat-release`, `free -m`, `ls`
 - **Sun Solaris 8**: `uname -a`, `psrinfo -v`, `showrev -p`, `prtconf`, `df -k`, `ls`
-- **Windows 98 SE**: `ver`, `dir`, `mem`, `ipconfig`, `winver`, `type autoexec.bat`, `type config.sys`
-- **Mac OS X 10.2 (G4)**: `sw_vers`, `uname -a`, `system_profiler`, `top`, `cal`, `uptime`
-- **SCO OpenServer**: `uname -a`, `hwconfig`, `df -v`, `sysconf`, `ls`
-- **OS/2 Warp 4**: `ver`, `dir`, `chkdsk`, `type config.sys`, `pstat`
-- **Mac System 7.5.3**: `about`, `dir`, `memory`, `system`, `extensions`, `pr#6`
-- **NeXTSTEP 3.3**: `uname -a`, `hostinfo`, `ps aux`, `mach_sw`, `ls`
-- **AmigaOS 3.1**: `version`, `dir`, `avail`, `info`, `list`, `type s:startup-sequence`
-- **Apple IIe Enhanced**: `catalog`, `catalog d1`, `list`, `run`, `print 2+2`, `pr#6`, `call -151`
+- **Plan 9**: `lc`, `cat /dev/drivers`, `cat /dev/osversion`, `cat /dev/sysname`, `ps`, `ns`, `fortune`, `glenda`
+- **SGI IRIX 6.5**: `uname -aR`, `hinv`, `gr_osview`, `glman`, `top`, `ls -la`
+- **Windows XP (Alienware)**: `ver`, `dir`, `tasklist`, `systeminfo`, `dxdiag`, `alienware`, `winamp`
+- **FreeBSD 4.11**: `uname -a`, `dmesg`, `top`, `df -h`, `sockstat`, `fortune`
+- **Ubuntu 7.04**: `uname -a`, `lsb_release -a`, `cat /etc/issue`, `ls`, `ls -la`, `free -m`, `df -h`, `apt-get moo`, `ps aux`
+- **Ubuntu 10.04 (AlexNet)**: `uname -a`, `nvidia-smi`, `python train.py`, `cat /proc/cpuinfo`, `lsmod`, `top`
+- **EVGA SR-2 (Triple-Boot)**: `switch-win7`, `switch-lion`, `switch-solaris`, `bbs`, `nvidia-smi`, `dmesg`, `uname -a`
 
 ---
 
@@ -257,9 +266,10 @@ Click inside any terminal window and type commands (`Up` / `Down` arrows navigat
    ```bash
    git clone https://github.com/your-username/RetroOS.git
    ```
-2. Open **Godot Engine 4.2+** and import `project.godot`.
+2. Open **Godot Engine 4.7+** and import `project.godot`.
 3. Press **F5** (Run Project).
-   - Use **F2** to toggle the CRT scanline shader.
+   - Vintage 4:3 CRT systems automatically enable the CRT monitor shader and 4:3 pillarbox display framing.
+   - Use **F2** to manually toggle the CRT scanline shader.
    - Use **F12** to return to the KVM OS Selector at any time.
 
 ---

@@ -1,5 +1,5 @@
 extends RefCounted
-## Archival Museum Exhibit Packages (Part I: 2000–2007 Systems).
+## Archival Museum Exhibit Packages (Part I: 2000–2011 Workstations & Modern Systems).
 ## Provides historical context, engineering analysis, Wikipedia-style Infobox technical
 ## specifications, period-correct usage case dossiers, and media gallery slots.
 
@@ -810,10 +810,13 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		+ "by Canonical Ltd., Lucid Lynx was celebrated as the pinnacle of the classic GNOME 2 desktop, introducing Canonical's "
 		+ "dramatic 'Light: Soft Software' visual redesign with the dark aubergine 'Ambiance' theme and the controversial relocation "
 		+ "of window controls to the top-left—a calculated architectural maneuver preparing the community for the impending arrival "
-		+ "of the vertical Unity shell in 10.10 and 11.04. Two years later, in 2012, this precise low-overhead Linux environment became "
-		+ "the unsung software foundation for the 'AlexNet' workstation assembled by University of Toronto researchers Alex Krizhevsky, "
+		+ "of the vertical Unity shell in 10.10 and 11.04. In 2011–2012, a contemporary low-overhead Linux environment of this era served as "
+		+ "the operating foundation for the 'AlexNet' workstation assembled by University of Toronto researchers Alex Krizhevsky, "
 		+ "Ilya Sutskever, and Geoffrey Hinton, whose groundbreaking dual-GPU deep convolutional neural network shattered the ImageNet "
-		+ "computer vision benchmark and sparked the global artificial intelligence revolution."
+		+ "computer vision benchmark and sparked the global artificial intelligence revolution. Crucially, while the dual 3GB NVIDIA "
+		+ "GeForce GTX 580 graphics cards are documented historical fact, the remainder of the workstation's hardware and host specifications "
+		+ "were never formally recorded in academic literature and are inferred from what would have likely been assembled at the time, "
+		+ "unless Alex, Ilya, or Geoff eventually confirm what it ran on."
 	)
 	p.historical_context = (
 		"The historical significance of Ubuntu 10.04 LTS bridges two pivotal revolutions in computing history:\n\n"
@@ -834,7 +837,7 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		+ "networks had been dismissed by the academic establishment as computationally intractable. The U of T team recognized that modern "
 		+ "gaming GPUs, designed for high-throughput floating-point polygon rasterization, could be repurposed as massive parallel matrix engines.\n\n"
 		+ "3. THE LINUX/CUDA SOFTWARE STACK & CUDA-CONVNET:\n"
-		+ "The unsung foundation of this breakthrough was its operating system: Ubuntu 10.04 LTS. In 2011 and 2012, pushing the boundaries "
+		+ "The unsung foundation of this breakthrough was its operating environment: Ubuntu 10.04 LTS. In 2011 and 2012, pushing the boundaries "
 		+ "of NVIDIA's CUDA toolkit demanded a frictionless, low-latency, bare-metal environment. Microsoft Windows was fundamentally "
 		+ "unsuited for the granular, custom C++ memory management and low-overhead PCIe peer-to-peer DMA streaming necessary to parallelize "
 		+ "a massive 60-million parameter neural network. Ubuntu provided the lightweight stability and direct kernel memory access that allowed "
@@ -851,7 +854,20 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		+ "achieved over 2,200 forward passes per second. When the ILSVRC 2012 results were published, AlexNet achieved a top-5 test error rate "
 		+ "of 15.3%—obliterating the second-place traditional computer vision model (26.2%) by an unprecedented 10.9 percentage points. "
 		+ "This single Ubuntu-powered workstation catalyzed the worldwide transition away from manual feature extraction to end-to-end "
-		+ "deep learning, fundamentally launching the modern age of computing."
+		+ "deep learning, fundamentally launching the modern age of computing.\n\n"
+		+ "5. HISTORICAL ACCURACY & RECONSTRUCTED SPECIFICATIONS:\n"
+		+ "In their landmark 2012 paper ('ImageNet Classification with Deep Convolutional Neural Networks', NeurIPS 2012), "
+		+ "Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton explicitly documented their graphics configuration: two NVIDIA GeForce "
+		+ "GTX 580 GPUs with 3GB of GDDR5 memory per card, communicating via direct cross-GPU peer-to-peer DMA over PCIe. "
+		+ "However, the researchers never published a formal Bill of Materials (BOM) for the rest of the computer. Besides the graphics cards, "
+		+ "the remainder of the workstation's components—including the specific motherboard, central processor (CPU), chassis, power supply, "
+		+ "system RAM capacity, and even the exact Linux distribution and kernel revision—are historically unknown. Computing historians "
+		+ "and technical archivists reconstruct these specifications from the strict operational constraints of the workload: housing two 244-watt "
+		+ "Fermi GPUs under 100% continuous load required an SLI-capable enthusiast motherboard (e.g., Intel X58 or X79), a high-wattage power supply "
+		+ "(1000W+), a high-clock multi-core CPU capable of real-time image cropping and PCA color jittering without starving the GPUs, and a "
+		+ "lightweight, developer-friendly Linux distribution like Ubuntu (10.04 or 12.04 LTS) for Krizhevsky to write and compile cuda-convnet. "
+		+ "This exhibit represents the most period-accurate reconstruction possible, inferred from what would have likely been used at the University "
+		+ "of Toronto in 2011–2012, unless Alex, Ilya, or Geoff eventually confirm the exact hardware and software manifest it ran on."
 	)
 	p.engineering_innovations = (
 		"• Model-Parallel Multi-GPU Deep Learning: First successful multi-GPU parallelization of a deep convolutional neural network, "
@@ -873,18 +889,20 @@ static func _populate_ubuntu_1004(p: OSProfile) -> void:
 		+ "the generative AI, computer vision, and large language model revolution that defines our modern world."
 	)
 	p.technical_specs = {
+		"Hardware Provenance": "Dual GTX 580 GPUs Confirmed; Host Build Inferred (Pending Author Confirmation)",
 		"Manufacturer / Vendor": "Canonical Ltd. / Custom University of Toronto AI Build",
 		"Release Date": "April 2010 (Ubuntu 10.04 LTS • AlexNet trained 2011–2012)",
-		"System Model": "AlexNet Deep Learning Workstation (Custom Enthusiast Full-Tower)",
-		"Processor (CPU)": "Intel Core i7-3930K (6 Cores, 12 Threads @ 3.20GHz, 3.80GHz Turbo)",
+		"System Model": "AlexNet Deep Learning Workstation (Historical Enthusiast Reconstruction)",
+		"Processor (CPU)": "Intel Core i7-3930K (Inferred Period-Correct 6C/12T @ 3.20GHz, 3.80GHz Turbo)",
 		"Clock Rate & Cache": "3.20 GHz Base Clock • 12 MB SmartCache • 32nm Sandy Bridge-E",
-		"Co-Processor / GPUs": "2× NVIDIA GeForce GTX 580 (512 CUDA Cores, 1.54GHz, Fermi GF110)",
+		"Co-Processor / GPUs": "2× NVIDIA GeForce GTX 580 (512 CUDA Cores, 1.54GHz, Fermi GF110) [Confirmed]",
 		"System Bus & Chipset": "Intel X79 Express • 40 PCIe 2.0 Lanes • Direct GPU-to-GPU DMA",
-		"Memory (RAM)": "16 GB DDR3-1600 (Quad-Channel Interleaved • 25.6 GB/s Bandwidth)",
-		"Graphics Memory (VRAM)": "6 GB Total GDDR5 (3 GB per GPU • 384-bit Bus • 192.4 GB/s per Card)",
+		"Memory (RAM)": "16 GB DDR3-1600 (Inferred Quad-Channel Interleaved • 25.6 GB/s Bandwidth)",
+		"Graphics Memory (VRAM)": "6 GB Total GDDR5 (3 GB per GPU • 384-bit Bus • 192.4 GB/s per Card) [Confirmed]",
 		"Audio Subsystem": "Realtek ALC898 8-Channel High Definition Audio • Ubuntu Marimba Chime",
-		"Storage & Media": "1 TB Western Digital Caviar Black (7200 RPM SATA 6Gb/s • 27GB ImageNet)",
-		"Operating System": "Ubuntu 10.04.4 LTS ('Lucid Lynx' x86_64, Linux Kernel 2.6.32)",
+		"Storage & Media": "1 TB Western Digital Caviar Black (Inferred 7200 RPM SATA • 27GB ImageNet)",
+		"Power Supply (PSU)": "1200W Enthusiast 80+ Gold (Inferred for Dual 244W TDP GPUs)",
+		"Operating System": "Ubuntu 10.04.4 LTS (Inferred Contemporary Low-Overhead Linux Host)",
 		"Kernel & Toolchain": "Linux 2.6.32-21-generic • GCC 4.4.3 • NVIDIA Driver 295.40 • CUDA 4.2",
 		"GUI / Window System": "GNOME 2.30.2 Desktop • Ambiance GTK Theme (Left-Side Window Controls)",
 		"Default Shell": "GNU bash 4.1.5 (`alex@alexnet-node0:~/cuda-convnet$ `)",

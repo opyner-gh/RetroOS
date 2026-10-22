@@ -31,6 +31,7 @@ var _cached_optical_seek: AudioStream
 var _cached_disk2_bang: AudioStream
 var _cached_post_beep: AudioStream
 var _cached_startup_streams: Dictionary = {}
+var _cached_fan_streams: Dictionary = {}
 
 var _rng := RandomNumberGenerator.new()
 
@@ -121,7 +122,11 @@ func start_fan_hum(base_freq: float = 115.0, noise_level: float = 0.24) -> void:
 	if ResourceLoader.exists(external_path):
 		_fan_player.stream = ResourceLoader.load(external_path)
 	else:
-		_fan_player.stream = _synth_fan_hum_loop(base_freq, noise_level)
+		var key := "%0.1f:%0.2f" % [base_freq, noise_level]
+		if not _cached_fan_streams.has(key):
+			_cached_fan_streams[key] = _synth_fan_hum_loop(base_freq, noise_level)
+		if _fan_player.stream != _cached_fan_streams[key]:
+			_fan_player.stream = _cached_fan_streams[key]
 	if fan_enabled and not _fan_player.playing:
 		_fan_player.play()
 
@@ -224,10 +229,14 @@ func play_os_startup_sound(os_id: String) -> void:
 		_startup_player.play()
 		return
 
-	if not _cached_startup_streams.has(os_id):
-		_cached_startup_streams[os_id] = _synth_os_startup_chime(os_id)
+	var cache_key := os_id
+	if os_id == "evga_sr2":
+		cache_key = "evga_sr2:" + GameState.sr2_active_os
 
-	_startup_player.stream = _cached_startup_streams[os_id]
+	if not _cached_startup_streams.has(cache_key):
+		_cached_startup_streams[cache_key] = _synth_os_startup_chime(os_id)
+
+	_startup_player.stream = _cached_startup_streams[cache_key]
 	_startup_player.play()
 
 

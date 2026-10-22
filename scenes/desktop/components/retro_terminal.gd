@@ -49,10 +49,10 @@ func focus_input() -> void:
 
 
 func append_line(text: String) -> void:
-	if output_label.text.is_empty():
-		output_label.text = text
+	if output_label.get_total_character_count() > 0:
+		output_label.append_text("\n" + text)
 	else:
-		output_label.text += "\n" + text
+		output_label.append_text(text)
 
 
 func _on_terminal_clicked(event: InputEvent) -> void:
@@ -133,48 +133,54 @@ func _execute_command(cmd: String) -> void:
 		append_line("ATAPI/SCSI CD-ROM: Laser focus seek and sled homing complete. Medium present.")
 		return
 
-	# Check OS-specific command dictionary first
-	if _profile and _profile.terminal_commands.has(lower):
-		if lower == "pr#6":
-			AudioManager.play_disk2_bang()
-		append_line(str(_profile.terminal_commands[lower]))
-		return
-
 	# Datapoint DOS interactive date entry support
 	if _profile and _profile.id == "datapoint_2200":
 		if lower.begins_with("date ") or (lower.contains("/") and lower.replace("/", "").is_valid_int()):
-			var date_str := cmd.replace("date", "").strip_edges()
+			var date_str := ""
+			if lower.begins_with("date "):
+				date_str = cmd.substr(5).strip_edges()
+			else:
+				date_str = cmd.strip_edges()
 			if date_str.is_empty():
 				date_str = "10/22/72"
 			append_line("DATE SET: " + date_str)
 			append_line("DOS READY.")
 			return
 
-	if lower == "switch-win7":
-		AudioManager.play_hdd_burst()
-		GameState.set_sr2_active_os("win7")
-		append_line("Switching active boot SSD to Port 0: Windows 7 Ultimate SP1 (x64)...")
-		append_line("Desktop environment reloaded.")
-		return
+	# EVGA SR-2 specific boot switching & BBS commands
+	if _profile and _profile.id == "evga_sr2":
+		if lower == "switch-win7":
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("win7")
+			append_line("Switching active boot SSD to Port 0: Windows 7 Ultimate SP1 (x64)...")
+			append_line("Desktop environment reloaded.")
+			return
 
-	if lower == "switch-lion":
-		AudioManager.play_hdd_burst()
-		GameState.set_sr2_active_os("lion")
-		append_line("Switching active boot SSD to Port 1: Mac OS X 10.7 Lion (x86_64 Hackintosh)...")
-		append_line("Desktop environment reloaded.")
-		return
+		if lower == "switch-lion":
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("lion")
+			append_line("Switching active boot SSD to Port 1: Mac OS X 10.7 Lion (x86_64 Hackintosh)...")
+			append_line("Desktop environment reloaded.")
+			return
 
-	if lower == "switch-solaris":
-		AudioManager.play_hdd_burst()
-		GameState.set_sr2_active_os("solaris")
-		append_line("Switching active boot SSD to Port 2: Oracle Solaris 11 (11/11 x86)...")
-		append_line("Desktop environment reloaded.")
-		return
+		if lower == "switch-solaris":
+			AudioManager.play_hdd_burst()
+			GameState.set_sr2_active_os("solaris")
+			append_line("Switching active boot SSD to Port 2: Oracle Solaris 11 (11/11 x86)...")
+			append_line("Desktop environment reloaded.")
+			return
 
-	if lower == "bbs":
-		AudioManager.play_hdd_click()
-		append_line("Initiating soft reboot into EVGA Classified SR-2 BIOS BBS menu...")
-		GameState.select_and_boot_os("evga_sr2")
+		if lower == "bbs":
+			AudioManager.play_hdd_click()
+			append_line("Initiating soft reboot into EVGA Classified SR-2 BIOS BBS menu...")
+			GameState.select_and_boot_os("evga_sr2")
+			return
+
+	# Check OS-specific command dictionary
+	if _profile and _profile.terminal_commands.has(lower):
+		if lower == "pr#6":
+			AudioManager.play_disk2_bang()
+		append_line(str(_profile.terminal_commands[lower]))
 		return
 
 	# Universal help command listing OS-specific + global commands
@@ -184,6 +190,8 @@ func _execute_command(cmd: String) -> void:
 			for k in _profile.terminal_commands.keys():
 				os_cmds.append(str(k))
 		append_line("OS Commands      : " + ", ".join(os_cmds))
+		if _profile and _profile.id == "evga_sr2":
+			append_line("SR-2 Commands    : switch-win7, switch-lion, switch-solaris, bbs")
 		append_line("System Commands  : help, clear/cls, neofetch, date, whoami, floppy, reboot, exit")
 		return
 

@@ -44,6 +44,16 @@ func set_sr2_active_os(new_sub_os: String) -> void:
 	sr2_os_switched.emit(new_sub_os)
 
 
+func get_sr2_os_title() -> String:
+	match sr2_active_os:
+		"lion":
+			return "Mac OS X 10.7 Lion"
+		"solaris":
+			return "Oracle Solaris 11"
+		_:
+			return "Windows 7 Ultimate"
+
+
 func select_and_boot_os(os_id: String) -> void:
 	current_profile = OSRegistry.get_profile_by_id(os_id)
 	if current_profile and current_profile.id == "evga_sr2":

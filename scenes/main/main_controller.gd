@@ -57,7 +57,8 @@ func _auto_capture_and_quit() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_F12:
-			GameState.reboot_to_menu()
+			if GameState.current_phase != GameState.SimPhase.MAIN_MENU:
+				GameState.reboot_to_menu()
 		elif event.keycode == KEY_F2:
 			GameState.toggle_crt_effect()
 

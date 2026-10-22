@@ -17,6 +17,7 @@ extends Resource
 
 @export_group("BIOS & Boot Sequence")
 @export_multiline var bios_header: String = "RETRO-BIOS v1.0 (C) 1995-2007"
+@export var has_energy_star_badge: bool = false
 @export var boot_bg_color: Color = Color("050507")
 @export var boot_text_color: Color = Color("c8c8c8")
 ## Array of Dictionaries: { "text": String, "delay": float, "sfx": String, "color": String }

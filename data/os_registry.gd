@@ -1,7 +1,7 @@
 class_name RetroOSRegistry
 extends RefCounted
 ## Central registry for all available Operating System profiles in RetroOS.
-## Provides the 17 built-in historical operating systems and automatically discovers
+## Provides the 20 built-in historical operating systems and automatically discovers
 ## any additional `.tres` OSProfile resources placed in `res://data/profiles/`.
 
 const OSProfile = preload("res://data/os_profile.gd")
@@ -58,10 +58,50 @@ static func get_all_profiles() -> Array[OSProfile]:
 
 
 static func get_profile_by_id(os_id: String) -> OSProfile:
-	for profile in get_all_profiles():
-		if profile.id == os_id:
-			return profile
-	return _build_datapoint_2200()
+	var builder_map: Dictionary = {
+		"datapoint_2200": _build_datapoint_2200,
+		"ubuntu_704": _build_ubuntu_704,
+		"ubuntu_1004": _build_ubuntu_1004,
+		"evga_sr2": _build_evga_sr2,
+		"hpux_cde": _build_hpux_cde,
+		"hpux_11i": _build_hpux_cde,
+		"plan9": _build_plan9,
+		"plan9_rio": _build_plan9,
+		"win98_se": _build_win98_se,
+		"os2_warp": _build_os2_warp,
+		"os2_warp4": _build_os2_warp,
+		"winxp_alienware": _build_winxp_alienware,
+		"sgi_irix": _build_sgi_irix,
+		"sgi_irix65": _build_sgi_irix,
+		"beos_r5": CatalogUnixBeos._build_beos_r5,
+		"nextstep_33": CatalogUnixBeos._build_nextstep_33,
+		"solaris_8": CatalogUnixBeos._build_solaris_8,
+		"redhat_62": CatalogUnixBeos._build_redhat_62,
+		"freebsd_411": CatalogUnixBeos._build_freebsd_411,
+		"sco_openserver": CatalogUnixBeos._build_sco_openserver,
+		"mac_sys75": CatalogMacRetro._build_mac_sys75,
+		"macosx_g4": CatalogMacRetro._build_macosx_g4,
+		"amiga_os31": CatalogMacRetro._build_amiga_os31,
+		"apple_iie": CatalogMacRetro._build_apple_iie,
+	}
+
+	var p: OSProfile = null
+	if builder_map.has(os_id):
+		p = builder_map[os_id].call()
+	else:
+		# Discover any drop-in OSProfile .tres resources for custom/mod profiles
+		if DirAccess.dir_exists_absolute(CUSTOM_PROFILES_DIR):
+			var custom_path := CUSTOM_PROFILES_DIR.path_join(os_id + ".tres")
+			if FileAccess.file_exists(custom_path):
+				var res := ResourceLoader.load(custom_path)
+				if res is OSProfile:
+					p = res
+
+	if not p:
+		p = _build_datapoint_2200()
+
+	ExhibitCodex.enrich_profile(p)
+	return p
 
 
 # ==============================================================================
@@ -584,6 +624,7 @@ static func _build_win98_se() -> OSProfile:
 	p.release_year = "1999"
 	p.has_crt = true
 	p.aspect_ratio = "4:3"
+	p.has_energy_star_badge = true
 	p.vendor = "Microsoft Corporation"
 	p.architecture_summary = "x86 • MS-DOS 7.10 / Win32 VMM 4.10.2222 A • Explorer Shell"
 	p.hardware_profile = "Intel Pentium III 500MHz • 128MB PC100 SDRAM • 3dfx Voodoo3 3000 AGP"
@@ -1492,15 +1533,17 @@ static func _build_ubuntu_1004() -> OSProfile:
 	p.aspect_ratio = "16:9"
 	p.vendor = "Canonical Ltd. / U of T Machine Learning Group"
 	p.architecture_summary = "x86_64 • Linux 2.6.32-21 • Dual NVIDIA GTX 580 (Fermi CUDA) • GNOME 2.30 Ambiance"
-	p.hardware_profile = "Enthusiast AI Rig • Intel Core i7-3930K @ 3.2GHz • 16GB DDR3 • 2× GeForce GTX 580 3GB • 1200W PSU"
+	p.hardware_profile = "AlexNet AI Rig (Dual GTX 580 Confirmed; Host Inferred) • Core i7 • 16GB DDR3 • 1200W PSU"
 	p.description = (
 		"The hardware zero-point of the modern deep learning revolution and the twilight of classic desktop Linux. "
 		+ "Released in April 2010, Ubuntu 10.04 LTS ('Lucid Lynx') introduced the signature aubergine 'Ambiance' theme "
 		+ "and relocated window controls to the top-left, foreshadowing the impending transition to the Unity desktop. "
 		+ "In 2011–2012 at the University of Toronto, researchers Alex Krizhevsky, Ilya Sutskever, and Geoffrey Hinton "
-		+ "deployed Ubuntu 10.04 to host 'cuda-convnet' across two high-wattage NVIDIA GeForce GTX 580 Fermi GPUs—splitting "
-		+ "the 60-million parameter AlexNet neural network in half and shattering the ImageNet benchmark (15.3% error vs 26.2%), "
-		+ "marking the paradigm shift to modern compute-driven AI."
+		+ "deployed a contemporary low-overhead Linux environment to host 'cuda-convnet' across two high-wattage NVIDIA GeForce "
+		+ "GTX 580 Fermi GPUs—splitting the 60-million parameter AlexNet neural network in half and shattering the ImageNet benchmark "
+		+ "(15.3% error vs 26.2%), marking the paradigm shift to modern compute-driven AI. Crucially, while the dual 3GB GeForce GTX 580 "
+		+ "graphics cards are documented fact, the rest of the information about the workstation is unknown and is inferred from what would "
+		+ "have likely been used at the time, unless Alex, Ilya, or Geoff eventually confirm what it ran on."
 	)
 
 	p.bios_header = (
@@ -1628,7 +1671,9 @@ static func _build_ubuntu_1004() -> OSProfile:
 		"info": (
 			"Ubuntu 10.04 LTS 'Lucid Lynx' // AlexNet Workstation (2012)\n"
 			+ "Hardware Zero-Point of Modern Deep Learning & GPU Acceleration\n"
-			+ "Intel Core i7-3930K • 2x NVIDIA GeForce GTX 580 3GB • GNOME 2.30 Ambiance"
+			+ "Confirmed Hardware: 2x NVIDIA GeForce GTX 580 3GB (Fermi GF110)\n"
+			+ "Inferred Specs    : Host CPU/motherboard/RAM/chassis inferred (pending author confirmation)\n"
+			+ "Desktop Environment: GNOME 2.30 Ambiance (Aubergine / Left Window Controls)"
 		)
 	}
 
@@ -1662,20 +1707,20 @@ static func _build_ubuntu_1004() -> OSProfile:
 		},
 		{
 			"id": "unity_notes",
-			"title": "Ubuntu 10.04 LTS 'Lucid Lynx' // Release Notes",
+			"title": "Ubuntu 10.04 LTS 'Lucid Lynx' // Archival Notes",
 			"type": "text",
 			"pos": Vector2(120, 420),
 			"size": Vector2(390, 230),
 			"content": (
-				"CANONICAL UBUNTU 10.04 LTS (LUCID LYNX)\n"
+				"ALEXNET WORKSTATION ARCHIVAL NOTES\n"
 				+ "-----------------------------------------------------------------\n"
-				+ "• New Visual Identity: 'Light: Soft Software' (Ambiance GTK)\n"
+				+ "• Confirmed Hardware: 2x NVIDIA GeForce GTX 580 (3GB VRAM each)\n"
+				+ "• Inferred Specifications: Host CPU, motherboard, RAM, power supply,\n"
+				+ "  and exact Linux distro are unrecorded and inferred from period\n"
+				+ "  requirements, unless Alex, Ilya, or Geoff confirm them.\n"
+				+ "• Visual Identity: 'Light: Soft Software' (Ambiance GTK aubergine)\n"
 				+ "• Window Controls Relocated to Top-Left (Precursor to Unity)\n"
-				+ "• Impending Transition: Unity Netbook 10.10 & Desktop 11.04\n"
-				+ "• Linux 2.6.32 Kernel • GCC 4.4.3 • Upstart 0.6.5\n"
-				+ "• Final Long Term Support (LTS) release of classic GNOME 2!\n\n"
-				+ "Tip: Run 'nvidia-smi' or 'train' in the terminal to inspect\n"
-				+ "the dual GTX 580 CUDA environment powering AlexNet."
+				+ "• Final Long Term Support (LTS) release of classic GNOME 2!"
 			)
 		}
 	]

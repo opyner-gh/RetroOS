@@ -27,6 +27,7 @@ static func _build_beos_r5() -> OSProfile:
 	p.release_year = "2000"
 	p.has_crt = true
 	p.aspect_ratio = "4:3"
+	p.has_energy_star_badge = true
 	p.vendor = "Be Incorporated (Menlo Park, CA)"
 	p.architecture_summary = "x86 SMP • BeOS Kernel 5.0.3 • Tracker & Deskbar • 64-Bit BFS"
 	p.hardware_profile = "Tyan Tiger 100 (i440BX) • Dual Pentium III 800MHz • 512MB PC100 • Matrox G400 MAX"
@@ -486,6 +487,7 @@ static func _build_redhat_62() -> OSProfile:
 	p.release_year = "2000"
 	p.has_crt = true
 	p.aspect_ratio = "4:3"
+	p.has_energy_star_badge = true
 	p.vendor = "Red Hat, Inc. (Durham, NC)"
 	p.architecture_summary = "i686 • Linux 2.2.14-5.0 • GNOME 1.0.55 + Enlightenment 0.15.5"
 	p.hardware_profile = "AMD Athlon 750MHz (Slot-A Pluto) • Asus K7M • 256MB PC100 • Riva TNT2 Ultra"
@@ -630,6 +632,7 @@ static func _build_freebsd_411() -> OSProfile:
 	p.release_year = "2004"
 	p.has_crt = true
 	p.aspect_ratio = "4:3"
+	p.has_energy_star_badge = true
 	p.vendor = "The FreeBSD Project (Berkeley UNIX)"
 	p.architecture_summary = "i386 • FreeBSD 4.11-STABLE • SoftUpdates UFS • WindowMaker 0.80"
 	p.hardware_profile = "Supermicro P3TDDE • Dual Pentium III-S 1.4GHz Tualatin • 1GB ECC • Adaptec 29160"

@@ -25,6 +25,7 @@ var _step_timer: Timer
 var _sub_hdd_timer: Timer
 var _boot_finished: bool = false
 var _bbs_panel: PanelContainer
+var _bbs_hint_label: Label
 var _is_awaiting_bbs: bool = false
 
 
@@ -90,7 +91,7 @@ func start_boot_for_os(profile: OSProfile) -> void:
 	bg_rect.color = profile.boot_bg_color
 	bios_header_label.text = profile.bios_header
 	bios_header_label.add_theme_color_override("font_color", profile.boot_text_color)
-	if profile.release_year.to_int() < 1992:
+	if not profile.has_energy_star_badge:
 		badge_label.text = ""
 		badge_label.visible = false
 	else:
@@ -221,12 +222,12 @@ func _setup_bbs_panel() -> void:
 		btn.pressed.connect(func(): _on_sr2_os_picked(k))
 		btn_vbox.add_child(btn)
 
-	var hint := Label.new()
-	hint.text = "Press [1], [2], or [3] on keyboard or click an option above • Press [SPACE] for default (Windows 7)"
-	hint.add_theme_color_override("font_color", Color("e2e8f0"))
-	hint.add_theme_font_size_override("font_size", 11)
-	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	vbox.add_child(hint)
+	_bbs_hint_label = Label.new()
+	_bbs_hint_label.text = "Press [1], [2], or [3] on keyboard or click an option above • Press [SPACE] to boot active OS"
+	_bbs_hint_label.add_theme_color_override("font_color", Color("e2e8f0"))
+	_bbs_hint_label.add_theme_font_size_override("font_size", 11)
+	_bbs_hint_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	vbox.add_child(_bbs_hint_label)
 
 	# Add inside MarginContainer / VBoxContainer right above BottomRow
 	var main_vbox: VBoxContainer = $MarginContainer/VBoxContainer
@@ -238,11 +239,15 @@ func _show_sr2_bbs_menu() -> void:
 	_is_awaiting_bbs = true
 	_step_timer.stop()
 	_sub_hdd_timer.stop()
+	if _bbs_hint_label:
+		_bbs_hint_label.text = "Press [1], [2], or [3] on keyboard or click an option above • Press [SPACE] to boot active OS (" + GameState.get_sr2_os_title() + ")"
 	_bbs_panel.visible = true
 	AudioManager.play_hdd_click(0.08)
 
 
 func _on_sr2_os_picked(os_sub_id: String) -> void:
+	if not _is_awaiting_bbs:
+		return
 	_is_awaiting_bbs = false
 	if _bbs_panel:
 		_bbs_panel.visible = false

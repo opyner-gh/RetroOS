@@ -119,15 +119,21 @@ static func import_exhibit_image_from_file(os_id: String, slot_id: String, sourc
 	if err != OK or img.is_empty():
 		return null
 
-	var rel_dir := "res://assets/exhibits/%s" % os_id
-	var abs_dir := ProjectSettings.globalize_path(rel_dir)
-	DirAccess.make_dir_recursive_absolute(abs_dir)
-	var dest_path := abs_dir.path_join("%s.png" % slot_id)
-	img.save_png(dest_path)
+	# In editor builds, persist to the project res:// tree for version control
+	if OS.has_feature("editor"):
+		var rel_dir := "res://assets/exhibits/%s" % os_id
+		var abs_dir := ProjectSettings.globalize_path(rel_dir)
+		DirAccess.make_dir_recursive_absolute(abs_dir)
+		var dest_path := abs_dir.path_join("%s.png" % slot_id)
+		img.save_png(dest_path)
 
+	# In all environments, persist to writable user:// directory
 	var user_dir := ProjectSettings.globalize_path("user://exhibits/%s" % os_id)
 	DirAccess.make_dir_recursive_absolute(user_dir)
-	img.save_png(user_dir.path_join("%s.png" % slot_id))
+	var user_dest := user_dir.path_join("%s.png" % slot_id)
+	var save_err := img.save_png(user_dest)
+	if save_err != OK:
+		push_warning("Failed to save exhibit image to: %s" % user_dest)
 
 	return ImageTexture.create_from_image(img)
 

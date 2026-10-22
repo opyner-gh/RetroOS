@@ -32,7 +32,7 @@ const WINDOW_SCENE := preload("res://scenes/desktop/components/retro_window.tscn
 
 var _profile: OSProfile
 var _windows_by_id: Dictionary = {}
-var _window_Specs_by_id: Dictionary = {}
+var _window_specs_by_id: Dictionary = {}
 var _clock_timer: Timer
 
 
@@ -76,7 +76,7 @@ func load_os_environment(profile: OSProfile) -> void:
 	_clear_children(icon_container)
 	_clear_children(windows_layer)
 	_windows_by_id.clear()
-	_window_Specs_by_id.clear()
+	_window_specs_by_id.clear()
 
 	# Build desktop icons
 	_build_desktop_icons(profile)
@@ -84,7 +84,7 @@ func load_os_environment(profile: OSProfile) -> void:
 	# Build initial mock windows
 	for spec in profile.default_windows:
 		var win_id := str(spec.get("id", ""))
-		_window_Specs_by_id[win_id] = spec
+		_window_specs_by_id[win_id] = spec
 		_spawn_or_focus_window(spec)
 
 	# Configure OS-specific shell panels (GNOME, CDE, rio, Win98, OS/2 WarpCenter)
@@ -158,8 +158,8 @@ func open_or_restore_window_by_id(win_id: String) -> void:
 		_rebuild_taskbar_buttons()
 		return
 
-	if _window_Specs_by_id.has(win_id):
-		_spawn_or_focus_window(_window_Specs_by_id[win_id])
+	if _window_specs_by_id.has(win_id):
+		_spawn_or_focus_window(_window_specs_by_id[win_id])
 		_rebuild_taskbar_buttons()
 
 
@@ -169,7 +169,13 @@ func _spawn_or_focus_window(spec: Dictionary) -> RetroWindow:
 	win.configure_window(spec, _profile)
 	win.window_focused.connect(_on_window_focused)
 	win.window_minimized.connect(func(_w): _rebuild_taskbar_buttons())
-	win.window_closed.connect(func(_w): _rebuild_taskbar_buttons())
+	win.window_closed.connect(func(closed_win: RetroWindow):
+		var target_id := closed_win.window_id
+		if _windows_by_id.has(target_id):
+			_windows_by_id.erase(target_id)
+		closed_win.queue_free()
+		_rebuild_taskbar_buttons()
+	)
 
 	var win_id := str(spec.get("id", "win_" + str(win.get_instance_id())))
 	_windows_by_id[win_id] = win
@@ -485,10 +491,10 @@ func _restore_all_windows() -> void:
 
 func _on_desktop_background_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-		_show_os_menu(get_global_mouse_position())
+		_show_os_menu(get_global_mouse_position(), true)
 
 
-func _show_os_menu(screen_pos: Vector2) -> void:
+func _show_os_menu(target_pos: Vector2, is_global: bool = false) -> void:
 	AudioManager.play_hdd_click(0.05)
 	_clear_children(popup_vbox)
 
@@ -501,8 +507,8 @@ func _show_os_menu(screen_pos: Vector2) -> void:
 	var sep1 := HSeparator.new()
 	popup_vbox.add_child(sep1)
 
-	for win_id in _window_Specs_by_id.keys():
-		var spec: Dictionary = _window_Specs_by_id[win_id]
+	for win_id in _window_specs_by_id.keys():
+		var spec: Dictionary = _window_specs_by_id[win_id]
 		var item_btn := Button.new()
 		item_btn.text = "Open: " + str(spec.get("title", win_id))
 		item_btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
@@ -596,6 +602,7 @@ func _show_os_menu(screen_pos: Vector2) -> void:
 	)
 	popup_vbox.add_child(reboot_item)
 
+	var screen_pos := target_pos if is_global else (get_global_transform() * target_pos)
 	popup_menu.position = Vector2i(int(screen_pos.x), int(screen_pos.y))
 	popup_menu.popup()
 

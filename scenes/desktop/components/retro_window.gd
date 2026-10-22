@@ -64,8 +64,12 @@ func configure_window(spec: Dictionary, profile: OSProfile) -> void:
 	position = spec.get("pos", Vector2(120, 90))
 	size = spec.get("size", Vector2(460, 300))
 	if profile and profile.aspect_ratio == "4:3":
-		if position.x + size.x > 952.0:
-			position.x = maxf(10.0, 952.0 - size.x)
+		var max_right := 952.0
+		var parent_ctrl := get_parent_control()
+		if parent_ctrl and parent_ctrl.size.x > 0:
+			max_right = maxf(240.0, parent_ctrl.size.x - 8.0)
+		if position.x + size.x > max_right:
+			position.x = maxf(10.0, max_right - size.x)
 	custom_minimum_size = Vector2(240, 140)
 	_saved_rect = Rect2(position, size)
 

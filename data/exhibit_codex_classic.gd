@@ -1,5 +1,5 @@
 extends RefCounted
-## Archival Museum Exhibit Packages (Part II: 1985–1999 Classic Systems).
+## Archival Museum Exhibit Packages (Part II: 1972–1999 Classic Systems).
 ## Provides historical context, engineering analysis, Wikipedia-style Infobox technical
 ## specifications, period-correct usage case dossiers, and media gallery slots.
 
