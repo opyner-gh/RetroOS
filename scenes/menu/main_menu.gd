@@ -212,7 +212,8 @@ func _build_category_filter_bar() -> void:
 	selector_vbox.move_child(_filter_grid, 1)
 
 	var categories := [
-		{"key": "ALL", "label": "All (17)"},
+		{"key": "ALL", "label": "All (18)"},
+		{"key": "Pioneering Workstations", "label": "Pioneering (1972)"},
 		{"key": "PC & OS/2", "label": "PC & OS/2"},
 		{"key": "UNIX & Alt-OS", "label": "UNIX / BeOS / NeXT"},
 		{"key": "Mac & Home Classics", "label": "Mac / Amiga / IIe"},
@@ -448,6 +449,8 @@ func _select_profile_for_preview(profile: OSProfile) -> void:
 
 	if profile.id == "apple_iie":
 		test_floppy_btn.text = "💾 Disk II"
+	elif profile.id == "datapoint_2200":
+		test_floppy_btn.text = "📼 Cassette / Diablo"
 	else:
 		test_floppy_btn.text = "💾 Floppy"
 
@@ -864,6 +867,8 @@ func _on_test_removable_media_pressed() -> void:
 		return
 	if _selected_profile.id == "apple_iie":
 		AudioManager.play_disk2_bang()
+	elif _selected_profile.id == "datapoint_2200":
+		AudioManager.play_hdd_burst()
 	else:
 		AudioManager.play_floppy_seek()
 

@@ -79,6 +79,11 @@ func _draw_chassis_plate(rect: Rect2) -> void:
 	var os_id := _profile.id
 	var font := ThemeDB.fallback_font
 
+	if os_id == "datapoint_2200":
+		_draw_datapoint_chassis(rect, cx, cy, font)
+		_draw_plate_footer(rect, font, "EXHIBIT PLATE I // DATAPOINT 2200 (1972)", Color("8ecae6"), Color("2b4560"), "ARCHIVAL VECTOR PLATE", Color("3a86ff"))
+		return
+
 	# Monitor (left/center) + System Unit (right or underneath depending on form factor)
 	var is_horizontal_desktop := os_id in ["os2_warp", "amiga_os31", "nextstep_33", "apple_iie"]
 
@@ -219,6 +224,11 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 
 	var font := ThemeDB.fallback_font
 	var os_id := _profile.id
+
+	if os_id == "datapoint_2200":
+		_draw_datapoint_motherboard(rect, pcb, font)
+		return
+
 	var is_dual_cpu := os_id in ["sgi_irix", "freebsd_411", "beos_r5", "redhat_62", "solaris_8", "sco_openserver"]
 
 	# Draw CPU socket(s)
@@ -271,6 +281,10 @@ func _draw_motherboard_plate(rect: Rect2) -> void:
 
 
 func _draw_software_plate(rect: Rect2) -> void:
+	if _profile.id == "datapoint_2200":
+		_draw_datapoint_software_plate(rect, ThemeDB.fallback_font)
+		return
+
 	# Simulated live CRT frame of the operating system's desktop & terminal
 	draw_rect(rect, _profile.desktop_bg_color, true)
 
@@ -337,4 +351,205 @@ func _draw_plate_badge(label_text: String, bg_col: Color) -> void:
 	var badge_rect := Rect2(size.x - badge_w - 6, 6, badge_w, 16)
 	draw_rect(badge_rect, Color(bg_col, 0.88), true)
 	draw_string(font, badge_rect.position + Vector2(6, 12), label_text, HORIZONTAL_ALIGNMENT_LEFT, badge_w - 8, 9, Color.WHITE)
+
+
+func _draw_plate_footer(
+	rect: Rect2,
+	font: Font,
+	caption_text: String,
+	text_col: Color,
+	border_col: Color,
+	badge_label: String,
+	badge_col: Color
+) -> void:
+	draw_string(
+		font,
+		Vector2(10, rect.size.y - 8),
+		caption_text,
+		HORIZONTAL_ALIGNMENT_LEFT,
+		rect.size.x - 20,
+		10,
+		text_col
+	)
+	draw_rect(rect, border_col, false, 1.5)
+	_draw_plate_badge(badge_label, badge_col)
+
+
+func _draw_datapoint_chassis(rect: Rect2, cx: float, cy: float, font: Font) -> void:
+	# Main All-in-One Console in IBM Selectric Typewriter Footprint
+	var base_rect := Rect2(cx - 120, cy - 20, 168, 76)
+	var base_col := Color("d4cdbe")
+	draw_rect(base_rect, base_col, true)
+	draw_rect(base_rect, Color("5c5344"), false, 1.5)
+
+	# Sloped keyboard section in front
+	var kb_rect := Rect2(cx - 116, cy + 18, 160, 34)
+	draw_rect(kb_rect, Color("29241f"), true)
+	draw_rect(kb_rect, Color("4d4439"), false, 1.0)
+
+	# Individual keycaps
+	var key_col := Color("ded9cd")
+	for r in range(3):
+		for c in range(13):
+			var k_pos := Vector2(kb_rect.position.x + 8 + c * 9, kb_rect.position.y + 5 + r * 7)
+			draw_rect(Rect2(k_pos, Vector2(7, 5)), key_col, true)
+	# Space bar
+	draw_rect(Rect2(kb_rect.position.x + 36, kb_rect.position.y + 26, 68, 5), key_col, true)
+	# Numeric keypad block on right
+	for nr in range(3):
+		for nc in range(3):
+			var nk_pos := Vector2(kb_rect.position.x + 130 + nc * 8, kb_rect.position.y + 5 + nr * 7)
+			draw_rect(Rect2(nk_pos, Vector2(6, 5)), Color("c4bcae"), true)
+
+	# Integrated 7-inch Curved Green CRT Display
+	var crt_bezel := Rect2(cx - 114, cy - 64, 104, 72)
+	draw_rect(crt_bezel, Color("26221d"), true)
+	draw_rect(crt_bezel, Color("4a4237"), false, 1.5)
+	var crt_scr := crt_bezel.grow(-7)
+	draw_rect(crt_scr, Color("041007"), true)
+	draw_rect(crt_scr, Color("1f4a24"), false, 1.0)
+
+	# 12-line mode green phosphor text lines
+	var p31_col := Color("33ff55")
+	draw_string(font, crt_scr.position + Vector2(4, 11), "DATAPOINT 2200 ROM", HORIZONTAL_ALIGNMENT_LEFT, crt_scr.size.x - 8, 7, p31_col)
+	draw_string(font, crt_scr.position + Vector2(4, 21), "DATAPOINT DOS 2.1", HORIZONTAL_ALIGNMENT_LEFT, crt_scr.size.x - 8, 7, p31_col)
+	draw_string(font, crt_scr.position + Vector2(4, 31), "DATE: 10/22/72", HORIZONTAL_ALIGNMENT_LEFT, crt_scr.size.x - 8, 7, Color("80ff80"))
+	draw_string(font, crt_scr.position + Vector2(4, 43), ": CATALOG", HORIZONTAL_ALIGNMENT_LEFT, crt_scr.size.x - 8, 7, p31_col)
+	draw_string(font, crt_scr.position + Vector2(4, 53), ": _", HORIZONTAL_ALIGNMENT_LEFT, crt_scr.size.x - 8, 7, p31_col)
+
+	# Twin Built-in Philips Digital Cassette Decks (Drive A & Drive B)
+	var tape_bay := Rect2(cx - 4, cy - 62, 48, 52)
+	draw_rect(tape_bay, Color("1c1916"), true)
+	draw_rect(tape_bay, Color("3a342d"), false, 1.0)
+	# Drive A (top cassette)
+	draw_rect(Rect2(tape_bay.position.x + 4, tape_bay.position.y + 4, 40, 18), Color("2d2823"), true)
+	draw_circle(Vector2(tape_bay.position.x + 14, tape_bay.position.y + 13), 5.0, Color("dcdcdc"))
+	draw_circle(Vector2(tape_bay.position.x + 14, tape_bay.position.y + 13), 2.0, Color("111111"))
+	draw_circle(Vector2(tape_bay.position.x + 34, tape_bay.position.y + 13), 5.0, Color("dcdcdc"))
+	draw_circle(Vector2(tape_bay.position.x + 34, tape_bay.position.y + 13), 2.0, Color("111111"))
+	# Drive B (bottom cassette)
+	draw_rect(Rect2(tape_bay.position.x + 4, tape_bay.position.y + 26, 40, 18), Color("2d2823"), true)
+	draw_circle(Vector2(tape_bay.position.x + 14, tape_bay.position.y + 35), 5.0, Color("dcdcdc"))
+	draw_circle(Vector2(tape_bay.position.x + 14, tape_bay.position.y + 35), 2.0, Color("111111"))
+	draw_circle(Vector2(tape_bay.position.x + 34, tape_bay.position.y + 35), 5.0, Color("dcdcdc"))
+	draw_circle(Vector2(tape_bay.position.x + 34, tape_bay.position.y + 35), 2.0, Color("111111"))
+	# Cassette Transport Buttons
+	draw_rect(Rect2(tape_bay.position.x + 4, tape_bay.position.y + 46, 11, 4), Color("e0e0e0"), true)
+	draw_rect(Rect2(tape_bay.position.x + 18, tape_bay.position.y + 46, 11, 4), Color("e0e0e0"), true)
+	draw_rect(Rect2(tape_bay.position.x + 32, tape_bay.position.y + 46, 11, 4), Color("e0e0e0"), true)
+
+	# Datapoint Logo Badge
+	draw_rect(Rect2(cx - 4, cy - 8, 48, 9), Color("151515"), true)
+	draw_string(font, Vector2(cx - 2, cy - 1), "DATAPOINT", HORIZONTAL_ALIGNMENT_CENTER, 46, 7, Color("e0a96d"))
+
+	# External Diablo Series 30 2.5MB Cartridge Hard Disk Unit (Right)
+	var diablo_rect := Rect2(cx + 56, cy - 54, 68, 110)
+	draw_rect(diablo_rect, Color("c2bcac"), true)
+	draw_rect(diablo_rect, Color("584e40"), false, 1.5)
+	# Top-loading cartridge access hatch & latch
+	draw_rect(Rect2(diablo_rect.position.x + 6, diablo_rect.position.y + 6, 56, 26), Color("2a2520"), true)
+	draw_rect(Rect2(diablo_rect.position.x + 18, diablo_rect.position.y + 16, 32, 6), Color("dcdcdc"), true)
+	# Ventilation louvers
+	for l in range(4):
+		draw_rect(Rect2(diablo_rect.position.x + 8, diablo_rect.position.y + 42 + l * 8, 52, 4), Color("1a1714"), true)
+	# Status indicator lamps
+	draw_circle(Vector2(diablo_rect.position.x + 16, diablo_rect.position.y + 84), 3.0, Color("38b000")) # READY
+	draw_circle(Vector2(diablo_rect.position.x + 34, diablo_rect.position.y + 84), 3.0, Color("d90429")) # READ/WRITE
+	draw_circle(Vector2(diablo_rect.position.x + 52, diablo_rect.position.y + 84), 3.0, Color("fca311")) # FAULT
+	draw_string(font, Vector2(diablo_rect.position.x + 4, diablo_rect.position.y + 102), "DIABLO 2.5MB", HORIZONTAL_ALIGNMENT_CENTER, 60, 7, Color("222222"))
+
+
+func _draw_datapoint_motherboard(rect: Rect2, pcb: Rect2, font: Font) -> void:
+	# Discrete MSI TTL Circuit Board (~100 7400-series ICs)
+	draw_rect(rect, Color("0a1e12"), true)
+	_draw_blueprint_grid(rect, Color(0.16, 0.44, 0.28, 0.22), 14.0)
+
+	draw_rect(pcb, Color("142c19"), true)
+	draw_rect(pcb, Color("2d6a4f"), false, 1.5)
+
+	# 4 Rows of 6 DIP ICs representing discrete MSI processor logic
+	for row in range(4):
+		var y_pos := pcb.position.y + 12 + row * 22
+		for col in range(6):
+			var x_pos := pcb.position.x + 14 + col * 32
+			var ic_rect := Rect2(x_pos, y_pos, 22, 14)
+			# Solder pins on both sides
+			for pin in range(4):
+				var px := x_pos + 2 + pin * 5
+				draw_line(Vector2(px, y_pos - 3), Vector2(px, y_pos), Color("cccccc"), 1.0)
+				draw_line(Vector2(px, y_pos + 14), Vector2(px, y_pos + 17), Color("cccccc"), 1.0)
+			# Black ceramic IC body
+			draw_rect(ic_rect, Color("1a1a1a"), true)
+			draw_rect(ic_rect, Color("333333"), false, 0.8)
+			# IC notch & label
+			draw_circle(Vector2(x_pos + 2, y_pos + 7), 1.5, Color("444444"))
+
+	# Recirculating MOS Shift Registers / Intel 1101/1103 DRAM Bank (Right Side)
+	var mem_bay := Rect2(pcb.end.x - 72, pcb.position.y + 10, 58, 88)
+	draw_rect(mem_bay, Color("0f2014"), true)
+	draw_rect(mem_bay, Color("52b788"), false, 1.0)
+	draw_string(font, Vector2(mem_bay.position.x + 4, mem_bay.position.y + 12), "16KB RAM", HORIZONTAL_ALIGNMENT_LEFT, 50, 8, Color("95d5b2"))
+	for m in range(4):
+		draw_rect(Rect2(mem_bay.position.x + 6, mem_bay.position.y + 18 + m * 16, 46, 10), Color("2b2d42"), true)
+
+	# Gold/Copper Parallel Bus Traces
+	draw_line(Vector2(pcb.position.x + 10, pcb.end.y - 28), Vector2(pcb.end.x - 80, pcb.end.y - 28), Color("e0a96d"), 2.0)
+	draw_line(Vector2(pcb.position.x + 10, pcb.end.y - 22), Vector2(pcb.end.x - 80, pcb.end.y - 22), Color("e0a96d"), 2.0)
+
+	# Connectors for Tape Decks and Diablo Disk Interface
+	draw_rect(Rect2(pcb.position.x + 14, pcb.end.y - 14, 60, 8), Color("dcdcdc"), true)
+	draw_string(font, Vector2(pcb.position.x + 16, pcb.end.y - 7), "TAPE I/O", HORIZONTAL_ALIGNMENT_LEFT, 56, 7, Color("111111"))
+
+	draw_rect(Rect2(pcb.position.x + 84, pcb.end.y - 14, 80, 8), Color("dcdcdc"), true)
+	draw_string(font, Vector2(pcb.position.x + 86, pcb.end.y - 7), "DIABLO DISK I/O", HORIZONTAL_ALIGNMENT_LEFT, 76, 7, Color("111111"))
+
+	_draw_plate_footer(
+		rect,
+		font,
+		"EXHIBIT PLATE II // CTC 8-BIT DISCRETE MSI TTL CPU (~100 ICs • X86 ROOT)",
+		Color("95d5b2"),
+		Color("2d6a4f"),
+		"ARCHITECTURE SCHEMATIC",
+		Color("2d6a4f")
+	)
+
+
+func _draw_datapoint_software_plate(rect: Rect2, font: Font) -> void:
+	# Authentic 12-Line x 80-Column P31 Green Phosphor Terminal Screen
+	draw_rect(rect, Color("030904"), true)
+
+	# Curved CRT Screen vignette
+	var scr := rect.grow(-10)
+	draw_rect(scr, Color("041207"), true)
+	draw_rect(scr, Color("1f5c2c"), false, 1.5)
+
+	# Luminous P31 Green Text
+	var p31 := Color("33ff55")
+	var highlight := Color("80ff80")
+	var lines := [
+		{"t": "DATAPOINT 2200 BOOTSTRAP ROM REV 2.4", "c": p31},
+		{"t": "LOADING DOS.SYS FROM DIABLO DISK 0...", "c": Color("20c20e")},
+		{"t": "DATAPOINT DOS VERSION 2.1  COPYRIGHT (C) 1972 CTC", "c": p31},
+		{"t": "PLEASE ENTER CURRENT DATE (MM/DD/YY): 10/22/72", "c": highlight},
+		{"t": "DATE SET: 10/22/72", "c": p31},
+		{"t": "DOS READY.", "c": p31},
+		{"t": ": CATALOG", "c": highlight},
+		{"t": "DOS.SYS    ASM.CMD    EDIT.CMD    DATABUS.CMD    LEDGER.DAT", "c": p31},
+		{"t": "TOTAL BLOCKS: 1024   FREE: 677   BAD: 0", "c": p31},
+		{"t": ": _", "c": p31}
+	]
+
+	for idx in range(lines.size()):
+		var line_dict: Dictionary = lines[idx]
+		var y := scr.position.y + 16 + idx * 14
+		draw_string(font, Vector2(scr.position.x + 12, y), str(line_dict["t"]), HORIZONTAL_ALIGNMENT_LEFT, scr.size.x - 24, 10, line_dict["c"])
+
+	# Scanline raster effect
+	var sy := scr.position.y
+	while sy < scr.end.y:
+		draw_line(Vector2(scr.position.x, sy), Vector2(scr.end.x, sy), Color(0.1, 0.4, 0.15, 0.12), 1.0)
+		sy += 3.0
+
+	draw_rect(rect, Color("20c20e"), false, 1.5)
+	_draw_plate_badge("12x80 CRT SHELL", Color("1b6e28"))
 

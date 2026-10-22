@@ -12,6 +12,7 @@ const CUSTOM_PROFILES_DIR := "res://data/profiles"
 
 static func get_all_profiles() -> Array[OSProfile]:
 	var profiles: Array[OSProfile] = [
+		_build_datapoint_2200(),
 		_build_ubuntu_704(),
 		_build_hpux_cde(),
 		_build_plan9(),
@@ -42,12 +43,12 @@ static func get_all_profiles() -> Array[OSProfile]:
 	for p in profiles:
 		ExhibitCodex.enrich_profile(p)
 
-	# Sort chronological: newest at top (descending), oldest at bottom
+	# Sort chronological: earliest/oldest at top (ascending), newest/latest at bottom
 	profiles.sort_custom(func(a: OSProfile, b: OSProfile) -> bool:
 		var year_a := a.release_year.to_int()
 		var year_b := b.release_year.to_int()
 		if year_a != year_b:
-			return year_a > year_b
+			return year_a < year_b
 		return a.display_name < b.display_name
 	)
 
@@ -58,7 +59,7 @@ static func get_profile_by_id(os_id: String) -> OSProfile:
 	for profile in get_all_profiles():
 		if profile.id == os_id:
 			return profile
-	return _build_ubuntu_704()
+	return _build_datapoint_2200()
 
 
 # ==============================================================================
@@ -1264,4 +1265,195 @@ static func _build_sgi_irix() -> OSProfile:
 	p.fan_base_freq = 140.0
 	p.fan_noise_level = 0.32
 	p.hdd_seek_interval_range = Vector2(1.9, 4.8)
+	return p
+
+
+# ==============================================================================
+# 8. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972) • CHRONOLOGICAL ENTRY #1
+# GENESIS OF THE WORKSTATION & DIRECT ANCESTOR OF INTEL 8008 / X86
+# ==============================================================================
+static func _build_datapoint_2200() -> OSProfile:
+	var p := OSProfile.new()
+	p.id = "datapoint_2200"
+	p.category = "Pioneering Workstations"
+	p.display_name = "Datapoint DOS 2.1 (Datapoint 2200)"
+	p.short_name = "Datapoint DOS"
+	p.release_year = "1972"
+	p.vendor = "Computer Terminal Corporation (CTC • San Antonio, TX)"
+	p.architecture_summary = "CTC 8-bit Discrete TTL (Intel 8008 / x86 Ancestor) • Datapoint DOS 2.1"
+	p.hardware_profile = "Datapoint 2200 Type II • 8-Bit Discrete TTL @ 3.3MHz • 16KB RAM • Diablo 2.5MB Disk • Dual Cassette"
+	p.description = (
+		"The genesis of the personal workstation. Engineered in 1970–1972 by Computer Terminal Corporation (CTC) "
+		+ "to match the footprint of an IBM Selectric typewriter, the Datapoint 2200 combined an integrated 12-line green "
+		+ "CRT, mechanical keyboard, dual cassette decks, and an 8-bit discrete TTL processor whose architectural blueprint "
+		+ "became the Intel 8008 and founded the modern x86 lineage. Running Datapoint DOS 2.1 with Diablo removable cartridge "
+		+ "hard disks, it introduced disk-oriented business computing, succeeding the earlier tape-based CTOS and establishing "
+		+ "the foundation for 1973's multi-terminal Datashare timesharing and 1977's ARCNET."
+	)
+
+	p.bios_header = (
+		"DATAPOINT 2200 BOOTSTRAP ROM REV 2.4\n"
+		+ "COMPUTER TERMINAL CORPORATION • SAN ANTONIO, TEXAS"
+	)
+	p.boot_bg_color = Color("040d06")
+	p.boot_text_color = Color("33ff55")
+	p.boot_logs = [
+		{"text": "DATAPOINT 2200 BOOTSTRAP ROM REV 2.4", "delay": 1.10, "sfx": "fan_spinup", "color": "#33ff55"},
+		{"text": "LOADING DOS.SYS FROM DISK 0...", "delay": 1.45, "sfx": "hdd_burst", "color": "#20c20e"},
+		{"text": "DATAPOINT DOS VERSION 2.1  COPYRIGHT (C) 1972 CTC", "delay": 1.20, "sfx": "beep", "color": "#33ff55"},
+		{"text": "PLEASE ENTER CURRENT DATE (MM/DD/YY): 10/22/72", "delay": 1.50, "sfx": "hdd_click", "color": "#80ff80"},
+		{"text": "DATE SET: 10/22/72", "delay": 0.85, "sfx": "", "color": "#33ff55"},
+		{"text": "DOS READY.", "delay": 0.90, "sfx": "hdd_burst", "color": "#33ff55"}
+	]
+
+	p.chrome_style = "datapoint_green"
+	p.desktop_bg_color = Color("030a05")
+	p.desktop_secondary_color = Color("06180a")
+	p.panel_bg_color = Color("0a2410")
+	p.panel_text_color = Color("33ff55")
+	p.window_bg_color = Color("040d06")
+	p.window_text_color = Color("33ff55")
+	p.window_border_color = Color("20c20e")
+	p.titlebar_active_color = Color("0e3816")
+	p.titlebar_active_gradient_end = Color("0a2810")
+	p.titlebar_inactive_color = Color("061a0a")
+	p.titlebar_text_color = Color("66ff88")
+	p.accent_color = Color("33ff55")
+
+	p.terminal_title = "DATAPOINT 2200 CONSOLE // DOS 2.1"
+	p.terminal_bg_color = Color("020804")
+	p.terminal_fg_color = Color("33ff55")
+	p.terminal_prompt = ": "
+	p.terminal_welcome_banner = (
+		"DATAPOINT DOS VERSION 2.1   COPYRIGHT (C) 1972 COMPUTER TERMINAL CORPORATION\n"
+		+ "16K BYTES MEMORY AVAILABLE • SYSTEM DRIVE 0 (DIABLO 2.5MB) ONLINE\n"
+		+ "TYPE 'CATALOG', 'DATE', 'CTOS', 'DATASHARE', 'DATABUS', OR 'HELP'."
+	)
+
+	p.terminal_commands = {
+		"catalog": (
+			"\nDIRECTORY OF DRIVE 0: (PACK ID: CTC-SYSTEM-01)\n\n"
+			+ " FILE NAME   EXT   TYPE   SEC   START   STATUS\n"
+			+ "-------------------------------------------------\n"
+			+ " DOS         SYS   SYS     32    0001   PROTECT\n"
+			+ " CATALOG     CMD   UTL     12    0033   READY\n"
+			+ " EDIT        CMD   UTL     24    0045   READY\n"
+			+ " ASM         CMD   DEV     48    0069   READY\n"
+			+ " DATABUS     CMD   CMP     64    0117   READY\n"
+			+ " BASIC       CMD   INT     56    0181   READY\n"
+			+ " DIAG        CMD   DIAG    16    0237   READY\n"
+			+ " CASSETTE    CMD   IO      14    0253   READY\n"
+			+ " LEDGER      DAT   DATA    80    0267   READY\n\n"
+			+ " TOTAL BLOCKS: 1024   FREE BLOCKS: 677   BAD BLOCKS: 0"
+		),
+		"cat": "USE 'CATALOG' FOR FULL DATAPOINT DOS DISK DIRECTORY LISTING.",
+		"dir": "USE 'CATALOG' FOR FULL DATAPOINT DOS DISK DIRECTORY LISTING.",
+		"date": "CURRENT SYSTEM DATE: 10/22/72  (USE 'DATE MM/DD/YY' TO UPDATE)",
+		"ctos": (
+			"CTOS (CASSETTE TAPE OPERATING SYSTEM) SUBSYSTEM:\n"
+			+ "---------------------------------------------------------\n"
+			+ "PREDECESSOR SYSTEM (1971):\n"
+			+ "PRIMARY CASSETTE DRIVE A: PHILIPS COMPACT CASSETTE [ONLINE]\n"
+			+ "SECONDARY CASSETTE DRIVE B: PHILIPS COMPACT CASSETTE [READY]\n"
+			+ "TAPE SPEED: 7.5 IPS • CAPACITY: ~130 KB PER CASSETTE\n"
+			+ "RECORD FORMAT: 128-BYTE DATA BLOCKS WITH 16-BIT CRC\n"
+			+ "NOTE: CTOS PROVIDED THE FIRST WORKSTATION TAPE OS BEFORE\n"
+			+ "THE INTRODUCTION OF DIABLO CARTRIDGE DISKS AND DATAPOINT DOS."
+		),
+		"datashare": (
+			"DATASHARE MULTI-USER TIMESHARING SUBSYSTEM (PREVIEW 1973):\n"
+			+ "---------------------------------------------------------\n"
+			+ "FUTURE EXPANSION NOTE (1973):\n"
+			+ "TURNS THIS SINGLE DATAPOINT 2200 INTO A MULTI-USER MAINFRAME\n"
+			+ "ALTERNATIVE RUNNING THE DATABUS COMPILER.\n"
+			+ "SUPPORTS UP TO 16 REMOTE SLAVE TERMINALS (DATAPOINT 3600/3360)\n"
+			+ "CONNECTED OVER ASYNCHRONOUS CURRENT-LOOP / RS-232 LINES.\n"
+			+ "DIRECT TECHNOLOGICAL ANCESTOR OF ARCNET (1977), THE WORLD'S\n"
+			+ "FIRST COMMERCIALLY INSTALLED LOCAL AREA NETWORK."
+		),
+		"databus": (
+			"DATABUS HIGH-LEVEL BUSINESS LANGUAGE COMPILER V2.0 (CTC 1972)\n"
+			+ "SOURCE: /SYS/LEDGER.TXT   OBJECT: /SYS/LEDGER.CMD\n"
+			+ "PASS 1: GENERATING 8-BIT PSEUDOCODE...\n"
+			+ "PASS 2: RESOLVING DATA DESCRIPTORS AND KEYED INDEXES...\n"
+			+ "0 ERRORS DETECTED. COMPILED 142 STATEMENTS. OBJECT SAVED."
+		),
+		"diablo": (
+			"DIABLO SERIES 30 REMOVABLE CARTRIDGE DISK DRIVE 0:\n"
+			+ "STATUS: ONLINE • SPINDLE SPEED: 2400 RPM • HEAD COUNT: 2\n"
+			+ "CYLINDERS: 408 • CAPACITY: 2.5 MEGABYTES • SEEK TIME: 70 MS\n"
+			+ "MEDIA: SINGLE REMOVABLE TOP-LOADING MAGNETIC DISK CARTRIDGE"
+		),
+		"tape": "CASSETTE DECK A: REWOUND TO HEAD-OF-TAPE. CASSETTE DECK B: READY.",
+		"dump": (
+			"REGISTER & MEMORY DUMP (CTC 8-BIT DISCRETE MSI PROCESSOR):\n"
+			+ "  A=44 B=02 C=10 D=00 E=22 H=04 L=1A  SP=0007 PC=01A0\n"
+			+ "  FLAGS: [C=0 Z=1 S=0 P=1] (INTEL 8008 PRE-SILICON REGISTER SET)\n"
+			+ "  MEMORY AT 01A0: 06 44 26 04 2E 1A 7E 12 13 23 C2 A0 01"
+		),
+		"info": (
+			"DATAPOINT 2200 TYPE II (CTC 1972)\n"
+			+ "FIRST WORKSTATION IN HISTORY • ARCHITECTURAL ANCESTOR OF X86\n"
+			+ "RUNNING DATAPOINT DOS 2.1 WITH DIABLO 2.5MB DISK DRIVE"
+		)
+	}
+
+	p.default_windows = [
+		{
+			"id": "terminal",
+			"title": "DATAPOINT 2200 SYSTEM CONSOLE (12x80 CRT)",
+			"type": "terminal",
+			"pos": Vector2(120, 52),
+			"size": Vector2(580, 320),
+			"content": ""
+		},
+		{
+			"id": "ledger",
+			"title": "Chase Manhattan / Insurance Ledger — Entry #1042",
+			"type": "text",
+			"pos": Vector2(530, 370),
+			"size": Vector2(460, 240),
+			"content": (
+				"ACCOUNTING BATCH: 72-10-A      OPERATOR: OP-04     DATE: 10/22/72\n"
+				+ "----------------------------------------------------------------\n"
+				+ "ACCT #      CLIENT NAME           DEBIT ($)      CREDIT ($)\n"
+				+ "----------------------------------------------------------------\n"
+				+ "1004-92     HOUSTON MARITIME                   12,450.00\n"
+				+ "1008-14     SAN ANTONIO PACKING   4,230.50\n"
+				+ "1012-77     LONE STAR REFINING                 38,910.00\n"
+				+ "----------------------------------------------------------------\n"
+				+ "BATCH BALANCE: +$47,129.50      CRC VERIFIED: OK\n"
+				+ "RECORD BUFFERED TO DIABLO DISK DRIVE 0 [CYLINDER 42, SECTOR 3]"
+			)
+		},
+		{
+			"id": "specs",
+			"title": "CTC Architecture // 8-Bit Discrete MSI Processor",
+			"type": "monitor",
+			"pos": Vector2(115, 415),
+			"size": Vector2(410, 240),
+			"content": (
+				"COMPUTER TERMINAL CORPORATION • SAN ANTONIO, TEXAS\n"
+				+ "MODEL: DATAPOINT 2200 TYPE II (DESKTOP WORKSTATION)\n"
+				+ "----------------------------------------------------------------\n"
+				+ "CPU: 8-Bit Discrete MSI/SSI TTL Logic Board (~100 ICs)\n"
+				+ "Instruction Set: CTC 8-Bit (Commissioned as Intel 8008 / x86 Root)\n"
+				+ "Memory: 16 KB RAM (Shift Registers / Intel 1101/1103)\n"
+				+ "Storage: Dual Digital Cassette Drives + Diablo 2.5MB Cartridge\n"
+				+ "Screen: 7-Inch P31 Green Phosphor CRT (12 Lines x 80 Columns)\n"
+				+ "Predecessor: CTOS (Cassette Tape OS, 1971)\n"
+				+ "Future: Datashare Timesharing (1973) & ARCNET (1977)"
+			)
+		}
+	]
+
+	p.desktop_icons = [
+		{"id": "icon_terminal", "label": "Console", "glyph": "[:_]", "target_window_id": "terminal"},
+		{"id": "icon_ledger", "label": "DATABUS\nLedger", "glyph": "[$$$]", "target_window_id": "ledger"},
+		{"id": "icon_specs", "label": "Hardware\nSpecs", "glyph": "[CTC]", "target_window_id": "specs"}
+	]
+
+	p.fan_base_freq = 110.0
+	p.fan_noise_level = 0.22
+	p.hdd_seek_interval_range = Vector2(3.5, 8.0)
 	return p

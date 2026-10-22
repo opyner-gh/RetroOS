@@ -66,11 +66,16 @@ func start_boot_for_os(profile: OSProfile) -> void:
 	bg_rect.color = profile.boot_bg_color
 	bios_header_label.text = profile.bios_header
 	bios_header_label.add_theme_color_override("font_color", profile.boot_text_color)
-	badge_label.text = (
-		"  /\\  EPA POLLUTION PREVENTER\n"
-		+ " /  \\   [" + profile.release_year + " ROM BIOS]\n"
-		+ "/____\\  " + profile.short_name.to_upper()
-	)
+	if profile.release_year.to_int() < 1992:
+		badge_label.text = ""
+		badge_label.visible = false
+	else:
+		badge_label.visible = true
+		badge_label.text = (
+			"  /\\  EPA POLLUTION PREVENTER\n"
+			+ " /  \\   [" + profile.release_year + " ROM BIOS]\n"
+			+ "/____\\  " + profile.short_name.to_upper()
+		)
 	skip_btn.text = "[SPACE] 5x Fast-Forward Boot"
 
 	boot_log_rtl.clear()

@@ -749,6 +749,12 @@ func _synth_os_startup_chime(os_id: String) -> AudioStreamWAV:
 			# Classic Apple II 1000Hz speaker beep
 			return _synth_post_beep()
 
+		"datapoint_2200":
+			# Datapoint 2200 internal speaker / piezo alert tone (sharp 2400Hz alert pulse)
+			return _synth_chord_sequence([
+				{"freq": 2400.00, "start": 0.00, "dur": 0.22, "amp": 0.32, "warmth": 0.2},
+			], 0.30)
+
 
 		_:
 			return _synth_chord_sequence([

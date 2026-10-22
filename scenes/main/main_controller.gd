@@ -36,6 +36,19 @@ func _ready() -> void:
 
 	_switch_to_phase(GameState.SimPhase.MAIN_MENU)
 
+	if OS.has_environment("RETROOS_CAPTURE_SCREENSHOT") or OS.get_cmdline_user_args().has("--capture-screenshot"):
+		_auto_capture_and_quit()
+
+
+func _auto_capture_and_quit() -> void:
+	for i in range(20):
+		await get_tree().process_frame
+	var img := get_viewport().get_texture().get_image()
+	if img:
+		img.save_png("res://screenshot_main_menu.png")
+		print("Auto-captured screenshot: res://screenshot_main_menu.png (%dx%d)" % [img.get_width(), img.get_height()])
+	get_tree().quit(0)
+
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:

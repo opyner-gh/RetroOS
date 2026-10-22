@@ -4,35 +4,36 @@
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![GDScript 2.0](https://img.shields.io/badge/GDScript-2.0-blue)
 
-**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 17 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
+**RetroOS** is an ambient retro operating system and workstation vibe simulator built in **Godot 4**. Select from 18 historical operating systems and classic microcomputers arranged chronologically on a virtual KVM switch, watch period-accurate BIOS/firmware POST and kernel boot sequences, listen to continuous workstation cooling fans, IDE/SCSI hard disk chatter, 3.5" floppy drive stepper seeks, and 5.25" Apple Disk II track-bang recalibration, and interact with draggable/closable mock windows and OS-specific retro terminals.
 
 ![RetroOS Main Menu KVM Switch](screenshot_main_menu.png)
 
 ---
 
-## ✨ Included Operating Systems & Workstations (Chronological: 2007 → 1985)
+## ✨ Included Operating Systems & Workstations (Chronological: 1972 → 2007)
 
 | OS Profile & Machine | Era | Firmware & Bootloader | Desktop Environment & Chrome | Shell & Prompt |
 | :--- | :---: | :--- | :--- | :--- |
-| **Ubuntu 7.04 (Feisty Fawn)** | 2007 | PhoenixBIOS 4.0 → GRUB 0.97 → Linux `2.6.20-15-generic` | GNOME 2.18 *Human* theme (Top & Bottom Panels, amber titlebars) | `bash` (`user@feisty-desktop:~$`) |
-| **FreeBSD 4.11-STABLE** | 2004 | Beastie Boot Menu (Dual-Pentium III SMP) → `/boot/kernel` | FreeBSD C-shell / XFree86 4.3 twm | `tcsh` (`daemonic#`) |
-| **Windows XP Pro SP2 (Alienware Area-51)** | 2003 | AMIBIOS + Promise FastTrak RAID-0 (`2x WD Raptor 10K`) → `NTLDR` | Alienware *Predator* Full-Tower rig • Luna Blue & Green `start` bar + AlienAdrenaline | `cmd.exe` (`C:\Documents and Settings\Area51>`) |
-| **Plan 9 from Bell Labs (4e)** | 2002 | `9load` → `9pcf` Kernel → `fossil` | Rob Pike's `rio` (`#777777` workspace, `#FFFFEA` windows, `#55AAAA` borders, right-click menu) | Tom Duff's `rc` (`term%`) |
-| **SGI IRIX 6.5.22 (Octane2 VPro V12)** | 2001 | SGI IP30 ARCS PROM → Dual 600MHz MIPS R14000A → `/unix` (`XFS`) | Indigo Magic / `4Dwm` Desktop + Top-Left `Toolchest` + `gr_osview` | `tcsh` (`octane2 1%`) |
+| **Datapoint DOS 2.1 (Datapoint 2200)** | 1972 | CTC Bootstrap ROM 2.4 (8-bit Discrete TTL CPU) → Diablo Disk 0 → `DOS.SYS` | 12×80 Curved P31 Green CRT Console (`datapoint_green` chrome) | Datapoint DOS Executive (`: `) |
+| **Apple IIe Enhanced (ProDOS 8 / BASIC)** | 1985 | Apple Computer Inc. Apple //e Enhanced 64KB ROM (65C02 @ 1.023MHz) → ProDOS 8 | 40/80-column monochrome green phosphor display with Shugart SA-390 stepper clacks | Applesoft BASIC (`]`) |
+| **Commodore AmigaOS 3.1 (Amiga 3000)** | 1993 | Commodore Amiga 3000 Kickstart 3.1 (ROM 40.068, MC68030 @ 25MHz + Paula 8364) → `LoadWB` | Workbench 3.1 with 4-color Topaz palette (`#0055AA`, `#FFAA55`, `#FFFFFF`, `#000000`) and top screen menu bar | AmigaDOS CLI (`1.Workbench:>`) |
+| **Mac OS System 7.5.3 (Quadra 840AV)** | 1995 | Apple Universal ROM $067C (Quadra 840AV MC68040 @ 40MHz + DSP3210) → System 7.5.3 | Classic Mac Finder with pinstriped titlebars, left close boxes, and Apple Menu | MPW / Standard File (`Quadra 840AV:`) |
+| **NeXTSTEP 3.3 (NeXTstation Turbo Color)** | 1995 | NeXT ROM Monitor v3.3 (NeXTstation Turbo Color 68040 @ 33MHz + DSP56001) → Mach 3.0 / BSD 4.3 | NeXTSTEP Workspace Manager with dark gray titanium styling, floating application dock, and NeXT shelf | `csh` (`localhost>`) |
+| **IBM OS/2 Warp 4 (Merlin)** | 1996 | IBM SurePath BIOS → Rev 9.023 → `HPFS.IFS` | Workplace Shell (`PMSHELL.EXE`) + Top-Docked IBM WarpCenter | `CMD.EXE` (`[C:\]`) |
+| **Mac OS X 10.2 Jaguar (1999 G4 Tower)** | 1999 | Apple Open Firmware 3.1.1 (Power Mac G4 'Yikes!' PPC 7400 @ 400MHz) → Mach Kernel / Darwin 6.0 | Aqua GUI with brushed graphite/pinstripe styling, pulsating jelly buttons, and Dock | `tcsh` (`g4-tower:~ user%`) |
+| **SCO OpenServer 5.0.5 (SCO Panorama)** | 1999 | AMI Desktop BIOS (Compaq ProLiant 1600 Dual Pentium III) → SCO boot → `/unix` (`HTFS`) | SCO PanoRama Desktop / Motif Window Manager with UnixWare/SCO bevels | Bourne shell `sh` (`#`) |
+| **Windows 98 Second Edition** | 1999 | Award Modular BIOS v4.51PG → MS-DOS 7.10 → `WIN.COM` | Classic `#008080` Teal desktop, `#C0C0C0` 3D Win32 bevels, Start Menu & Taskbar | `COMMAND.COM` (`C:\WINDOWS>`) |
 | **BeOS R5 Pro (5.0.3)** | 2000 | Award Modular BIOS v4.51PG (Tyan Tiger 100 Dual P-III) → BeOS Loader | BeOS Tracker & Deskbar with yellow tabbed titlebars and blue feather menu | `bash` (`/boot/home>`) |
 | **HP-UX 11i (CDE Workstation)** | 2000 | HP Visualize C3600 PDC → ISL → `/stand/vmunix` | Motif / Common Desktop Environment 2.1 (Chiseled bevels & Front Panel) | POSIX `sh` (`hp9000:/home/root #`) |
 | **Red Hat Linux 6.2 (Zoot)** | 2000 | PhoenixBIOS 4.0 → LILO 21.4 → Linux `2.2.14-5.0` (Dual Pentium II) | GNOME 1.2 Enlightenment E16 with classic Red Hat Footprint menu & RPM monitor | `bash` (`[root@zoot /root]#`) |
 | **Sun Solaris 8 (Ultra 60 Creator3D)** | 2000 | Sun Ultra 60 OpenBoot 3.31 (Dual UltraSPARC II 450MHz) → UFS `/platform/sun4u/kernel/sparcv9/unix` | Sun CDE 1.4 / OpenWindows Workspace Manager with purple chisel styling | SunOS `csh` (`ultra60#`) |
-| **Windows 98 Second Edition** | 1999 | Award Modular BIOS v4.51PG → MS-DOS 7.10 → `WIN.COM` | Classic `#008080` Teal desktop, `#C0C0C0` 3D Win32 bevels, Start Menu & Taskbar | `COMMAND.COM` (`C:\WINDOWS>`) |
-| **Mac OS X 10.2 Jaguar (1999 G4 Tower)** | 1999 | Apple Open Firmware 3.1.1 (Power Mac G4 'Yikes!' PPC 7400 @ 400MHz) → Mach Kernel / Darwin 6.0 | Aqua GUI with brushed graphite/pinstripe styling, pulsating jelly buttons, and Dock | `tcsh` (`g4-tower:~ user%`) |
-| **SCO OpenServer 5.0.5 (SCO Panorama)** | 1999 | AMI Desktop BIOS (Compaq ProLiant 1600 Dual Pentium III) → SCO boot → `/unix` (`HTFS`) | SCO PanoRama Desktop / Motif Window Manager with UnixWare/SCO bevels | Bourne shell `sh` (`#`) |
-| **IBM OS/2 Warp 4 (Merlin)** | 1996 | IBM SurePath BIOS → Rev 9.023 → `HPFS.IFS` | Workplace Shell (`PMSHELL.EXE`) + Top-Docked IBM WarpCenter | `CMD.EXE` (`[C:\]`) |
-| **Mac OS System 7.5.3 (Quadra 840AV)** | 1995 | Apple Universal ROM $067C (Quadra 840AV MC68040 @ 40MHz + DSP3210) → System 7.5.3 | Classic Mac Finder with pinstriped titlebars, left close boxes, and Apple Menu | MPW / Standard File (`Quadra 840AV:`) |
-| **NeXTSTEP 3.3 (NeXTstation Turbo Color)** | 1995 | NeXT ROM Monitor v3.3 (NeXTstation Turbo Color 68040 @ 33MHz + DSP56001) → Mach 3.0 / BSD 4.3 | NeXTSTEP Workspace Manager with dark gray titanium styling, floating application dock, and NeXT shelf | `csh` (`localhost>`) |
-| **Commodore AmigaOS 3.1 (Amiga 3000)** | 1993 | Commodore Amiga 3000 Kickstart 3.1 (ROM 40.068, MC68030 @ 25MHz + Paula 8364) → `LoadWB` | Workbench 3.1 with 4-color Topaz palette (`#0055AA`, `#FFAA55`, `#FFFFFF`, `#000000`) and top screen menu bar | AmigaDOS CLI (`1.Workbench:>`) |
-| **Apple IIe Enhanced (ProDOS 8 / BASIC)** | 1985 | Apple Computer Inc. Apple //e Enhanced 64KB ROM (65C02 @ 1.023MHz) → ProDOS 8 | 40/80-column monochrome green phosphor display with Shugart SA-390 stepper clacks | Applesoft BASIC (`]`) |
+| **SGI IRIX 6.5.22 (Octane2 VPro V12)** | 2001 | SGI IP30 ARCS PROM → Dual 600MHz MIPS R14000A → `/unix` (`XFS`) | Indigo Magic / `4Dwm` Desktop + Top-Left `Toolchest` + `gr_osview` | `tcsh` (`octane2 1%`) |
+| **Plan 9 from Bell Labs (4e)** | 2002 | `9load` → `9pcf` Kernel → `fossil` | Rob Pike's `rio` (`#777777` workspace, `#FFFFEA` windows, `#55AAAA` borders, right-click menu) | Tom Duff's `rc` (`term%`) |
+| **Windows XP Pro SP2 (Alienware Area-51)** | 2003 | AMIBIOS + Promise FastTrak RAID-0 (`2x WD Raptor 10K`) → `NTLDR` | Alienware *Predator* Full-Tower rig • Luna Blue & Green `start` bar + AlienAdrenaline | `cmd.exe` (`C:\Documents and Settings\Area51>`) |
+| **FreeBSD 4.11-STABLE** | 2004 | Beastie Boot Menu (Dual-Pentium III SMP) → `/boot/kernel` | FreeBSD C-shell / XFree86 4.3 twm | `tcsh` (`daemonic#`) |
+| **Ubuntu 7.04 (Feisty Fawn)** | 2007 | PhoenixBIOS 4.0 → GRUB 0.97 → Linux `2.6.20-15-generic` | GNOME 2.18 *Human* theme (Top & Bottom Panels, amber titlebars) | `bash` (`user@feisty-desktop:~$`) |
 
-> **Extensible Architecture:** Adding new operating systems requires either registering a new `OSProfile` entry in `data/os_registry.gd` or dropping a `.tres` `OSProfile` resource file into `res://data/profiles/`. The KVM selector automatically sorts all profiles chronologically (newest at the top, oldest at the bottom).
+> **Extensible Architecture:** Adding new operating systems requires either registering a new `OSProfile` entry in `data/os_registry.gd` or dropping a `.tres` `OSProfile` resource file into `res://data/profiles/`. The KVM selector automatically sorts all profiles chronologically (earliest/oldest at the top, newest/latest at the bottom).
 
 ---
 
@@ -92,7 +93,7 @@ RetroOS/
 
 ## 🏛️ Wikipedia-Inspired Digital Computing Codex & Exhibit Packages
 
-Each of the 17 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
+Each of the 18 systems in **RetroOS** includes a comprehensive **Museum Exhibit Package** (`data/exhibit_codex_*.gd`) presented in a **1280×720** encyclopedia interface modeled after Wikipedia:
 
 1. **Hideable Catalog Sidebar (`[ ☰ Hide Sidebar [Tab] ]`)**:
    - Collapse or expand the left computer selection drawer at any time (via the top-left button or the `Tab` key) to read the Codex in full-width museum view, filter by category, or search across CPUs, vendors, and release years.

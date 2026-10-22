@@ -279,6 +279,15 @@ func _apply_chrome_style(profile: OSProfile, active: bool) -> void:
 			maximize_btn.text = "□"
 			close_btn.text = "X"
 
+		"datapoint_green":
+			outer_style.border_color = Color("33ff55") if active else Color("145322")
+			outer_style.set_border_width_all(2)
+			tb_style.bg_color = Color("0e3816") if active else Color("061a0a")
+			left_menu_btn.visible = false
+			minimize_btn.text = "_"
+			maximize_btn.text = "□"
+			close_btn.text = "X"
+
 		_: # "win98_classic"
 			outer_style.border_color = Color("dfdfdf")
 			outer_style.set_border_width_all(2)

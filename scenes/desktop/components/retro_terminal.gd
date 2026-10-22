@@ -140,6 +140,16 @@ func _execute_command(cmd: String) -> void:
 		append_line(str(_profile.terminal_commands[lower]))
 		return
 
+	# Datapoint DOS interactive date entry support
+	if _profile and _profile.id == "datapoint_2200":
+		if lower.begins_with("date ") or (lower.contains("/") and lower.replace("/", "").is_valid_int()):
+			var date_str := cmd.replace("date", "").strip_edges()
+			if date_str.is_empty():
+				date_str = "10/22/72"
+			append_line("DATE SET: " + date_str)
+			append_line("DOS READY.")
+			return
+
 	# Universal help command listing OS-specific + global commands
 	if lower == "help" or lower == "?" or lower == "man":
 		var os_cmds := PackedStringArray()
@@ -169,6 +179,8 @@ func _execute_command(cmd: String) -> void:
 	if lower == "whoami":
 		if _profile:
 			match _profile.id:
+				"datapoint_2200":
+					append_line("OPERATOR 1 (LOCAL CONSOLE)")
 				"ubuntu_704":
 					append_line("user")
 				"hpux_cde":
@@ -217,6 +229,8 @@ func _execute_command(cmd: String) -> void:
 				append_line(cmd.split(" ")[0] + ": Unknown command")
 			"apple_iie":
 				append_line("?SYNTAX ERROR")
+			"datapoint_2200":
+				append_line("ERROR: UNKNOWN COMMAND OR FILE")
 			_:
 				append_line("bash: " + cmd.split(" ")[0] + ": command not found")
 	else:

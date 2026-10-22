@@ -8,6 +8,9 @@ const OSProfile = preload("res://data/os_profile.gd")
 
 static func populate(p: OSProfile) -> bool:
 	match p.id:
+		"datapoint_2200":
+			_populate_datapoint_2200(p)
+			return true
 		"macosx_g4":
 			_populate_macosx_g4(p)
 			return true
@@ -698,6 +701,120 @@ static func _populate_apple_iie(p: OSProfile) -> void:
 		"Fully socketed logic board showcasing Wozniak's 8-chip Disk II controller in Slot 6 and the Extended 80-Column RAM card.",
 		"Fig 3. P31 Monochrome Green Phosphor Screen: ProDOS 8 Catalog, MouseText & Applesoft `]`",
 		"Luminous #33FF55 P31 phosphor text displaying ProDOS volume directory `/USERS.DISK` and Applesoft BASIC listings."
+	)
+
+
+# ==============================================================================
+# 9. DATAPOINT 2200 - DATAPOINT DOS 2.1 (1972) • CHRONOLOGICAL ENTRY #1
+# GENESIS OF THE WORKSTATION & DIRECT ANCESTOR OF INTEL 8008 / X86
+# ==============================================================================
+static func _populate_datapoint_2200(p: OSProfile) -> void:
+	p.exhibit_subtitle = "Genesis of the Personal Workstation & Direct Architectural Ancestor of the Intel 8008 / x86 Architecture"
+	p.era_classification = "Chronological Entry #1 // Pioneering Workstation & Pre-Microprocessor Discrete Computing Era (1970–1973)"
+	p.historical_overview = (
+		"Standing as the chronological first entry in the RetroOS Digital Computing Codex, the Datapoint 2200 marks the historical "
+		+ "genesis of the modern personal workstation. Conceived in 1969–1970 and first delivered in 1971 by Computer Terminal Corporation "
+		+ "(CTC) of San Antonio, Texas—founded by Phil Ray and Gus Roche—the Datapoint 2200 was engineered intentionally to occupy the "
+		+ "exact footprint of an IBM Selectric typewriter. Rather than serving as merely an interactive 'glass teletype' terminal, the 2200 "
+		+ "was a self-contained, fully programmable 8-bit general-purpose computer integrating an internal curved 7-inch green CRT display "
+		+ "(12 lines by 80 characters), a mechanical keyboard with numeric keypad, dual Philips digital cassette tape drives, and a discrete "
+		+ "TTL processor board. In 1972, CTC released Datapoint DOS (version 2.1) alongside an external Diablo Series 30 top-loading 2.5MB "
+		+ "removable cartridge disk drive, ushering in the era of disk-oriented desktop business computing."
+	)
+	p.historical_context = (
+		"The architectural journey of the Datapoint 2200 encompasses three of the most foundational milestones in computing history:\n\n"
+		+ "1. THE PREDECESSOR: CTOS (CASSETTE TAPE OPERATING SYSTEM, 1971):\n"
+		+ "When first deployed in 1971, the 2200 operated under CTOS (Cassette Tape Operating System). CTOS utilized the twin built-in "
+		+ "Philips digital cassette decks: Drive A held the operating system bootstrap, editor, and 8-bit macro assembler, while Drive B "
+		+ "held user data, payroll ledgers, and source programs. Recording at 7.5 inches per second with 128-byte data blocks protected by "
+		+ "16-bit CRC error verification, CTOS proved that desktop interactive computing was viable without punch cards. However, sequential "
+		+ "tape seeking remained an operational bottleneck for random-access accounting. The arrival of Datapoint DOS 2.1 in 1972 paired "
+		+ "with Diablo 2.5MB hard disks transformed the platform—introducing dynamic sector allocation, overlay execution, and the "
+		+ "definitive 'CATALOG' directory structure.\n\n"
+		+ "2. THE FUTURE: DATASHARE (1973) & THE GENESIS OF ARCNET (1977):\n"
+		+ "In 1973, CTC software visionary Vic Poor and his engineering group unveiled Datashare—a revolutionary multi-user timesharing "
+		+ "operating system. Datashare converted a single Datapoint 2200 desktop unit into a centralized business timesharing host running "
+		+ "the compiled DATABUS commercial language, simultaneously driving up to 16 remote slave terminals (Datapoint 3600 and 3360) "
+		+ "over serial asynchronous lines. Small and regional enterprises could now operate distributed, concurrent transaction processing "
+		+ "without leasing multimillion-dollar IBM System/360 mainframes. As business operations scaled beyond a single disk hub, CTC "
+		+ "invented ARCNET (Attached Resource Computer Network) in 1977—the world's first commercially available local area network (LAN), "
+		+ "interconnecting Datapoint 2200 and 5500 workstations with shared disk resources years before commercial Ethernet deployments.\n\n"
+		+ "3. THE GENESIS OF THE INTEL 8008 AND MODERN X86 ARCHITECTURE:\n"
+		+ "To miniaturize the machine's bulky discrete TTL processor board, CTC founders Phil Ray and Gus Roche developed an elegant 8-bit "
+		+ "register architecture (accumulators A, B, C, D, E, H, L, stack pointer, and flags) and contracted both Intel (Project 1201, led "
+		+ "by Ted Hoff, Stan Mazor, and Federico Faggin) and Texas Instruments (TMX 1795) to fabricate single-chip microprocessors matching "
+		+ "CTC's instruction set. When both semiconductor vendors suffered fabrication delays relative to CTC's immediate shipping deadlines, "
+		+ "CTC built the 2200's processor using ~100 discrete MSI/SSI 7400-series TTL ICs. Intel subsequently released the completed silicon "
+		+ "in April 1972 as the Intel 8008. The Intel 8008's instruction set was directly derived from the Datapoint 2200; the 8008 gave birth "
+		+ "to the Intel 8080 (1974), which begat the Intel 8086 (1978), which became the x86 architecture that powers the modern computing world."
+	)
+	p.engineering_innovations = (
+		"• Discrete TTL 8-Bit Architecture & The x86 Gene: Implemented an entire 8-bit general-purpose CPU across approximately 100 MSI TTL "
+		+ "integrated circuits. The instruction set, register architecture, and 8-level pushdown stack commissioned for this design became the "
+		+ "Intel 8008 and founded the unbroken x86 architectural lineage.\n"
+		+ "• IBM Selectric Typewriter Form Factor: Engineered as an all-in-one desktop workstation integrating CPU, RAM, display, keyboard, "
+		+ "and dual storage transports within a single desktop footprint that fit standard office typewriter desks.\n"
+		+ "• Predecessor CTOS & Dual Philips Cassette Decks: Dual integrated digital tape drives storing 130 KB per cassette with automatic "
+		+ "tape-mark searching, 128-byte block structures, and 16-bit CRC checksum parity.\n"
+		+ "• Datapoint DOS 2.1 & Diablo Series 30 Hard Disk: Pioneered 2.5MB top-loading removable cartridge disk storage (2400 RPM, 408 cylinders) "
+		+ "with dynamic directory allocation (`CATALOG`), system overlays, and indexed ISAM file access.\n"
+		+ "• Genesis of Datashare (1973) & ARCNET (1977): Architectural foundation for the first commercial desktop multi-terminal timesharing "
+		+ "system (Datashare) and the first commercial token-passing local area network (ARCNET)."
+	)
+	p.cultural_legacy = (
+		"As Entry #1 in the RetroOS Digital Computing Codex, the Datapoint 2200 represents the dawn of personal workstation computing. "
+		+ "Recognized by technical archivist and computing historian consensus as the architectural parent of the x86 microprocessor family "
+		+ "and the pioneer of distributed business data processing, it proved that computing power belonged on the operator's desk rather "
+		+ "than locked inside a glass mainframe room."
+	)
+	p.technical_specs = {
+		"Manufacturer / Vendor": "Computer Terminal Corporation (CTC • San Antonio, TX)",
+		"Release Date": "1972 (Datapoint DOS 2.1 • Hardware launched 1971 with CTOS)",
+		"System Model": "Datapoint 2200 Type II Workstation (Typewriter Form Factor)",
+		"Processor (CPU)": "CTC 8-Bit Discrete MSI TTL Processor (~100 7400-Series ICs)",
+		"Clock Rate & Cache": "3.33 MHz Master Clock (approx. 250,000–500,000 instructions/sec)",
+		"Co-Processor / Architecture": "Architectural Progenitor of Intel 8008 (Project 1201) & x86",
+		"System Bus & Chipset": "CTC Parallel 8-Bit Bus • Recirculating Logic & I/O Strobes",
+		"Memory (RAM)": "16 KB Total (Original Type I: 2–8 KB Shift Registers; Type II: 16 KB RAM)",
+		"Graphics / Video": "Integrated 7-inch Curved CRT • 12 Lines × 80 Characters Monochrome",
+		"Audio Subsystem": "Internal Piezoelectric Alert Beeper / Solenoid Clicker (2400 Hz)",
+		"Storage & Media": "Dual Philips Cassette Decks (130 KB/tape) + Diablo 2.5MB Cartridge Disk",
+		"Operating System": "Datapoint DOS 2.1 (Disk Operating System)",
+		"Kernel & Filesystem": "CTC DOS Executive • Diablo Sector Allocation • CATALOG Directory",
+		"GUI / Window System": "Terse 12×80 P31 Green Phosphor Character Terminal Interface",
+		"Default Shell": "Datapoint DOS Command Executive (`: ` Prompt)",
+		"Original List Price": "$6,000–$14,000 USD (equivalent to ~$45,000–$105,000 in modern USD)",
+		"Predecessor": "Datapoint 3300 (Glass Teletype, 1969) / CTOS Cassette Tape OS (1971)",
+		"Successor": "Datapoint 5500 / 6600, Datashare Timesharing (1973), ARCNET (1977)"
+	}
+	p.usage_cases = [
+		{
+			"title": "The Genesis of the Personal Workstation — Decentralized Branch Office Ledger (1972)",
+			"role": "Commercial Loan & Branch Accounting Clerk (Chase Manhattan Bank / Insurance Agency)",
+			"software": "Datapoint DOS 2.1, DATABUS Business Compiler, Diablo 2.5MB Disk Subsystem",
+			"scenario": "Powering on the 2200 as the CRT glows with green P31 phosphor. The operator inputs the current system date '10/22/72' at the terse DOS prompt, mounts the Diablo 2.5MB accounting pack, and enters loan transactions into DATABUS. Transaction records are validated locally on disk rather than batched overnight via courier punch cards."
+		},
+		{
+			"title": "From CTOS Cassettes to Diablo Hard Disk Filing — Batch Migration & File Cataloging",
+			"role": "Corporate Systems Administrator & CTC Field Engineer (1972)",
+			"software": "CTOS (Cassette Tape Operating System), Datapoint DOS Migration Utility, Macro Assembler",
+			"scenario": "Migrating archived accounting reels from Philips digital cassette tapes into the new Diablo removable disk cartridge. Inserting Drive A's master CTOS tape and Drive B's transaction ledger, streaming sequential 128-byte CRC records into Diablo Sector Drive 0, and invoking 'CATALOG' to inspect the newly indexed files."
+		},
+		{
+			"title": "The Datashare Multi-Terminal Revolution (1973) — The Blueprint for Timesharing & ARCNET",
+			"role": "Senior Systems Programmer & Multi-User Timesharing Architect",
+			"software": "Datashare Timesharing Executive (1973), DATABUS 16-User Multi-Terminal System, Modems",
+			"scenario": "Configuring the Datapoint 2200 as a central business timesharing host. Connecting multiple Datapoint 3600 slave terminals over current-loop wiring across an entire department floor, allowing simultaneous invoice generation and credit checks on a single shared Diablo disk, foreshadowing the 1977 launch of ARCNET."
+		}
+	]
+	p.exhibit_images = _build_default_image_slots(
+		p.id,
+		"Fig 1. Datapoint 2200 Workstation Chassis: 12x80 CRT, Dual Cassettes & Diablo Disk Drive",
+		"All-in-one typewriter-footprint console featuring integrated 7\" green CRT, keyboard, and twin tape decks beside the Diablo 2.5MB disk unit.",
+		"Fig 2. CTC 8-Bit Discrete MSI Processor Board & Shift Register Memory Architecture",
+		"Historical circuit schematic and logic board containing ~100 TTL chips—the direct architectural blueprint for the Intel 8008 and x86.",
+		"Fig 3. Terse Datapoint DOS 2.1 Console Screen: Date Prompt, CATALOG Listing & `:` Shell",
+		"Authentic 12-line by 80-column P31 green phosphor terminal interface showing the bootstrap sequence and disk directory."
 	)
 
 
